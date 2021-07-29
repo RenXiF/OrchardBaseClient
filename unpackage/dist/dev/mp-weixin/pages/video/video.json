@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "视频",
+  "navigationStyle": "custom",
+  "navigationBarTextStyle": "black",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "u-avatar": "/uview-ui/components/u-avatar/u-avatar",
+    "h-card": "/components/hg-cards/hg-cards"
+  }
+}

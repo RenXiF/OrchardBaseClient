@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "mask-model": "/components/mask-model/mask-model"
+  }
+}

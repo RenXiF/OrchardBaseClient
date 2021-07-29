@@ -1,0 +1,1 @@
+<view class="flex_columns complaint"><view class="complaint_block"><form-check vue-id="2305825e-1" listFrom="{{list}}" submitType="{{submitType}}" count="{{1}}" data-event-opts="{{[['^click',[['submit']]]]}}" bind:click="__e" bind:__l="__l"></form-check></view></view>

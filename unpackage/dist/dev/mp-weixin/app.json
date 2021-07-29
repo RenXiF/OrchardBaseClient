@@ -1,0 +1,79 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/news/news",
+    "pages/square/square",
+    "pages/user/user",
+    "pages/video/video",
+    "pages/address/ment_address",
+    "pages/address/add_address",
+    "pages/square/article_details",
+    "pages/user/order/order",
+    "pages/user/order/goods_order",
+    "pages/user/onelist/Cart",
+    "pages/index/productDetails",
+    "pages/news/news_details",
+    "pages/user/onelist/complaint",
+    "pages/user/onelist/complaintList",
+    "pages/user/onelist/aboutApp",
+    "pages/user/onelist/Collection",
+    "pages/user/login",
+    "pages/user/register",
+    "pages/index/goodsList",
+    "pages/video/video_details",
+    "pages/index/evaluate_details",
+    "pages/index/evaluate"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#4d4d4d",
+    "iconWidth": "32px",
+    "height": "70px",
+    "fontSize": "15px",
+    "spacing": "7px",
+    "borderStyle": "white",
+    "blurEffect": "extralight",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/tabBar/1-2.png",
+        "selectedIconPath": "static/tabBar/1-1.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/square/square",
+        "iconPath": "static/tabBar/2-2.png",
+        "selectedIconPath": "static/tabBar/2-1.png",
+        "text": "广场"
+      },
+      {
+        "pagePath": "pages/video/video",
+        "iconPath": "static/tabBar/4-2.png",
+        "selectedIconPath": "static/tabBar/4-1.png",
+        "text": "视频"
+      },
+      {
+        "pagePath": "pages/news/news",
+        "iconPath": "static/tabBar/4-2.png",
+        "selectedIconPath": "static/tabBar/4-1.png",
+        "text": "消息"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "iconPath": "static/tabBar/2-2.png",
+        "selectedIconPath": "static/tabBar/2-1.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "usingComponents": {
+    "nav-bar": "/components/zhouWei-navBar/index"
+  }
+}

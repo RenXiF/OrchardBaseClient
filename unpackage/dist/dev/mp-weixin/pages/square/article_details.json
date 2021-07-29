@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "文章详情",
+  "navigationStyle": "custom",
+  "navigationBarTextStyle": "white",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "u-swiper": "/uview-ui/components/u-swiper/u-swiper",
+    "u-read-more": "/uview-ui/components/u-read-more/u-read-more"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "navigationBarTitleText": "视频详情",
+  "navigationStyle": "custom",
+  "navigationBarTextStyle": "black",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "u-gap": "/uview-ui/components/u-gap/u-gap",
+    "u-swipe-action": "/uview-ui/components/u-swipe-action/u-swipe-action",
+    "cn-money": "/components/cn-money/cn-money",
+    "u-tag": "/uview-ui/components/u-tag/u-tag",
+    "u-loadmore": "/uview-ui/components/u-loadmore/u-loadmore",
+    "money": "/components/cn-money/cn-money"
+  }
+}

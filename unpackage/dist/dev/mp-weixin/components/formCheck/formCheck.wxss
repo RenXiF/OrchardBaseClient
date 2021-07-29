@@ -1,0 +1,187 @@
+/* pages/admin/consumables_set/consumables_set.wxss */
+.content {
+  width: 100%;
+  margin: auto;
+}
+.uUpload image {
+  width: 150rpx;
+  height: 150rpx;
+  border-radius: 5rpx;
+  margin-top: 20rpx;
+}
+.uUpload .circle {
+  position: relative;
+  top: -40rpx;
+  right: 25rpx;
+  z-index: 99;
+}
+.fc-form {
+  position: relative;
+}
+.fc-form .fc-form-item {
+  padding: 30rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  width: 100%;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  font-size: 28rpx;
+  color: rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid #f5f5f5;
+  position: relative;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.fc-form .fc-form-item .fc-form-label {
+  min-width: 120rpx;
+  margin-right: 20rpx;
+  padding-right: 20rpx;
+  text-align: right;
+  position: relative;
+}
+.fc-form .fc-form-item .active::after {
+  position: absolute;
+  content: '*';
+  color: red;
+  font-size: 28rpx;
+  top: 0;
+  right: 0;
+}
+.fc-form .fc-form-item .fc-form-block {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+          flex: 1;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.fc-form .fc-form-item .fc-form-block .fc-form-input {
+  font-size: 30rpx;
+}
+.fc-form .fc-form-item .fc-form-block .label {
+  width: 100%;
+}
+.fc-form .fc-form-item .fc-form-block textarea {
+  max-width: 90%;
+  border-radius: 15rpx;
+  background-color: #F8F8F8;
+}
+.fc-form .fc-form-item:last-child {
+  border-bottom: 0;
+}
+.fc-form .fc-img-item {
+  padding: 30rpx 20rpx;
+  width: 100%;
+  font-size: 28rpx;
+  color: rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid #f2f2f2;
+}
+.fc-form .fc-img-item:last-child {
+  border-bottom: 0;
+}
+.fc-form .fc-img-item .image {
+  position: relative;
+  width: 120rpx;
+  height: 120rpx;
+}
+.fc-form .fc-img-item .image image {
+  width: 120rpx;
+  height: 120rpx;
+  margin-top: 20rpx;
+  border-radius: 8rpx;
+}
+.fc-form .fc-img-item .image .close {
+  position: absolute;
+  top: -15rpx;
+  right: -15rpx;
+  width: 40rpx;
+  height: 40rpx;
+  background-color: #f5f5f5;
+  border-radius: 50%;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -webkit-box-shadow: 0px 2rpx 5rpx 0px rgba(0, 0, 0, 0.06);
+          box-shadow: 0px 2rpx 5rpx 0px rgba(0, 0, 0, 0.06);
+}
+.fc-form .fc-img-item .add_img {
+  padding: 20rpx;
+  border-radius: 8rpx;
+  width: 120rpx;
+  height: 120rpx;
+  margin-top: 20rpx;
+  background-color: #e3e6eb;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  position: relative;
+}
+.fc-form .fc-img-item .add_img image {
+  width: 60rpx;
+  height: 60rpx;
+}
+.swtich {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+          flex: 1;
+  text-align: left;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-justify-content: space-around;
+          justify-content: space-around;
+}
+.swtich .switch-group {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+}
+.swtich-label {
+  margin-right: 30rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.submit {
+  display: block;
+  width: calc(100% - 60rpx);
+  background-color: #007aff;
+  border-radius: 8rpx;
+  height: 76rpx;
+  line-height: 76rpx;
+  margin: 30rpx;
+  text-align: center;
+  color: #fff;
+}
+

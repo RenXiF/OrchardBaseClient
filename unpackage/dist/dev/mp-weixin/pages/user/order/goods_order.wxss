@@ -1,0 +1,342 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+page {
+  background-color: #F8F8F8;
+}
+.server_order {
+  padding-bottom: 200rpx;
+  background-color: #F8F8F8;
+}
+.server_order .height_20 {
+  height: 20rpx;
+  background-color: #F8F8F8;
+}
+.server_order .border_bottom {
+  border-bottom: 2rpx solid #F8F8F8;
+}
+.server_order .space_bet {
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.server_order > view {
+  background-color: #FFFFFF;
+  margin-top: 20rpx;
+}
+.server_order .order_bulk .bulk_head {
+  font-size: 28rpx;
+  color: #333333;
+  padding: 20rpx 30rpx;
+  border-bottom: 1rpx solid #F8F8F8;
+}
+.server_order .order_bulk .bulk_head .head_color {
+  color: #FFA600;
+}
+.server_order .order_bulk .bulk_head .head_color .pin_icon {
+  font-size: 28rpx;
+  color: #FFA600;
+  margin-right: 5rpx;
+}
+.server_order .order_bulk .bulk_img {
+  padding-top: 30rpx;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+          align-items: flex-start;
+}
+.server_order .order_bulk .bulk_img .img_item {
+  margin-right: 30rpx;
+  position: relative;
+}
+.server_order .order_bulk .bulk_img .img_item > image {
+  width: 85rpx;
+  height: 85rpx;
+}
+.server_order .order_bulk .bulk_img .img_item .img_text {
+  position: relative;
+  top: -20rpx;
+  width: 70rpx;
+  height: 27rpx;
+  background-color: #FFA600;
+  color: #FFFFFF;
+  line-height: 27rpx;
+  text-align: center;
+  border-radius: 27rpx;
+  font-size: 20rpx;
+  margin: 0 auto;
+}
+.server_order .order_bulk .bulk_img .img_add {
+  width: 85rpx;
+  height: 85rpx;
+  border-radius: 50%;
+  border: 2rpx dashed #A1A1A1;
+  text-align: center;
+  line-height: 85rpx;
+  font-size: 35rpx;
+  color: #A1A1A1;
+}
+.server_order .order_top {
+  margin-top: 0;
+  padding: 0 30rpx;
+}
+.server_order .order_top .order_address {
+  height: 160rpx;
+}
+.server_order .order_top .order_address .address_left {
+  width: 90%;
+  color: #333333;
+}
+.server_order .order_top .order_address .address_left .left_address {
+  font-size: 35rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+.server_order .order_top .order_address .address_left .left_phone {
+  font-size: 26rpx;
+}
+.server_order .order_top .order_address .address_left .left_phone text {
+  margin-right: 20rpx;
+}
+.server_order .order_top .order_address .right_icon {
+  font-size: 25rpx;
+  color: #909090;
+}
+.server_order .order_top .order_time {
+  height: 115rpx;
+}
+.server_order .order_top .order_time > view {
+  font-size: 30rpx;
+  color: #333333;
+}
+.server_order .order_detail {
+  padding: 0 30rpx;
+}
+.server_order .order_detail .detail_header {
+  padding-top: 10rpx;
+  font-size: 26rpx;
+  color: #333333;
+}
+.server_order .order_detail .detail_header .store_icon {
+  font-size: 26rpx;
+  color: #333333;
+  margin-right: 10rpx;
+}
+.server_order .order_detail .detail_cont {
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+          justify-content: flex-start;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+          align-items: flex-start;
+  padding: 15rpx 0;
+}
+.server_order .order_detail .detail_cont .cont_img {
+  margin-right: 30rpx;
+  border-radius: 15rpx;
+}
+.server_order .order_detail .detail_cont .cont_img > image {
+  width: 180rpx;
+  height: 150rpx;
+  border-radius: 15rpx;
+}
+.server_order .order_detail .detail_cont .cont_text {
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+          align-items: flex-start;
+  height: 100%;
+  padding: 15rpx 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.server_order .order_detail .detail_cont .cont_text .text_top .text_tit {
+  font-size: 32rpx;
+  color: #333333;
+  margin-bottom: 10rpx;
+}
+.server_order .order_detail .detail_cont .cont_text .text_top .text_des {
+  font-size: 26rpx;
+  color: #A1A1A1;
+}
+.server_order .order_detail .detail_cont .cont_text .text_bot .bot_num {
+  font-weight: bold;
+  font-size: 33rpx;
+  color: #FF0034;
+}
+.server_order .order_detail .detail_cont .cont_text .text_bot .bot_des {
+  font-size: 20rpx;
+  color: #333333;
+}
+.server_order .order_news {
+  padding: 0 30rpx;
+}
+.server_order .order_news > view {
+  height: 115rpx;
+}
+.server_order .order_news .right_icon {
+  font-size: 25rpx;
+  color: #333333;
+  margin-left: 20rpx;
+}
+.server_order .order_news .news_coupon .coupon_left {
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.server_order .order_news .news_coupon .coupon_left .left_text {
+  font-size: 30rpx;
+  color: #333333;
+}
+.server_order .order_news .news_coupon .coupon_left .left_icon {
+  height: 35rpx;
+  width: 95rpx;
+  line-height: 35rpx;
+  text-align: center;
+  font-size: 20rpx;
+  color: #FFA600;
+  border: 2rpx solid #FFA600;
+  margin-left: 30rpx;
+  border-radius: 35rpx;
+}
+.server_order .order_news .news_coupon .coupon_right {
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+          justify-content: flex-end;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.server_order .order_news .news_coupon .coupon_right .right_coupon {
+  border: 2rpx solid #FFA600;
+  padding: 5rpx 10rpx;
+  font-size: 20rpx;
+  color: #FFA600;
+}
+.server_order .order_news .news_note {
+  width: 100%;
+}
+.server_order .order_news .news_note .note_left {
+  font-size: 30rpx;
+  color: #333333;
+}
+.server_order .order_news .news_note .note_right {
+  font-size: 30rpx;
+  width: 60%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  text-align: center;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+          justify-content: flex-end;
+  color: #A1A1A1;
+}
+.server_order .order_news .news_note .note_right text {
+  color: #A1A1A1;
+}
+.server_order .order_price {
+  padding: 0 30rpx;
+}
+.server_order .order_price .price_top {
+  height: 160rpx;
+}
+.server_order .order_price .price_top .top_first > view {
+  font-size: 30rpx;
+  color: #333333;
+}
+.server_order .order_price .price_top .top_first .first_price {
+  margin-bottom: 20rpx;
+}
+.server_order .order_price .price_top .top_sencond .sencond_num {
+  font-size: 30rpx;
+  color: #333333;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+  text-align: right;
+}
+.server_order .order_price .price_top .top_sencond .sencond_coupon {
+  font-size: 30rpx;
+  color: #333333;
+}
+.server_order .order_price .price_top .top_sencond .sencond_coupon .coupons_num {
+  color: #FFA600;
+  margin-left: 20rpx;
+  display: inline-block;
+}
+.server_order .order_price .price_bot {
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+          justify-content: flex-end;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  height: 80rpx;
+  font-size: 27rpx;
+}
+.server_order .order_price .price_bot .bot_money {
+  margin-left: 20rpx;
+  color: #FFA600;
+}
+.server_order .order_price .price_bot .bot_left {
+  margin-left: 20rpx;
+}
+.server_order .order_button {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+.server_order .order_button > view {
+  height: 115rpx;
+  line-height: 115rpx;
+  width: 50%;
+  text-align: center;
+  font-size: 30rpx;
+}
+.server_order .order_button .button_money .money_num {
+  font-size: 48rpx;
+  color: #FF0034;
+  font-weight: bold;
+}
+.server_order .order_button .button_buy {
+  background-color: #FFA600;
+  color: #FFFFFF;
+}
+

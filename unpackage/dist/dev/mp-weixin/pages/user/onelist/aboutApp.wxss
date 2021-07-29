@@ -1,0 +1,37 @@
+
+.boder_xia{
+		width: 1px;
+		height: 80%;
+		margin: 0 1em;
+		background-color: #007AFF;
+}
+.index_app{
+		background-color: #F8F8F8;
+		padding-bottom: 50px;
+}
+.index_icon{
+	width: 100%;
+	min-height: 280px;
+}
+.index_icon image{
+	width: 100px;
+	/* height: ; */
+	border-radius: 15px;
+}
+.index_icon text{
+	font-size: 20px;
+	color: #999999;
+}
+.index_titbk{
+	min-height: 355px;
+}
+.contact_one{
+	height: 20px;
+	font-size: 15px;
+	color: #007AFF;
+}
+.contact_twe{
+	font-size: 12px;
+	color: #C8C7CC;
+}
+
