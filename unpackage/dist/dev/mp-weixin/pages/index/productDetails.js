@@ -96,34 +96,34 @@ var components
 try {
   components = {
     uSwiper: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-swiper/u-swiper */ "uview-ui/components/u-swiper/u-swiper").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-swiper/u-swiper.vue */ 216))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-swiper/u-swiper */ "uview-ui/components/u-swiper/u-swiper").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-swiper/u-swiper.vue */ 240))
     },
     uEmpty: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-empty/u-empty */ "uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-empty/u-empty.vue */ 251))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-empty/u-empty */ "uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-empty/u-empty.vue */ 275))
     },
     uGap: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-gap/u-gap */ "uview-ui/components/u-gap/u-gap").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-gap/u-gap.vue */ 342))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-gap/u-gap */ "uview-ui/components/u-gap/u-gap").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-gap/u-gap.vue */ 366))
     },
     uSection: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-section/u-section */ "uview-ui/components/u-section/u-section").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-section/u-section.vue */ 349))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-section/u-section */ "uview-ui/components/u-section/u-section").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-section/u-section.vue */ 373))
     },
     uAvatar: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-avatar/u-avatar */ "uview-ui/components/u-avatar/u-avatar").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-avatar/u-avatar.vue */ 300))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-avatar/u-avatar */ "uview-ui/components/u-avatar/u-avatar").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-avatar/u-avatar.vue */ 324))
     },
     uReadMore: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-read-more/u-read-more */ "uview-ui/components/u-read-more/u-read-more").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-read-more/u-read-more.vue */ 314))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-read-more/u-read-more */ "uview-ui/components/u-read-more/u-read-more").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-read-more/u-read-more.vue */ 338))
     },
     uPopup: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-popup/u-popup */ "uview-ui/components/u-popup/u-popup").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-popup/u-popup.vue */ 265))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-popup/u-popup */ "uview-ui/components/u-popup/u-popup").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-popup/u-popup.vue */ 289))
     },
     uNumberBox: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-number-box/u-number-box */ "uview-ui/components/u-number-box/u-number-box").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-number-box/u-number-box.vue */ 272))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-number-box/u-number-box */ "uview-ui/components/u-number-box/u-number-box").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-number-box/u-number-box.vue */ 296))
     },
     uButton: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-button/u-button */ "uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-button/u-button.vue */ 279))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-button/u-button */ "uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-button/u-button.vue */ 303))
     },
     uIcon: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 237))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 261))
     }
   }
 } catch (e) {
@@ -189,7 +189,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var money = function money() {__webpack_require__.e(/*! require.ensure | components/cn-money/cn-money */ "components/cn-money/cn-money").then((function () {return resolve(__webpack_require__(/*! @/components/cn-money/cn-money.vue */ 244));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var money = function money() {__webpack_require__.e(/*! require.ensure | components/cn-money/cn-money */ "components/cn-money/cn-money").then((function () {return resolve(__webpack_require__(/*! @/components/cn-money/cn-money.vue */ 268));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var coupon = function coupon() {__webpack_require__.e(/*! require.ensure | components/coolc-coupon/coolc-coupon */ "components/coolc-coupon/coolc-coupon").then((function () {return resolve(__webpack_require__(/*! @/components/coolc-coupon/coolc-coupon */ 503));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 
 
 
@@ -304,16 +304,55 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-{
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//优惠券组件
+var _default = {
   components: {
-    money: money },
+    money: money,
+    coupon: coupon },
 
   data: function data() {
     return {
+      coupon: [{
+        url: "/pages/brand/index/id/1",
+        money: "150",
+        title: "满2000减150元",
+        ticket: "YMC_5c929fbf47235",
+        seller_name: "百达翡丽官方旗舰店",
+        end_time: "2019-04-20 01:51:20",
+        state: "1" },
+
+      {
+        url: "/pages/brand/index/id/1",
+        money: "50",
+        title: "满1000减50元",
+        ticket: "YMC_5c929fbf47235",
+        seller_name: "百达翡丽官方旗舰店",
+        end_time: "2019-04-20 01:51:20",
+        state: "1" }],
+
+
       scrollTop: 0,
       show: false,
       userlist: {},
       serverText: '选择', //已选规格
+      conjuan: {}, //已选择优惠券
       specID: '', //已选规格id
       Price: 0, //已选商品价格
       buylist: {}, //原数据
@@ -333,7 +372,7 @@ __webpack_require__.r(__webpack_exports__);
         title: '昨夜星辰昨夜风，画楼西畔桂堂东' }],
 
 
-      fuimg: [],
+      commentlist: [], //评论列表
       popupli: {},
       goodsSum: 1 };
 
@@ -342,6 +381,7 @@ __webpack_require__.r(__webpack_exports__);
     this.buylist = uni.getStorageSync('buylist');
     console.log(this.buylist);
     this.getGoods(this.buylist.id);
+    this.getComment(this.buylist.id);
     if (this.utils.isLogin()) {
       this.userlist = uni.getStorageSync('userlist');
       console.log(this.userlist);
@@ -350,19 +390,61 @@ __webpack_require__.r(__webpack_exports__);
     // 		this.screen();
     // }
   },
+  onPageScroll: function onPageScroll(e) {
+    this.scrollTop = e.scrollTop;
+  },
   methods: {
-    onPageScroll: function onPageScroll(e) {
-      this.scrollTop = e.scrollTop;
-    },
-    getGoods: function getGoods(id) {var _this = this; //获取商品
-      this.http.getApi('commodity/info/' + id, {}, 'get').then(function (res) {
+    //点击优惠券
+    couponCk: function couponCk(item) {var _this = this;
+      console.log(item);
+      var li = {
+        commodityId: this.buylist.id,
+        discountId: item.id,
+        userId: this.userlist.id };
+
+      console.log(li);
+      this.http.getApi('oyhj/receive', li, 'post').then(function (res) {
         console.log(res);
-        _this.buylist = res.commodity;
-        console.log(_this.buylist);
-        uni.hideLoading();
+        _this.utils.success(res.message);
+        // uni.hideLoading();
       }).catch(function (err) {
         console.log(err);
-        _this.utils.error(err.msg);
+        _this.utils.error(err.message);
+        uni.hideLoading();
+      });
+    },
+    //优惠券选择
+    addcouponCk: function addcouponCk(item) {
+      console.log(item);
+      this.conjuan = item;
+    },
+    // 评论
+    getComment: function getComment(id) {var _this2 = this;
+      var li = {
+        // "content": "string",
+        id: id,
+        pageNum: 1,
+        pageSize: 2 };
+
+      this.http.getApi('comment/info', li, 'post').then(function (res) {
+        console.log(res);
+        _this2.commentlist = res.list;
+        console.log(_this2.commentlist);
+      }).catch(function (err) {
+        console.log(err);
+        _this2.utils.error(err.msg);
+        uni.hideLoading();
+      });
+    },
+    getGoods: function getGoods(id) {var _this3 = this; //获取商品
+      this.http.getApi('commodity/info/' + id, {}, 'get').then(function (res) {
+        console.log(res);
+        _this3.buylist = res.commodity;
+        console.log(_this3.buylist);
+        // uni.hideLoading();
+      }).catch(function (err) {
+        console.log(err);
+        _this3.utils.error(err.msg);
         uni.hideLoading();
       });
     },
@@ -404,32 +486,32 @@ __webpack_require__.r(__webpack_exports__);
       // console.log(e);
       this.goodsSum = e.value;
     },
-    carAdd: function carAdd(list) {var _this2 = this;
+    carAdd: function carAdd(list) {var _this4 = this;
+      console.log(list);
       var li = {
-        usrId: list.usrId,
-        goodsId: list.goodsId,
-        goodsName: list.goodsName,
-        goodsSum: this.goodsSum,
-        goodsPrice: this.userlist.usrLevel >= 1 ? list.memberProce : list.goodsPrice,
-        imgRess: list.imgRess };
+        userId: this.userlist.id,
+        commodityId: list.id,
+        specificationsId: this.specID,
+        state: 1,
+        price: this.Price > this.conjuan.full ? this.Price - this.conjuan.reduce : this.Price };
 
       console.log(li);
-      if (!li.usrId) {
+      if (!li.userId) {
         this.utils.error('请先登录账号');
         return;
       }
-      this.http.getApi('car/add', li, 'post').then(function (res) {
+      this.http.getApi('order/order', li, 'post').then(function (res) {
         console.log(res);
-        _this2.goodsUp(li.goodsId, li.goodsSum); //添加销量
-        _this2.utils.success('添加成功！');
+        // this.goodsUp(li.goodsId, li.goodsSum); //添加销量
+        _this4.utils.success('添加成功！');
         uni.hideLoading();
       }).catch(function (err) {
         console.log(err);
-        _this2.utils.error(err.msg);
+        _this4.utils.error(err.msg);
         uni.hideLoading();
       });
     },
-    goodsUp: function goodsUp(goodsId, sumTwo) {var _this3 = this; //修改商品
+    goodsUp: function goodsUp(goodsId, sumTwo) {var _this5 = this; //修改商品
       this.http.getApi('goods/up', {
         goodsId: goodsId,
         sumTwo: this.popupli.sumTwo == null ? sumTwo : this.popupli.sumTwo + sumTwo },
@@ -438,7 +520,7 @@ __webpack_require__.r(__webpack_exports__);
         // uni.hideLoading();
       }).catch(function (err) {
         console.log(err);
-        _this3.utils.error(err.msg);
+        _this5.utils.error(err.msg);
         uni.hideLoading();
       });
     } } };exports.default = _default;

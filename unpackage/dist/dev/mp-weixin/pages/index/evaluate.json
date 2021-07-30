@@ -1,6 +1,6 @@
 {
   "navigationBarTitleText": "评价",
-  "enablePullDownRefresh": false,
+  "enablePullDownRefresh": true,
   "usingComponents": {
     "u-sticky": "/uview-ui/components/u-sticky/u-sticky",
     "u-tabs": "/uview-ui/components/u-tabs/u-tabs",

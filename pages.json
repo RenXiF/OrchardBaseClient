@@ -206,7 +206,7 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "评价",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true
             }
             
         }

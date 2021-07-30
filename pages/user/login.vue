@@ -11,7 +11,7 @@
 		<form class="cl">
 			<view class="t-a">
 				<image src="@/static/login/sj.png"></image>
-				<input type="number" name="phone" placeholder="请输入手机号" maxlength="11" v-model="phone" />
+				<input type="text" name="phone" placeholder="请输入手机号" v-model="name" />
 			</view>
 			<view class="t-a">
 				<image src="@/static/login/yz.png"></image>
@@ -46,8 +46,8 @@ export default {
 			title: '果园基地', //填写logo或者app名称，也可以用：欢迎回来，看您需求
 			second: 60, //默认60秒
 			showText: true, //判断短信是否发送
-			phone: '', //手机号码
-			pass: '' //密码
+			name: '东盗主', //手机号码
+			pass: 'qa123456' //密码
 		};
 	},
 	onLoad() {},
@@ -55,20 +55,40 @@ export default {
 		//当前登录按钮操作
 		login() {
 			var that = this;
-			if (!that.phone) {
-				uni.showToast({ title: '请输入手机号', icon: 'none' });
+			if (!that.name) {
+				uni.showToast({ title: '请输入账号', icon: 'none' });
 				return;
 			}
-			if (!/^[1][3,4,5,7,8,9][0-9]{9}$/.test(that.phone)) {
-				uni.showToast({ title: '请输入正确手机号', icon: 'none' });
-				return;
-			}
+			// if (!/^[1][3,4,5,7,8,9][0-9]{9}$/.test(that.phone)) {
+			// 	uni.showToast({ title: '请输入正确手机号', icon: 'none' });
+			// 	return;
+			// }
 			if (!that.pass) {
 				uni.showToast({ title: '请输入密码', icon: 'none' });
 				return;
 			}
 			//....此处省略，这里需要调用后台验证一下密码是否正确，根据您的需求来
-			uni.showToast({ title: '登录成功！', icon: 'none' });
+			// uni.showToast({ title: '登录成功！', icon: 'none' });
+			this.userLogin()
+		},
+		 //登录
+		userLogin() {
+			let uer = {
+				userName: this.name,
+				password: this.pass,
+			}
+			console.log(uer);
+			this.http.getApi('/user/login', uer, 'post').then(res => {
+				console.log(res);
+				uni.setStorageSync('userlist',res.user)
+				this.utils.success(res.message,()=>{
+					this.utils.navback()
+				})
+				
+			}).catch(err => {
+				console.log(err);
+				uni.hideLoading();
+			});
 		},
 		//当前注册按钮操作
 		register(){

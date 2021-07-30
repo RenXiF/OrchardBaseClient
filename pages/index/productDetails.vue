@@ -19,26 +19,35 @@
 
 		</view>
 		<u-gap height="20" bg-color="#f8f8f8"></u-gap>
+		<view class="u-p-20 one_ck">
+			<coupon v-for="(item, index) in buylist.discountEntityList" :key="index" @couponCk="couponCk"
+				v-bind:item="item" theme="#ff6c00" color="#f8f8f8" solid="#ff6c00"></coupon>
+		</view>
+
+		<u-gap height="20" bg-color="#f8f8f8"></u-gap>
 		<view class=" one_ck u-p-20" @click="show = true">
 			<u-section title="规格:" :sub-title="serverText" font-size="32"></u-section>
 		</view>
 		<u-gap height="20" bg-color="#f8f8f8"></u-gap>
 		<view class="flex_columns one_ck u-p-20 comment">
-			<u-section title="评价(123)" sub-title="查看更多" font-size="32" @click="doUrl('pages/index/evaluate')"></u-section>
-			<view class="flex_columns comment_ck">
+			<u-section title="评价(123)" sub-title="查看更多" font-size="32" @click="doUrl('pages/index/evaluate')">
+			</u-section>
+			<view class="flex_columns comment_ck u-border-bottom u-p-b-10 u-p-t-10" v-for="(item ,index) in commentlist"
+				:key="index" v-if="commentlist.length!=0">
 				<view class="flex_rows flex_center comment_ck_one">
-					<u-avatar src="/static/logo.png" size="default"></u-avatar>
-					<text class="ft-wh u-m-l-20">XXXXXXX</text>
-					<text class=" u-m-l-20">2小时</text>
+					<u-avatar :src="item.userImg" size="default"></u-avatar>
+					<text class="ft-wh u-m-l-20">{{item.userName}}</text>
+					<text class=" u-m-l-20">评论时间:{{item.contentTime}}</text>
 				</view>
 				<view class="flex_columns comment_ck_two">
 					<view class="flex_wrap">
 						<u-read-more :toggle="true" show-height="200" font-size="24" color="#868686" close-text="展开">
-							<rich-text :nodes="content"></rich-text>
+							<rich-text :nodes="item.commodityContent"></rich-text>
 						</u-read-more>
 					</view>
-					<view class="flex_rows">
-						<image src="/static/logo.png" mode="widthFix" v-for="(item ,index) in 3" :key="index"></image>
+					<view class="flex_rows" v-if="item.commentimgEntityList.length!=0">
+						<image :src="item2" mode="widthFix" v-for="(item2 ,index2) in item.commentimgEntityList"
+							:key="index2"></image>
 					</view>
 				</view>
 			</view>
@@ -49,7 +58,7 @@
 		</view>
 		<view class="flex_columns detailstt" v-if="buylist.detailsEntityList.length!=0">
 			<image :src="item" mode="widthFix" v-for="(item ,index) in buylist.detailsEntityList" :key="index"
-				v-if="buylist.detailsEntityList.length!=0"></image>
+				v-if="buylist.detailsEntityList.length!=0" @click="openImg(buylist.detailsEntityList,index)"></image>
 		</view>
 		<u-empty text="暂无商品详情,请耐心等待商家上架" mode="search" v-if="buylist.detailsEntityList.length==0"></u-empty>
 		<view class="" style="width: 100%; height: 100rpx;"></view>
@@ -70,8 +79,9 @@
 				<view class="pop_cont flex_columns u-m-t-20">
 					<text class="ft-wh u-m-b-20">规格：</text>
 					<view class="flex_rows">
-						<view :class="[item.active ? 'active' : '', 'cont_item']" v-for="(item, index) in popupli.specificationsEntityList"
-							:key="index" @click="serverItemClick(index)">
+						<view :class="[item.active ? 'active' : '', 'cont_item']"
+							v-for="(item, index) in popupli.specificationsEntityList" :key="index"
+							@click="serverItemClick(index)">
 							{{ item.specificationsName }}
 						</view>
 					</view>
@@ -80,6 +90,13 @@
 				<view class="flex_center flex_between">
 					<text class="ft-wh">数量：</text>
 					<u-number-box v-model="goodsSum" :min="1" @change="valChange"></u-number-box>
+				</view>
+				<view class="u-p-20 one_ck">
+					<text v-if="!conjuan.id">是否使用优惠券</text>
+					<text v-else>已选择优惠券{{conjuan.concessionalRate}}</text>
+					<coupon v-for="(item2, index2) in buylist.discountEntityList" :key="index2" @couponCk="addcouponCk"
+						v-bind:item="item2" :cktit="item2.id ==conjuan.id?'已选择':'选择'" :solid="item2.id ==conjuan.id?'#ff6c00':'#ffffff'"
+						:color="item2.id ==conjuan.id?'#ffffff':'#ff6c00'"></coupon>
 				</view>
 				<view class=" u-p-10 u-m-t-30">
 					<u-button :ripple="true" type="error" @click="cartadd()">确定</u-button>
@@ -113,18 +130,40 @@
 
 <script>
 	import money from '@/components/cn-money/cn-money.vue';
+	import coupon from '@/components/coolc-coupon/coolc-coupon'; //优惠券组件
 	export default {
 		components: {
-			money
+			money,
+			coupon
 		},
 		data() {
 			return {
+				coupon: [{
+						url: "/pages/brand/index/id/1",
+						money: "150",
+						title: "满2000减150元",
+						ticket: "YMC_5c929fbf47235",
+						seller_name: "百达翡丽官方旗舰店",
+						end_time: "2019-04-20 01:51:20",
+						state: "1"
+					},
+					{
+						url: "/pages/brand/index/id/1",
+						money: "50",
+						title: "满1000减50元",
+						ticket: "YMC_5c929fbf47235",
+						seller_name: "百达翡丽官方旗舰店",
+						end_time: "2019-04-20 01:51:20",
+						state: "1"
+					}
+				],
 				scrollTop: 0,
 				show: false,
 				userlist: {},
 				serverText: '选择', //已选规格
+				conjuan: {}, //已选择优惠券
 				specID: '', //已选规格id
-				Price:0,//已选商品价格
+				Price: 0, //已选商品价格
 				buylist: {}, //原数据
 				content: `山不在高，有仙则名。水不在深，有龙则灵。斯是陋室，惟吾德馨。
 								苔痕上阶绿，草色入帘青。谈笑有鸿儒，往来无白丁。可以调素琴，阅金经。
@@ -142,7 +181,7 @@
 						title: '昨夜星辰昨夜风，画楼西畔桂堂东'
 					},
 				],
-				fuimg: [],
+				commentlist: [], //评论列表
 				popupli: {},
 				goodsSum: 1
 			};
@@ -151,6 +190,7 @@
 			this.buylist = uni.getStorageSync('buylist');
 			console.log(this.buylist);
 			this.getGoods(this.buylist.id);
+			this.getComment(this.buylist.id);
 			if (this.utils.isLogin()) {
 				this.userlist = uni.getStorageSync('userlist');
 				console.log(this.userlist);
@@ -159,16 +199,58 @@
 			// 		this.screen();
 			// }
 		},
+		onPageScroll(e) {
+			this.scrollTop = e.scrollTop;
+		},
 		methods: {
-			onPageScroll(e) {
-				this.scrollTop = e.scrollTop;
+			//点击优惠券
+			couponCk(item) {
+				console.log(item);
+				let li = {
+					commodityId: this.buylist.id,
+					discountId: item.id,
+					userId: this.userlist.id
+				}
+				console.log(li);
+				this.http.getApi('oyhj/receive', li, 'post').then(res => {
+					console.log(res);
+					this.utils.success(res.message);
+					// uni.hideLoading();
+				}).catch(err => {
+					console.log(err);
+					this.utils.error(err.message);
+					uni.hideLoading();
+				});
+			},
+			//优惠券选择
+			addcouponCk(item) {
+				console.log(item);
+				this.conjuan = item;
+			},
+			// 评论
+			getComment(id) {
+				let li = {
+					// "content": "string",
+					id: id,
+					pageNum: 1,
+					pageSize: 2
+				}
+				this.http.getApi('comment/info', li, 'post').then(res => {
+					console.log(res);
+					this.commentlist = res.list;
+					console.log(this.commentlist);
+				}).catch(err => {
+					console.log(err);
+					this.utils.error(err.msg);
+					uni.hideLoading();
+				});
 			},
 			getGoods(id) { //获取商品
-				this.http.getApi('commodity/info/'+id,{}, 'get').then(res => {
+				this.http.getApi('commodity/info/' + id, {}, 'get').then(res => {
 					console.log(res);
 					this.buylist = res.commodity;
 					console.log(this.buylist);
-					uni.hideLoading();
+					// uni.hideLoading();
 				}).catch(err => {
 					console.log(err);
 					this.utils.error(err.msg);
@@ -182,7 +264,7 @@
 					item.active = index == i ? true : false;
 					this.popupli.specificationsEntityList.splice(i, 1, item);
 					if (index == i) {
-						this.serverText = '已选择'+item.specificationsName;
+						this.serverText = '已选择' + item.specificationsName;
 						this.specID = item.id;
 						this.Price = item.specificationsPrice;
 						// this.Calculation(); //计算订单
@@ -214,22 +296,22 @@
 				this.goodsSum = e.value;
 			},
 			carAdd(list) {
+				console.log(list);
 				let li = {
-					usrId: list.usrId,
-					goodsId: list.goodsId,
-					goodsName: list.goodsName,
-					goodsSum: this.goodsSum,
-					goodsPrice: this.userlist.usrLevel >= 1 ? list.memberProce : list.goodsPrice,
-					imgRess: list.imgRess,
+					userId: this.userlist.id,
+					commodityId: list.id,
+					specificationsId: this.specID,
+					state: 1,
+					price: this.Price>this.conjuan.full?this.Price-this.conjuan.reduce:this.Price,
 				}
 				console.log(li);
-				if (!li.usrId) {
+				if (!li.userId) {
 					this.utils.error('请先登录账号');
 					return;
 				}
-				this.http.getApi('car/add', li, 'post').then(res => {
+				this.http.getApi('order/order', li, 'post').then(res => {
 					console.log(res);
-					this.goodsUp(li.goodsId, li.goodsSum); //添加销量
+					// this.goodsUp(li.goodsId, li.goodsSum); //添加销量
 					this.utils.success('添加成功！');
 					uni.hideLoading();
 				}).catch(err => {
@@ -336,6 +418,7 @@
 		border: solid 2rpx #f2f2f2;
 		background-color: #ffffff;
 		padding: 16rpx 0;
+		z-index: 999;
 
 		.left {
 			display: flex;

@@ -96,16 +96,16 @@ var components
 try {
   components = {
     uAvatar: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-avatar/u-avatar */ "uview-ui/components/u-avatar/u-avatar").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-avatar/u-avatar.vue */ 300))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-avatar/u-avatar */ "uview-ui/components/u-avatar/u-avatar").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-avatar/u-avatar.vue */ 324))
     },
     uGrid: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-grid/u-grid */ "uview-ui/components/u-grid/u-grid").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-grid/u-grid.vue */ 223))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-grid/u-grid */ "uview-ui/components/u-grid/u-grid").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-grid/u-grid.vue */ 247))
     },
     uGridItem: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-grid-item/u-grid-item */ "uview-ui/components/u-grid-item/u-grid-item").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-grid-item/u-grid-item.vue */ 230))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-grid-item/u-grid-item */ "uview-ui/components/u-grid-item/u-grid-item").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-grid-item/u-grid-item.vue */ 254))
     },
     uIcon: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 237))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 261))
     }
   }
 } catch (e) {
@@ -163,6 +163,13 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -286,16 +293,16 @@ var _default =
   onLoad: function onLoad() {},
   onShow: function onShow() {
     if (this.utils.isLogin()) {
-      this.openId = uni.getStorageSync('WXopenid');
+      // this.openId = uni.getStorageSync('WXopenid');
       this.userlist = uni.getStorageSync('userlist');
-      if (this.userlist.usrId) {
+      if (this.userlist.id) {
         this.lognum = 1;
       }
       console.log('执行赋值');
       console.log(this.userlist);
       // console.log(this.openId)
     }
-    if (!this.userlist.usrId) {
+    if (!this.userlist.id) {
       this.lognum = 0;
     }
   },
@@ -320,6 +327,7 @@ var _default =
     },
     appLoginWx: function appLoginWx() {
       this.doUrl('pages/user/login');
+      // this.userUp();
       // var _this = this;
       // if (_this.wxlist != '') {
       // 	_this.verificationLogin();
@@ -345,12 +353,12 @@ var _default =
     },
     userUp: function userUp() {//更新用户信息
       var uer = {
-        usrId: this.userlist.usrId,
-        spareOne: this.wxlist.avatarUrl
+        userName: '东盗主',
+        password: 'qa123456'
         // usrName: this.wxlist.nickName
       };
       console.log(uer);
-      this.http.getApi('user/up', uer, 'post').then(function (res) {
+      this.http.getApi('/user/login', uer, 'post').then(function (res) {
         console.log(res);
         console.log('12313213213');
       }).catch(function (err) {

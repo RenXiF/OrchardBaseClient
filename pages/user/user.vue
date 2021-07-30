@@ -5,9 +5,16 @@
 		<view class="u-p-30">
 			<view class="flex_columns bg_radius box_shadow one_ck">
 				<view class="flex_between flex_center u-p-20">
-					<view class="flex_center flex_rows">
+					<!-- <view class="flex_center flex_rows">
 						<u-avatar :src="wxlist.avatarUrl?wxlist.avatarUrl : src" size="large"></u-avatar>
 						<text class="ft-wh u-m-l-20">{{wxlist.nickName ? wxlist.nickName : '未登录'}}</text>
+					</view> -->
+					<view class="flex_center flex_rows">
+						<u-avatar :src="userlist.userImg?userlist.userImg : src" size="large"></u-avatar>
+						<view class="u-m-l-20 flex_columns">
+							<text class="ft-wh u-font-lg u-m-b-10">{{userlist.userName ? userlist.userName : '未登录'}}</text>
+							<text class="u-font-md  u-type-warning-disabled" v-if="userlist.userRole">{{userlist.userRole}}</text>
+						</view>
 					</view>
 					<view class="flex_center">
 						<button class="bg-gradual-red" size="mini" @click="exitLogin" v-if="lognum == 1">退出登录</button>
@@ -122,16 +129,16 @@
 		onLoad() {},
 		onShow() {
 			if (this.utils.isLogin()) {
-				this.openId = uni.getStorageSync('WXopenid');
+				// this.openId = uni.getStorageSync('WXopenid');
 				this.userlist = uni.getStorageSync('userlist');
-				if (this.userlist.usrId) {
+				if (this.userlist.id) {
 					this.lognum = 1;
 				}
 				console.log('执行赋值')
 				console.log(this.userlist)
 				// console.log(this.openId)
 			}
-			if (!this.userlist.usrId) {
+			if (!this.userlist.id) {
 				this.lognum = 0;
 			}
 		},
@@ -156,6 +163,7 @@
 			},
 			appLoginWx() {
 				this.doUrl('pages/user/login')
+				// this.userUp();
 				// var _this = this;
 				// if (_this.wxlist != '') {
 				// 	_this.verificationLogin();
@@ -181,12 +189,12 @@
 			},
 			userUp() { //更新用户信息
 				let uer = {
-					usrId: this.userlist.usrId,
-					spareOne: this.wxlist.avatarUrl,
+					userName: '东盗主',
+					password: 'qa123456',
 					// usrName: this.wxlist.nickName
 				}
 				console.log(uer);
-				this.http.getApi('user/up', uer, 'post').then(res => {
+				this.http.getApi('/user/login', uer, 'post').then(res => {
 					console.log(res);
 					console.log('12313213213');
 				}).catch(err => {

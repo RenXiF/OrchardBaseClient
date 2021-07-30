@@ -96,7 +96,7 @@ var components
 try {
   components = {
     formCheck: function() {
-      return __webpack_require__.e(/*! import() | components/formCheck/formCheck */ "components/formCheck/formCheck").then(__webpack_require__.bind(null, /*! @/components/formCheck/formCheck.vue */ 356))
+      return __webpack_require__.e(/*! import() | components/formCheck/formCheck */ "components/formCheck/formCheck").then(__webpack_require__.bind(null, /*! @/components/formCheck/formCheck.vue */ 380))
     }
   }
 } catch (e) {
@@ -153,7 +153,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var formCheck = function formCheck() {__webpack_require__.e(/*! require.ensure | components/formCheck/formCheck */ "components/formCheck/formCheck").then((function () {return resolve(__webpack_require__(/*! @/components/formCheck/formCheck.vue */ 356));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var formCheck = function formCheck() {__webpack_require__.e(/*! require.ensure | components/formCheck/formCheck */ "components/formCheck/formCheck").then((function () {return resolve(__webpack_require__(/*! @/components/formCheck/formCheck.vue */ 380));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
