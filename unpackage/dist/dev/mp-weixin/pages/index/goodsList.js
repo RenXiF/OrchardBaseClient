@@ -237,6 +237,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 var _data = _interopRequireDefault(__webpack_require__(/*! @/common/js/data.js */ 204));
 
 var _applist = _interopRequireDefault(__webpack_require__(/*! @/common/js/applist.js */ 44));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var HMfilterDropdown = function HMfilterDropdown() {__webpack_require__.e(/*! require.ensure | components/HM-filterDropdown/HM-filterDropdown */ "components/HM-filterDropdown/HM-filterDropdown").then((function () {return resolve(__webpack_require__(/*! @/components/HM-filterDropdown/HM-filterDropdown.vue */ 468));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var money = function money() {__webpack_require__.e(/*! require.ensure | components/cn-money/cn-money */ "components/cn-money/cn-money").then((function () {return resolve(__webpack_require__(/*! @/components/cn-money/cn-money.vue */ 307));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
@@ -268,6 +270,7 @@ var _applist = _interopRequireDefault(__webpack_require__(/*! @/common/js/applis
       Slist: {
         commodityClass: null, //分类名
         collection: 0,
+        sort: 0, //价格排序
         pageNum: 1, // 第几页
         pageSize: 10 // 每页数
       },
@@ -293,7 +296,7 @@ var _applist = _interopRequireDefault(__webpack_require__(/*! @/common/js/applis
     console.log(e);
     if (e) {
       this.li = e;
-      this.Slist.commodityClass = e.commodityclass;
+      this.Slist.commodityClass = e.dictionaryvalue;
     }
     this.initialization(); //初始化
     // this.getBrand();
@@ -357,8 +360,8 @@ var _applist = _interopRequireDefault(__webpack_require__(/*! @/common/js/applis
       // console.log(e)
       this.indexArr = e.index;
       this.valueArr = e.value;
-      this.Slist.collection = this.valueArr[0][0] != null ? this.valueArr[0][0] : null;
-      // this.Slist.sumTwo = this.valueArr[2][0] != null ? this.valueArr[2][0] : null
+      this.Slist.collection = this.valueArr[0][0] != null ? this.valueArr[0][0] : 0;
+      this.Slist.sort = this.valueArr[1][0] != null ? this.valueArr[1][0] : 0;
       // console.log(this.indexArr)
       console.log(this.valueArr);
       this.initialization();

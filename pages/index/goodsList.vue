@@ -17,6 +17,7 @@
 								</u-lazy-load>
 								<view class="demo-title" v-if="item.commodityName">{{ item.commodityName }}</view>
 								<view class="demo-shop" v-if="item.commodityDescribe">{{ item.commodityDescribe }}</view>
+								<view class="demo-shop">销量{{ item.commoditySale }}</view>
 								<!-- 千分位 -->
 								<!-- <money :money="item.price" thousandth :size="40" unitPosition="right"></money> -->
 								<view class="demo-price" v-if="item.commodityPrice">{{ item.commodityPrice }}元</view>
@@ -29,6 +30,7 @@
 								</u-lazy-load>
 								<view class="demo-title" v-if="item.commodityName">{{ item.commodityName }}</view>
 								<view class="demo-shop" v-if="item.commodityDescribe">{{ item.commodityDescribe }}</view>
+								<view class="demo-shop">销量{{ item.commoditySale }}</view>
 								<!-- 千分位 -->
 								<!-- <money :money="item.price" thousandth :size="40" unitPosition="right"></money> -->
 								<view class="demo-price" v-if="item.commodityPrice">{{ item.commodityPrice }}元</view>
@@ -76,6 +78,7 @@
 				Slist: {
 					commodityClass: null,//分类名
 					collection: 0,
+					sort:0,//价格排序
 					pageNum: 1, // 第几页
 					pageSize: 10, // 每页数
 				},
@@ -101,7 +104,7 @@
 			console.log(e)
 			if (e) {
 				this.li = e;
-				this.Slist.commodityClass = e.commodityclass;
+				this.Slist.commodityClass = e.dictionaryvalue;
 			}
 			this.initialization(); //初始化
 			// this.getBrand();
@@ -165,8 +168,8 @@
 				// console.log(e)
 				this.indexArr = e.index;
 				this.valueArr = e.value;
-				this.Slist.collection = this.valueArr[0][0] != null ? this.valueArr[0][0] : null;
-				// this.Slist.sumTwo = this.valueArr[2][0] != null ? this.valueArr[2][0] : null
+				this.Slist.collection = this.valueArr[0][0] != null ? this.valueArr[0][0] : 0;
+				this.Slist.sort = this.valueArr[1][0] != null ? this.valueArr[1][0] : 0;
 				// console.log(this.indexArr)
 				console.log(this.valueArr);
 				this.initialization();

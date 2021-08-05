@@ -9135,18 +9135,22 @@ var _default = [{
     "value": 0 },
 
   {
+    "name": "销量",
+    "value": 2 },
+
+  {
     "name": "收藏",
-    "value": 1 }] },
+    "value": 3 }] },
 
 
-{
-  "name": '销量',
-  "type": 'hierarchy',
-  "submenu": [{
-    "name": '销量排序',
-    "value": "销量排序" }] },
-
-
+// {
+// 	"name": '销量',
+// 	"type": 'hierarchy',
+// 	"submenu": [{
+// 		"name": '销量排序',
+// 		"value": "销量排序"
+// 	}]
+// },
 {
   "name": '价格排序',
   "type": 'hierarchy',
