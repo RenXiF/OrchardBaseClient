@@ -43,6 +43,10 @@ export default [{
 		"submenu": [{
 			"name": "综合排序",
 			"value": 0
+		},
+		{
+			"name": "收藏",
+			"value": 1
 		}]
 	},
 	{

@@ -96,10 +96,10 @@ var components
 try {
   components = {
     carList: function() {
-      return __webpack_require__.e(/*! import() | components/car-list/car-list */ "components/car-list/car-list").then(__webpack_require__.bind(null, /*! @/components/car-list/car-list.vue */ 359))
+      return __webpack_require__.e(/*! import() | components/car-list/car-list */ "components/car-list/car-list").then(__webpack_require__.bind(null, /*! @/components/car-list/car-list.vue */ 426))
     },
     uEmpty: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-empty/u-empty */ "uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-empty/u-empty.vue */ 275))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-empty/u-empty */ "uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-empty/u-empty.vue */ 314))
     }
   }
 } catch (e) {
@@ -156,7 +156,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var carList = function carList() {__webpack_require__.e(/*! require.ensure | components/car-list/car-list */ "components/car-list/car-list").then((function () {return resolve(__webpack_require__(/*! @/components/car-list/car-list.vue */ 359));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var carList = function carList() {__webpack_require__.e(/*! require.ensure | components/car-list/car-list */ "components/car-list/car-list").then((function () {return resolve(__webpack_require__(/*! @/components/car-list/car-list.vue */ 426));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -237,14 +237,14 @@ __webpack_require__.r(__webpack_exports__);
 
   },
   onLoad: function onLoad(e) {
-    // console.log(e);
-    // if (this.utils.isLogin()) {
-    // 	this.userlist = uni.getStorageSync('userlist');
-    // 	console.log(this.userlist);
-    // 	// this.initialization(); //初始化
-    // } else {
-    // 	this.utils.error('请先登录账号！')
-    // }
+    console.log(e);
+    if (this.utils.isLogin()) {
+      this.userlist = uni.getStorageSync('userlist');
+      console.log(this.userlist);
+      this.initialization(); //初始化
+    } else {
+      this.utils.error('请先登录账号！');
+    }
   },
   onShow: function onShow() {
     // console.log('执行初始化');
@@ -270,19 +270,20 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
       var li = {
-        userId: this.userlist.usrId,
+        userId: this.userlist.id,
+        state: 1,
         pageNum: this.pageNum,
         pageSize: this.pageSize };
 
       // console.log(li)
-      this.http.getApi('car/getByU', li, 'get').then(function (res) {
+      this.http.getApi('order/query', li, 'post').then(function (res) {
         console.log(res);
-        _this.more = res.data.hasNextPage;
-        _this.total = res.data.total;
-        _this.pageNum = res.data.hasNextPage ? _this.pageNum + 1 : _this.pageNum;
-        _this.datalist = _this.pageNum > 1 ? _this.datalist.concat(res.data.list) : res.data.list;
-
+        _this.more = res.pages > _this.pageNum ? true : false;
+        _this.total = res.pages;
+        _this.pageNum = _this.more ? _this.pageNum + 1 : _this.pageNum;
+        _this.datalist = _this.pageNum > 1 ? _this.datalist.concat(res.list) : res.list;
         _this.loadStatus = _this.more ? 'loadmore' : 'nomore';
+        // this.loadStatus = this.more ? 'loadmore' : 'nomore';
         _this.screen(_this.datalist);
         uni.hideLoading();
       }).catch(function (err) {
@@ -296,12 +297,13 @@ __webpack_require__.r(__webpack_exports__);
       console.log(list);
       for (var i = 0; i < list.length; i++) {
         var item = {
-          id: list[i].carId,
-          name: list[i].goodsName,
-          img: list[i].imgRess,
-          price: Number(list[i].goodsPrice),
-          number: list[i].goodsSum,
-          goodsId: Number(list[i].goodsId),
+          id: list[i].id,
+          name: list[i].title,
+          img: list[i].img,
+          price: Number(list[i].price),
+          number: list[i].quantity,
+          goodsId: list[i].commodityId,
+          spec_key_name: list[i].specificationsName,
           selected: false };
 
         that.carList[0].glist.push(item);
@@ -392,9 +394,8 @@ __webpack_require__.r(__webpack_exports__);
       that.$refs.mycar.getAllMount(list); //计算价格展示
     },
     carDe: function carDe(CarId) {var _this4 = this;
-      this.http.getApi('car/de', {
-        shopCarId: CarId },
-      'get').then(function (res) {
+      var li = [CarId];
+      this.http.getApi('order/delete', li, 'post').then(function (res) {
         console.log(res);
         uni.hideLoading();
       }).catch(function (err) {

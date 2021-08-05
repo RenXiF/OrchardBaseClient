@@ -7,7 +7,8 @@
 				<view class="fc-content" @click="videoCK(index)">
 					<!-- {{cardDatas[getIndex(index)].name}} -->
 					<!-- <video :src="shipin" controls :show-center-play-btn="false" auto-pause-if-navigate></video> -->
-					<image class="zu_logo" :src="shipin+ '?x-oss-process=video/snapshot,t_0,f_jpg'" mode="aspectFill"></image>
+					<!-- <image class="zu_logo" :src="shipin+ '?x-oss-process=video/snapshot,t_0,f_jpg'" mode="aspectFill"></image> -->
+					<image class="zu_logo" :src="cardDatas[getIndex(index)].videoCover" mode="aspectFill"></image>
 					<!-- <video src="4" controls></video> -->
 					<view class="icon_sp ">
 						<u-icon name="play-circle" color="#fff" size="130"></u-icon>
@@ -25,7 +26,7 @@
 			cardDatas: {
 				type: Array,
 				default: []
-			}
+			},
 		},
 		data() {
 			return {
@@ -61,7 +62,8 @@
 						translateX: 0,
 						translateY: 0,
 						opacity: 1,
-						color:  this.cardDatas[x].color==undefined?'#FFFFFF':this.cardDatas[x].color,
+						// color:  this.cardDatas[x].color === undefined ? '#FFFFFF' : this.cardDatas[x].color,
+						color: '#FFFFFF',
 						transitionTime: 0.3 + (0.03 * x),
 						zIndex: 4 - x,
 						rotate: 5 * (x),
@@ -70,6 +72,7 @@
 				return cards;
 			},
 			getIndex(index) {
+				// console.log(index)
 				if (this.cards[index].zIndex != this.cards.length) {
 					if (this.currentIndex + 1 == this.cardDatas.length) {
 						return 0;
@@ -77,6 +80,7 @@
 						return this.currentIndex + 1;
 					}
 				} else {
+					
 					return this.currentIndex
 				}
 			},
@@ -91,6 +95,7 @@
 				}
 			},
 			playerTouchMove(ev) {
+				// console.log(ev)
 				ev = ev || event
 				this.isClick = false
 				if (ev.touches.length === 1) {
@@ -108,6 +113,7 @@
 				}
 			},
 			playerTouchEnd(ev) {
+				// console.log(ev)
 				ev = ev || event
 				this.isClick = false
 				let item_0 = this.cards[this.dataIndex];
@@ -138,7 +144,8 @@
 						
 						this.cards[i].translateX = 0;
 						this.cards[i].translateY = 0;
-						this.cards[i].color = this.cardDatas[l].color==undefined?'#FFFFFF':this.cardDatas[l].color;
+						// this.cards[i].color = this.cardDatas[l].color === undefined ? '#FFFFFF' : this.cardDatas[l].color;
+						this.cards[i].color = '#FFFFFF';
 						this.cards[i].opacity = 1;
 						this.cards[i].transitionTime = 0.3 + (0.03 * x);
 						this.cards[i].zIndex = 4 - x;
@@ -147,6 +154,7 @@
 
 					this.disTagV = 1;
 					// console.log(this.currentIndex)
+					this.$emit("coreIndex",this.currentIndex);
 				} else {
 					item_0.translateX = 0;
 					item_0.translateY = 0;

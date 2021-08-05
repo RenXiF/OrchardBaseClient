@@ -13,21 +13,25 @@
 							<view class="demo-warter" v-for="(item, index) in leftList" :key="index"
 								@click="doUrlli(item.id)">
 								<!-- 微信小程序需要hx2.8.11版本才支持在template中引入其他组件，比如下方的u-lazy-load组件 -->
-								<u-lazy-load threshold="-450" border-radius="10" :image="item.image" :index="index">
+								<u-lazy-load threshold="-450" border-radius="10" :image="item.commodityImges" :index="index">
 								</u-lazy-load>
-								<view class="demo-title" v-if="item.title">{{ item.title }}</view>
+								<view class="demo-title" v-if="item.commodityName">{{ item.commodityName }}</view>
+								<view class="demo-shop" v-if="item.commodityDescribe">{{ item.commodityDescribe }}</view>
 								<!-- 千分位 -->
-								<money :money="item.price" thousandth :size="40" unitPosition="right"></money>
+								<!-- <money :money="item.price" thousandth :size="40" unitPosition="right"></money> -->
+								<view class="demo-price" v-if="item.commodityPrice">{{ item.commodityPrice }}元</view>
 							</view>
 						</template>
 						<template v-slot:right="{ rightList }">
 							<view class="demo-warter" v-for="(item, index) in rightList" :key="index"
 								@click="doUrlli(item.id)">
-								<u-lazy-load threshold="-450" border-radius="10" :image="item.image" :index="index">
+								<u-lazy-load threshold="-450" border-radius="10" :image="item.commodityImges" :index="index">
 								</u-lazy-load>
-								<view class="demo-title" v-if="item.title">{{ item.title }}</view>
+								<view class="demo-title" v-if="item.commodityName">{{ item.commodityName }}</view>
+								<view class="demo-shop" v-if="item.commodityDescribe">{{ item.commodityDescribe }}</view>
 								<!-- 千分位 -->
-								<money :money="item.price" thousandth :size="40" unitPosition="right"></money>
+								<!-- <money :money="item.price" thousandth :size="40" unitPosition="right"></money> -->
+								<view class="demo-price" v-if="item.commodityPrice">{{ item.commodityPrice }}元</view>
 							</view>
 						</template>
 					</u-waterfall>
@@ -54,54 +58,13 @@
 				ali: appli,
 				loadStatus: 'loadmore',
 				more: false, //是否下页
-				datalist: [{
-						price: 35,
-						title: '北国风光，千里冰封，万里雪飘',
-						shop: '李白杜甫白居易旗舰店',
-						image: 'http://pic.sc.chinaz.com/Files/pic/pic9/202002/zzpic23327_s.jpg',
-					},
-					{
-						price: 75,
-						title: '望长城内外，惟余莽莽',
-						shop: '李白杜甫白居易旗舰店',
-						image: 'http://pic.sc.chinaz.com/Files/pic/pic9/202002/zzpic23325_s.jpg',
-					},
-					{
-						price: 385,
-						title: '大河上下，顿失滔滔',
-						shop: '李白杜甫白居易旗舰店',
-						image: 'http://pic2.sc.chinaz.com/Files/pic/pic9/202002/hpic2119_s.jpg',
-					},
-					{
-						price: 784,
-						title: '欲与天公试比高',
-						shop: '李白杜甫白居易旗舰店',
-						image: 'http://pic2.sc.chinaz.com/Files/pic/pic9/202002/zzpic23369_s.jpg',
-					},
-					{
-						price: 7891,
-						title: '须晴日，看红装素裹，分外妖娆',
-						shop: '李白杜甫白居易旗舰店',
-						image: 'http://pic2.sc.chinaz.com/Files/pic/pic9/202002/hpic2130_s.jpg',
-					},
-					{
-						price: 2341,
-						shop: '李白杜甫白居易旗舰店',
-						title: '江山如此多娇，引无数英雄竞折腰',
-						image: 'http://pic1.sc.chinaz.com/Files/pic/pic9/202002/zzpic23346_s.jpg',
-					},
-					{
-						price: 661,
-						shop: '李白杜甫白居易旗舰店',
-						title: '惜秦皇汉武，略输文采',
-						image: 'http://pic1.sc.chinaz.com/Files/pic/pic9/202002/zzpic23344_s.jpg',
-					},
-					{
-						price: 1654,
-						title: '唐宗宋祖，稍逊风骚',
-						shop: '李白杜甫白居易旗舰店',
-						image: 'http://pic1.sc.chinaz.com/Files/pic/pic9/202002/zzpic23343_s.jpg',
-					},
+				datalist: [
+					// {
+					// 	price: 35,
+					// 	title: '北国风光，千里冰封，万里雪飘',
+					// 	shop: '李白杜甫白居易旗舰店',
+					// 	image: 'http://pic.sc.chinaz.com/Files/pic/pic9/202002/zzpic23327_s.jpg',
+					// },
 				], //数据列表
 				yuanSli: [], //原始数据
 
@@ -111,14 +74,15 @@
 				valueArr: [],
 
 				Slist: {
-					goodsId: null, //品牌id
-					sumOne: null,
-					sumTwo: null,
+					commodityClass: null,//分类名
+					collection: 0,
 					pageNum: 1, // 第几页
 					pageSize: 10, // 每页数
 				},
 				li: {}, //页面传值
-				Brandli: {},
+				pageNum: 1, // 第几页
+				pageSize: 5, // 每页数
+				total: 5, // 数据总条数
 			};
 		},
 		onShareAppMessage(res) {
@@ -135,11 +99,11 @@
 		},
 		onLoad(e) {
 			console.log(e)
-			// if (e) {
-			// 	this.li = e;
-			// 	this.Slist.sumOne = e.sortid;
-			// }
-			// this.initialization(); //初始化
+			if (e) {
+				this.li = e;
+				this.Slist.commodityClass = e.commodityclass;
+			}
+			this.initialization(); //初始化
 			// this.getBrand();
 			setTimeout(() => {
 				this.filterData = data;
@@ -163,7 +127,7 @@
 		//下拉刷新
 		onPullDownRefresh() {
 			console.log('下拉刷新');
-			// this.initialization(); //初始化
+			this.initialization(); //初始化
 			this.utils.success('刷新成功！', () => {
 				uni.stopPullDownRefresh();
 			});
@@ -183,9 +147,9 @@
 			//重置品牌
 			resetS() {
 				// console.log('执行重置')
-				uni.removeStorageSync("setBrand");
-				this.Slist.brandId = null;
-				this.filterData[4].name = '品牌';
+				// uni.removeStorageSync("setBrand");
+				// this.Slist.brandId = null;
+				// this.filterData[4].name = '品牌';
 			},
 			getBrand() { //获取品牌
 				this.http.getApi('brand/getAll', {}, 'get').then(res => {
@@ -198,11 +162,11 @@
 			},
 			//接收菜单结果
 			confirm(e) {
-				console.log(e)
+				// console.log(e)
 				this.indexArr = e.index;
 				this.valueArr = e.value;
-				this.Slist.goodsId = this.valueArr[2][0] != null ? this.valueArr[2][0] : null;
-				this.Slist.sumTwo = this.valueArr[2][0] != null ? this.valueArr[2][0] : null
+				this.Slist.collection = this.valueArr[0][0] != null ? this.valueArr[0][0] : null;
+				// this.Slist.sumTwo = this.valueArr[2][0] != null ? this.valueArr[2][0] : null
 				// console.log(this.indexArr)
 				console.log(this.valueArr);
 				this.initialization();
@@ -251,30 +215,24 @@
 				console.log(list)
 				// setTimeout(()=>{
 				for (let i = 0; i < list.length; i++) {
-					if (list[i].good != null) {
-						// console.log('111111111111')
-						// let index = this.$u.random(0, list.length - 1);
-						// console.log(index)
-						let j = list[i];
-						// 先转成字符串再转成对象，避免数组对象引用导致数据混乱
-						let item = JSON.parse(JSON.stringify(list[i].good));
-						item.id = this.$u.guid(10);
-						j.id = item.id;
-						item.image = list[i].imgList.length != 0 ? list[i].imgList[0].imgAddress : '/static/null.jpg';
-						this.datalist.push(item);
-						this.yuanSli.push(j);
-					} else {
-						// console.log('22222222222222')
-						this.utils.error('暂无数据');
-						this.loadStatus = 'nomore';
-					}
+					// console.log('111111111111')
+					// let index = this.$u.random(0, list.length - 1);
+					// console.log(index)
+					let j = list[i];
+					// 先转成字符串再转成对象，避免数组对象引用导致数据混乱
+					let item = JSON.parse(JSON.stringify(list[i]));
+					// item.id = this.$u.guid(10);
+					// j.id = item.id;
+					// item.image = list[i].imgList.length != 0 ? list[i].imgList[0].imgAddress : '/static/null.jpg';
+					this.datalist.push(item);
+					this.yuanSli.push(j);
 				}
 				// console.log(this.datalist)
 				// console.log(this.yuanSli)
 				// },500);
 
 			},
-			//获取所有车辆列表
+			//获取所有商品列表
 			getlist() {
 				if (this.more == false) {
 					this.utils.error('暂无下页');
@@ -282,12 +240,12 @@
 					return;
 				}
 				console.log(this.Slist)
-				this.http.getApi('goods/sc', this.Slist, 'post').then(res => {
+				this.http.getApi('commodity/list', this.Slist, 'post').then(res => {
 					console.log(res);
-					this.more = res.data[0].pageInfo.hasNextPage;
-					this.addRandomData(res.data);
-					this.Slist.pageNum = res.data[0].pageInfo.hasNextPage ? this.Slist.pageNum + 1 : this.Slist
-						.pageNum;
+					this.more = res.pages>this.Slist.pageNum?true :false;
+					this.total = res.pages;
+					this.Slist.pageNum = this.more ? this.Slist.pageNum + 1 : this.Slist.pageNum;
+					this.addRandomData(res.list);
 					this.loadStatus = this.more ? 'loadmore' : 'nomore';
 					uni.hideLoading();
 				}).catch(err => {

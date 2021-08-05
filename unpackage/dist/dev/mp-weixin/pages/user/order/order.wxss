@@ -39,11 +39,15 @@
 }
 .orderlist .goodlog {
   margin-right: 30rpx;
+  width: 70%;
 }
 .orderlist .goodlog > image {
   width: 180rpx;
   height: 150rpx;
   border-radius: 15rpx;
+}
+.orderlist .one_ck_two {
+  width: 30%;
 }
 .orderlist .notice_ck {
   max-width: 100%;

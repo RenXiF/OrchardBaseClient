@@ -4,25 +4,26 @@
 			<view class="preview" slot="default">详情</view> <!-- 不状态下的按钮 -->
 		</nav-bar>
 		<view class="flex_columns one_video">
-			<video :src="onlist.video" controls :show-center-play-btn="false" auto-pause-if-navigate></video>
+			<video :src="onlist.videoUrl" controls :show-center-play-btn="false" auto-pause-if-navigate></video>
 			<view class="flex_columns one_tit u-p-20">
-				<text class="u-font-lg ft-wh">{{onlist.name}}</text>
-				<text class="u-font-md">副标题1313131321321</text>
+				<text class="u-font-lg ft-wh">{{onlist.videoName}}</text>
+				<text class="u-font-md">{{onlist.uploader}}</text>
 			</view>
 			<u-gap height="30" bg-color="#f8f8f8"></u-gap>
 			<view class="flex_columns comhome">
 				<view class="comhome_bock u-border-bottom " v-for="(item, index) in datalist" :key="index">
 					<u-swipe-action :show="item.show" :index="index" @click="click" @open="open" :options="options">
 						<view class=" flex_rows flex_center u-p-20 bg_radius">
-							<image src="/static/index/menu1.png" mode="aspectFill" class=""></image>
+							<image :src="item.commodityImges" mode="aspectFill" class=""></image>
 							<view class="flex_columns  u-m-l-20">
-								<text class="u-font-lg ft-wh">{{item.title}}</text>
-								<cn-money :money="item.Price" thousandth :size="48" unit="起" color="#FA3534"></cn-money>
-								<text class="u-font-sm">销量{{item.num}}</text>
-								<view class="flex_rows ">
+								<text class="u-font-lg ft-wh">{{item.commodityName}}</text>
+								<!-- <cn-money :money="item.commodityPrice" thousandth :size="48" unit="起" color="#FA3534"></cn-money> -->
+								<text class="u-font-xl ft-wh u-type-error">{{item.commodityPrice}}</text>
+								<text class="u-font-sm">{{item.commodityDescribe}}</text>
+							<!-- 	<view class="flex_rows ">
 									<u-tag text="满30减5" mode="light" type="error" size="mini" class="u-m-l-10"
 										v-for="(item2,index2) in 3" :key="index2" />
-								</view>
+								</view> -->
 							</view>
 						</view>
 					</u-swipe-action>
@@ -54,7 +55,7 @@
 		data() {
 			return {
 				onlist: {},
-				scrollTop:0,
+				scrollTop: 0,
 				datalist: [{
 						title: '火龙果',
 						num: 1235,
@@ -105,6 +106,8 @@
 		},
 		onLoad(e) {
 			this.onlist = uni.getStorageSync('videolist');
+			console.log(this.onlist);
+			this.videolist()
 		},
 		onPageScroll(e) {
 			this.scrollTop = e.scrollTop;
@@ -132,6 +135,23 @@
 				this.datalist.map((val, idx) => {
 					if (index != idx) this.datalist[idx].show = false;
 				})
+			},
+			videolist() {
+				let li = {
+					keyWord: this.onlist.keyWord,
+					pageNum: 1,
+					pageSize: 99
+				};
+				console.log(li)
+				this.http.getApi('video/commodity', li, 'post').then(res => {
+					console.log(res);
+					this.datalist = res.list;
+
+				}).catch(err => {
+					console.log(err);
+					this.utils.error(err.msg);
+					uni.hideLoading();
+				});
 			},
 		}
 	}

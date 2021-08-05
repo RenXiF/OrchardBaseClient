@@ -3,12 +3,12 @@
 		<view class="management_item border_bottom flex_rows" @click="setAddr(item)" v-for="(item, index) in addressList" :key="index" v-if="addressList.length!=0">
 			<view class="item_left">
 				<view class="left_top flex_rows">
-					<text class="top_icon" v-show="index == 0">默认</text>
-					<text class="top_text">{{ item.address }}</text>
+					<text class="top_icon" v-show="item.addressState == 1">默认</text>
+					<text class="top_text">{{ item.detailedAddress }}</text>
 				</view>
 				<view class="left_bottom flex_rows">
-					<view class="bottom_name">{{ item.usrName }}</view>
-					<view class="bottom_phone">{{ item.usrPhone }}</view>
+					<view class="bottom_name">{{ item.consigneeName }}</view>
+					<view class="bottom_phone">{{ item.phone }}</view>
 				</view>
 			</view>
 			<view class="item_right" @click="edit(item)">编辑</view>
@@ -33,15 +33,15 @@ export default {
 		}
 	},
 	onShow() {
-		// if (this.utils.isLogin()) {
-		// 	this.userlist = uni.getStorageSync('userlist');
-		// 	console.log(this.userlist);
-		// 	this.getAddressList();
-		// } else {
-		// 	this.utils.error('请先登录账号！', () => {
-		// 		this.utils.navback();
-		// 	});
-		// }
+		if (this.utils.isLogin()) {
+			this.userlist = uni.getStorageSync('userlist');
+			console.log(this.userlist);
+			this.getAddressList();
+		} else {
+			this.utils.error('请先登录账号！', () => {
+				this.utils.navback();
+			});
+		}
 	},
 	methods: {
 		// 选择地址
@@ -55,10 +55,10 @@ export default {
 		getAddressList() {
 			this.utils.showloading();
 			this.http
-				.getApi('address/get', {usrId:this.userlist.usrId, pageNum: 1,pageSize:20 }, 'get')
+				.getApi('address/query', {userId:this.userlist.id,state:0}, 'post')
 				.then(res => {
 					uni.hideLoading();
-					this.addressList = res.data.list;
+					this.addressList = res.addressEntity;
 					console.log(res);
 				})
 				.catch(err => {

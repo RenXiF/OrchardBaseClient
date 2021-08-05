@@ -96,13 +96,10 @@ var components
 try {
   components = {
     uSwipeAction: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-swipe-action/u-swipe-action */ "uview-ui/components/u-swipe-action/u-swipe-action").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-swipe-action/u-swipe-action.vue */ 394))
-    },
-    uTag: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-tag/u-tag */ "uview-ui/components/u-tag/u-tag").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tag/u-tag.vue */ 387))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-swipe-action/u-swipe-action */ "uview-ui/components/u-swipe-action/u-swipe-action").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-swipe-action/u-swipe-action.vue */ 461))
     },
     uEmpty: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-empty/u-empty */ "uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-empty/u-empty.vue */ 275))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-empty/u-empty */ "uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-empty/u-empty.vue */ 314))
     }
   }
 } catch (e) {
@@ -197,31 +194,15 @@ var _default =
         nomore: '实在没有了' },
 
       userlist: {},
-      datalist: [{
-        title: '火龙果',
-        num: 1235,
-        subtit: '副标题12311566145',
-        show: false },
+      datalist: [
 
-      {
-        title: '火龙果2',
-        num: 13654,
-        subtit: '副标题12311566145',
-        show: false },
-
-      {
-        title: '火龙果3',
-        num: 4564,
-        subtit: '副标题12311566145',
-        show: false },
-
-      {
-        title: '火龙果4',
-        num: 45645,
-        subtit: '副标题12311566145',
-        show: false }],
-
-
+        // {
+        // 	title: '火龙果4',
+        // 	num: 45645,
+        // 	subtit: '副标题12311566145',
+        // 	show: false
+        // }
+      ],
       disabled: false,
       btnWidth: 180,
       show: false,
@@ -245,22 +226,22 @@ var _default =
       total: 5 // 数据总条数
     };
   },
-  onLoad: function onLoad() {
-    // if (this.utils.isLogin()) {
-    // 	this.userlist = uni.getStorageSync('userlist');
-    // 	console.log(this.userlist);
-    // 	this.initialization(); //初始化
-    // }else{
-    // 	this.utils.error('请先登录账号！',()=>{
-    // 		this.utils.navback();
-    // 	});
-    // }
+  onLoad: function onLoad() {var _this = this;
+    if (this.utils.isLogin()) {
+      this.userlist = uni.getStorageSync('userlist');
+      console.log(this.userlist);
+      this.initialization(); //初始化
+    } else {
+      this.utils.error('请先登录账号！', function () {
+        _this.utils.navback();
+      });
+    }
   },
   //下拉刷新
   onPullDownRefresh: function onPullDownRefresh() {
     console.log('下拉刷新');
     this.utils.showloading('正在刷新');
-    // this.initialization(); //初始化
+    this.initialization(); //初始化
     this.utils.success('刷新成功！', function () {
       uni.stopPullDownRefresh();
     });
@@ -272,15 +253,16 @@ var _default =
       return;
     } else {
       console.log('触底刷新');
-      this.getGoods(); //初始化
+      this.getcollect(); //初始化
     }
   },
   methods: {
     click: function click(index, index1) {
       // console.log(index);
       // console.log(index1);
-      this.$u.toast('删除了' + this.datalist[index].title);
+      this.$u.toast('删除了' + this.datalist[index].commodityName);
       // this.utils.success('删除了'+this.datalist[index].title)
+      this.dele(this.datalist[index]);
       this.datalist.splice(index, 1);
 
       // if (index1 == 1) {
@@ -291,13 +273,31 @@ var _default =
       // 	this.$u.toast(`收藏成功`);
       // }
     },
+    duck: function duck(item) {
+      var li = { id: item.commodityId };
+      uni.setStorageSync('buylist', li);
+      this.doUrl('pages/index/productDetails');
+    },
+    //删除收藏
+    dele: function dele(item) {var _this2 = this;
+      var li = [item.id];
+      this.http.getApi('collect/delete', li, 'post').then(function (res) {
+        console.log(res);
+        _this2.utils.success(res.message);
+        _this2.initialization(); //初始化
+      }).catch(function (err) {
+        console.log(err);
+        _this2.utils.error(err.msg);
+        uni.hideLoading();
+      });
+    },
     // 如果打开一个的时候，不需要关闭其他，则无需实现本方法
-    open: function open(index) {var _this = this;
+    open: function open(index) {var _this3 = this;
       // 先将正在被操作的swipeAction标记为打开状态，否则由于props的特性限制，
       // 原本为'false'，再次设置为'false'会无效
       this.datalist[index].show = true;
       this.datalist.map(function (val, idx) {
-        if (index != idx) _this.datalist[idx].show = false;
+        if (index != idx) _this3.datalist[idx].show = false;
       });
     },
     // 初始化数据
@@ -306,31 +306,31 @@ var _default =
       this.more = true;
       this.pageNum = 1;
       this.datalist = [];
-      this.getGoods(); //初始化
+      this.getcollect(); //初始化
     },
-    getGoods: function getGoods() {var _this2 = this;
+    getcollect: function getcollect() {var _this4 = this;
       if (this.more == false) {
         this.utils.error('暂无下页');
         this.loadStatus = 'nomore';
         return;
       }
       var li = {
-        MyId: this.userlist.usrId,
+        userId: this.userlist.id,
         pageNum: this.pageNum,
         pageSize: this.pageSize };
 
       console.log(li);
-      this.http.getApi('tickling/getAllByid', li, 'get').then(function (res) {
+      this.http.getApi('collect/list', li, 'post').then(function (res) {
         console.log(res);
-        _this2.more = res.data.hasNextPage;
-        _this2.total = res.data.total;
-        _this2.pageNum = res.data.hasNextPage ? _this2.pageNum + 1 : _this2.pageNum;
-        _this2.datalist = _this2.pageNum > 1 ? _this2.datalist.concat(res.data.list) : res.data.list;
-        _this2.loadStatus = _this2.more ? 'loadmore' : 'nomore';
+        _this4.more = res.pages > _this4.pageNum ? true : false;
+        _this4.total = res.pages;
+        _this4.pageNum = _this4.more ? _this4.pageNum + 1 : _this4.pageNum;
+        _this4.datalist = _this4.pageNum > 1 ? _this4.datalist.concat(res.list) : res.list;
+        _this4.loadStatus = _this4.more ? 'loadmore' : 'nomore';
         uni.hideLoading();
       }).catch(function (err) {
         console.log(err);
-        _this2.utils.error(err.msg);
+        _this4.utils.error(err.msg);
         uni.hideLoading();
       });
     } } };exports.default = _default;

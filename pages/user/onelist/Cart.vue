@@ -79,14 +79,14 @@
 			};
 		},
 		onLoad(e) {
-			// console.log(e);
-			// if (this.utils.isLogin()) {
-			// 	this.userlist = uni.getStorageSync('userlist');
-			// 	console.log(this.userlist);
-			// 	// this.initialization(); //初始化
-			// } else {
-			// 	this.utils.error('请先登录账号！')
-			// }
+			console.log(e);
+			if (this.utils.isLogin()) {
+				this.userlist = uni.getStorageSync('userlist');
+				console.log(this.userlist);
+				this.initialization(); //初始化
+			} else {
+				this.utils.error('请先登录账号！')
+			}
 		},
 		onShow() {
 			// console.log('执行初始化');
@@ -112,19 +112,20 @@
 					return;
 				}
 				let li = {
-					userId: this.userlist.usrId,
+					userId: this.userlist.id,
+					state: 1,
 					pageNum: this.pageNum,
 					pageSize: this.pageSize,
 				}
 				// console.log(li)
-				this.http.getApi('car/getByU', li, 'get').then(res => {
+				this.http.getApi('order/query', li, 'post').then(res => {
 					console.log(res);
-					this.more = res.data.hasNextPage;
-					this.total = res.data.total;
-					this.pageNum = res.data.hasNextPage ? this.pageNum + 1 : this.pageNum;
-					this.datalist = this.pageNum > 1 ? this.datalist.concat(res.data.list) : res.data.list;
-
+					this.more = res.pages>this.pageNum?true :false;
+					this.total = res.pages;
+					this.pageNum = this.more ? this.pageNum + 1 : this.pageNum;
+					this.datalist = this.pageNum > 1 ? this.datalist.concat(res.list) : res.list;
 					this.loadStatus = this.more ? 'loadmore' : 'nomore';
+					// this.loadStatus = this.more ? 'loadmore' : 'nomore';
 					this.screen(this.datalist);
 					uni.hideLoading();
 				}).catch(err => {
@@ -138,12 +139,13 @@
 				console.log(list);
 				for (let i = 0; i < list.length; i++) {
 					let item = {
-						id: list[i].carId,
-						name: list[i].goodsName,
-						img: list[i].imgRess,
-						price: Number(list[i].goodsPrice),
-						number: list[i].goodsSum,
-						goodsId: Number(list[i].goodsId),
+						id: list[i].id,
+						name: list[i].title,
+						img: list[i].img,
+						price: Number(list[i].price),
+						number: list[i].quantity,
+						goodsId: list[i].commodityId,
+						spec_key_name: list[i].specificationsName,
 						selected: false,
 					}
 					that.carList[0].glist.push(item);
@@ -234,9 +236,8 @@
 				that.$refs.mycar.getAllMount(list); //计算价格展示
 			},
 			carDe(CarId) {
-				this.http.getApi('car/de', {
-					shopCarId: CarId
-				}, 'get').then(res => {
+				let li = [CarId];
+				this.http.getApi('order/delete',li, 'post').then(res => {
 					console.log(res);
 					uni.hideLoading();
 				}).catch(err => {

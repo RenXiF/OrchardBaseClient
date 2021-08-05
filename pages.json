@@ -210,6 +210,51 @@
             }
             
         }
+        ,{
+            "path" : "pages/user/note_submit",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "备注",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/user/onelist/logistics",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "物流跟踪",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/user/onelist/vip",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "会员中心",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/user/onelist/myCoupon",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "我的优惠券",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/user/onelist/open_vip",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "开通vip",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

@@ -4,7 +4,8 @@
 		<view class="coupon-money">
 			<!-- <view class="nick" v-if="!types">{{item.seller_name}}使用</view> -->
 			<view class="layof" :style="{color:theme}">￥{{item.reduce}}</view>
-			<view class="end_time">领取后{{item.termValidity}}天前使用</view>
+			<view class="end_time" v-if="item.termValidity">领取后{{item.termValidity}}天前使用</view>
+			<view class="end_time" v-if="item.overdueTime">领取后{{item.overdueTime}}天前使用</view>
 			<view v-if="!types">
 				<view class="tit" v-if="item.rule">{{item.rule}}</view>
 				<view class="demand">{{item.concessionalRate}}</view>

@@ -5,16 +5,16 @@
 			<view class="comhome_bock box_shadow bg_radius" v-for="(item, index) in datalist"
 				:key="index">
 				<u-swipe-action :show="item.show" :index="index" @click="click" @open="open" :options="options" >
-					<view class=" flex_rows flex_center u-p-20 bg_radius">
-						<image src="/static/index/menu1.png" mode="aspectFill" class=""></image>
+					<view class=" flex_rows flex_center u-p-20 bg_radius" @click="duck(item)">
+						<image :src="item.commodityImges" mode="aspectFill" class=""></image>
 						<view class="flex_columns  u-m-l-20">
-							<text class="u-font-lg ft-wh">{{item.title}}</text>
-							<text class="u-font-md">{{item.subtit}}</text>
-							<text class="u-font-sm">销量{{item.num}}</text>
-							<view class="flex_rows ">
+							<text class="u-font-lg ft-wh">{{item.commodityName}}</text>
+							<text class="u-font-md">{{item.commodityDescribe}}</text>
+							<text class="u-font-sm">{{item.commodityPrice}}</text>
+							<!-- <view class="flex_rows ">
 								<u-tag text="满30减5" mode="light" type="error" size="mini" class="u-m-l-10"
 									v-for="(item2,index2) in 3" :key="index2" />
-							</view>
+							</view> -->
 						</view>
 					</view>
 				</u-swipe-action>
@@ -36,30 +36,14 @@
 					nomore: '实在没有了'
 				},
 				userlist: {},
-				datalist: [{
-						title: '火龙果',
-						num: 1235,
-						subtit: '副标题12311566145',
-						show: false
-					},
-					{
-						title: '火龙果2',
-						num: 13654,
-						subtit: '副标题12311566145',
-						show: false
-					},
-					{
-						title: '火龙果3',
-						num: 4564,
-						subtit: '副标题12311566145',
-						show: false
-					},
-					{
-						title: '火龙果4',
-						num: 45645,
-						subtit: '副标题12311566145',
-						show: false
-					}
+				datalist: [
+					
+					// {
+					// 	title: '火龙果4',
+					// 	num: 45645,
+					// 	subtit: '副标题12311566145',
+					// 	show: false
+					// }
 				],
 				disabled: false,
 				btnWidth: 180,
@@ -85,21 +69,21 @@
 			}
 		},
 		onLoad() {
-			// if (this.utils.isLogin()) {
-			// 	this.userlist = uni.getStorageSync('userlist');
-			// 	console.log(this.userlist);
-			// 	this.initialization(); //初始化
-			// }else{
-			// 	this.utils.error('请先登录账号！',()=>{
-			// 		this.utils.navback();
-			// 	});
-			// }
+			if (this.utils.isLogin()) {
+				this.userlist = uni.getStorageSync('userlist');
+				console.log(this.userlist);
+				this.initialization(); //初始化
+			}else{
+				this.utils.error('请先登录账号！',()=>{
+					this.utils.navback();
+				});
+			}
 		},
 		//下拉刷新
 		onPullDownRefresh() {
 			console.log('下拉刷新');
 			this.utils.showloading('正在刷新');
-			// this.initialization(); //初始化
+			this.initialization(); //初始化
 			this.utils.success('刷新成功！', () => {
 				uni.stopPullDownRefresh();
 			});
@@ -111,15 +95,16 @@
 				return;
 			} else {
 				console.log('触底刷新');
-				this.getGoods(); //初始化
+				this.getcollect(); //初始化
 			}
 		},
 		methods: {
 			click(index, index1) {
 				// console.log(index);
 				// console.log(index1);
-				this.$u.toast('删除了'+this.datalist[index].title);
+				this.$u.toast('删除了'+this.datalist[index].commodityName);
 				// this.utils.success('删除了'+this.datalist[index].title)
+				this.dele(this.datalist[index])
 				this.datalist.splice(index, 1);
 				
 				// if (index1 == 1) {
@@ -129,6 +114,24 @@
 				// 	this.datalist[index].show = false;
 				// 	this.$u.toast(`收藏成功`);
 				// }
+			},
+			duck(item){
+				let li = {id:item.commodityId}
+				uni.setStorageSync('buylist', li);
+				this.doUrl('pages/index/productDetails');
+			},
+			//删除收藏
+			dele(item){
+				let li = [item.id]
+				this.http.getApi('collect/delete', li, 'post').then(res => {
+					console.log(res);
+					this.utils.success(res.message)
+					this.initialization(); //初始化
+				}).catch(err => {
+					console.log(err);
+					this.utils.error(err.msg);
+					uni.hideLoading();
+				});
 			},
 			// 如果打开一个的时候，不需要关闭其他，则无需实现本方法
 			open(index) {
@@ -145,26 +148,26 @@
 				this.more = true;
 				this.pageNum = 1;
 				this.datalist = [];
-				this.getGoods(); //初始化
+				this.getcollect(); //初始化
 			},
-			getGoods() {
+			getcollect() {
 				if (this.more == false) {
 					this.utils.error('暂无下页');
 					this.loadStatus = 'nomore';
 					return;
 				}
 				let li = {
-					MyId: this.userlist.usrId,
+					userId: this.userlist.id,
 					pageNum: this.pageNum,
 					pageSize: this.pageSize,
 				}
 				console.log(li)
-				this.http.getApi('tickling/getAllByid', li, 'get').then(res => {
+				this.http.getApi('collect/list', li, 'post').then(res => {
 					console.log(res);
-					this.more = res.data.hasNextPage;
-					this.total = res.data.total;
-					this.pageNum = res.data.hasNextPage ? this.pageNum + 1 : this.pageNum;
-					this.datalist = this.pageNum > 1 ? this.datalist.concat(res.data.list) : res.data.list;
+					this.more = res.pages>this.pageNum?true :false;
+					this.total = res.pages;
+					this.pageNum = this.more ? this.pageNum + 1 : this.pageNum;
+					this.datalist = this.pageNum > 1 ? this.datalist.concat(res.list) : res.list;
 					this.loadStatus = this.more ? 'loadmore' : 'nomore';
 					uni.hideLoading();
 				}).catch(err => {

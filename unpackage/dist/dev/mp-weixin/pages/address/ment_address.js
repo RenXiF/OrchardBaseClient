@@ -164,16 +164,16 @@ var _default =
       this.select = true;
     }
   },
-  onShow: function onShow() {
-    // if (this.utils.isLogin()) {
-    // 	this.userlist = uni.getStorageSync('userlist');
-    // 	console.log(this.userlist);
-    // 	this.getAddressList();
-    // } else {
-    // 	this.utils.error('请先登录账号！', () => {
-    // 		this.utils.navback();
-    // 	});
-    // }
+  onShow: function onShow() {var _this = this;
+    if (this.utils.isLogin()) {
+      this.userlist = uni.getStorageSync('userlist');
+      console.log(this.userlist);
+      this.getAddressList();
+    } else {
+      this.utils.error('请先登录账号！', function () {
+        _this.utils.navback();
+      });
+    }
   },
   methods: {
     // 选择地址
@@ -184,13 +184,13 @@ var _default =
       }
     },
     // 获取地址列表
-    getAddressList: function getAddressList() {var _this = this;
+    getAddressList: function getAddressList() {var _this2 = this;
       this.utils.showloading();
       this.http.
-      getApi('address/get', { usrId: this.userlist.usrId, pageNum: 1, pageSize: 20 }, 'get').
+      getApi('address/query', { userId: this.userlist.id, state: 0 }, 'post').
       then(function (res) {
         uni.hideLoading();
-        _this.addressList = res.data.list;
+        _this2.addressList = res.addressEntity;
         console.log(res);
       }).
       catch(function (err) {

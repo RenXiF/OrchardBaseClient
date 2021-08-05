@@ -38,13 +38,15 @@ page {
   position: relative;
   padding: 20rpx;
 }
-.two_ck .two_one, .two_ck .two_two {
+.two_ck .two_one,
+.two_ck .two_two {
   background-color: #FFFFFF;
   border-radius: 15rpx;
   margin-bottom: 30rpx;
   padding: 30rpx;
 }
-.two_ck .two_one text, .two_ck .two_two text {
+.two_ck .two_one text,
+.two_ck .two_two text {
   margin-bottom: 20rpx;
 }
 .two_ck .two_two .one_ck {

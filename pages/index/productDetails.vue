@@ -91,13 +91,13 @@
 					<text class="ft-wh">数量：</text>
 					<u-number-box v-model="goodsSum" :min="1" @change="valChange"></u-number-box>
 				</view>
-				<view class="u-p-20 one_ck">
+				<!-- <view class="u-p-20 one_ck">
 					<text v-if="!conjuan.id">是否使用优惠券</text>
 					<text v-else>已选择优惠券{{conjuan.concessionalRate}}</text>
 					<coupon v-for="(item2, index2) in buylist.discountEntityList" :key="index2" @couponCk="addcouponCk"
 						v-bind:item="item2" :cktit="item2.id ==conjuan.id?'已选择':'选择'" :solid="item2.id ==conjuan.id?'#ff6c00':'#ffffff'"
 						:color="item2.id ==conjuan.id?'#ffffff':'#ff6c00'"></coupon>
-				</view>
+				</view> -->
 				<view class=" u-p-10 u-m-t-30">
 					<u-button :ripple="true" type="error" @click="cartadd()">确定</u-button>
 				</view>
@@ -110,11 +110,11 @@
 					<u-icon name="server-fill" :size="40" :color="$u.color['contentColor']"></u-icon>
 					<view class="text u-line-1">客服</view>
 				</view>
-				<!-- <view class="item">
-					<u-icon name="home" :size="40" :color="$u.color['contentColor']"></u-icon>
-					<view class="text u-line-1">店铺</view>
-				</view> -->
-				<view class="item car" @click="doUrl('pages/user/onelist/Cart/Cart')">
+				<view class="item" @click="collect(buylist.id)">
+					<u-icon name="star" :size="40" :color="$u.color['contentColor']"></u-icon>
+					<view class="text u-line-1">收藏</view>
+				</view>
+				<view class="item car" @click="doUrl('pages/user/onelist/Cart')">
 					<!-- <u-badge class="car-num" :count="9" type="error" :offset="[-3, -6]"></u-badge> -->
 					<u-icon name="shopping-cart" :size="40" :color="$u.color['contentColor']"></u-icon>
 					<view class="text u-line-1">购物车</view>
@@ -183,7 +183,7 @@
 				],
 				commentlist: [], //评论列表
 				popupli: {},
-				goodsSum: 1
+				goodsSum: 1//商品数量
 			};
 		},
 		onLoad() {
@@ -203,11 +203,33 @@
 			this.scrollTop = e.scrollTop;
 		},
 		methods: {
+			collect(id){
+				console.log(id);
+				if(!this.utils.isLogin()){
+					this.utils.error('请先登录账号');
+					return;
+				}
+				let li = {
+					commodityId: id,
+					userId: this.userlist.id
+				}
+				console.log(li);
+				this.http.getApi('collect/save', li, 'post').then(res => {
+					console.log(res);
+					this.utils.success(res.message);
+					// uni.hideLoading();
+				}).catch(err => {
+					console.log(err);
+					this.utils.error(err.message);
+					uni.hideLoading();
+				});
+			},
 			//点击优惠券
 			couponCk(item) {
 				console.log(item);
+				// console.log(this.buylist);
 				let li = {
-					commodityId: this.buylist.id,
+					commodityId: item.commodityId,
 					discountId: item.id,
 					userId: this.userlist.id
 				}
@@ -224,7 +246,7 @@
 			},
 			//优惠券选择
 			addcouponCk(item) {
-				console.log(item);
+				// console.log(item);
 				this.conjuan = item;
 			},
 			// 评论
@@ -277,7 +299,7 @@
 				// console.log(this.payment);
 			},
 			closePOP() { //关闭弹窗
-				console.log(this.popupli);
+				// console.log(this.popupli);
 			},
 			cartadd() {
 				this.show = false;
@@ -300,9 +322,11 @@
 				let li = {
 					userId: this.userlist.id,
 					commodityId: list.id,
+					quantity:this.goodsSum,
 					specificationsId: this.specID,
 					state: 1,
-					price: this.Price>this.conjuan.full?this.Price-this.conjuan.reduce:this.Price,
+					price: this.Price,
+					// price: this.Price>this.conjuan.full?this.Price-this.conjuan.reduce:this.Price,
 				}
 				console.log(li);
 				if (!li.userId) {

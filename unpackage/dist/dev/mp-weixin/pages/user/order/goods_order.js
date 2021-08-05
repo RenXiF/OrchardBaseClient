@@ -96,10 +96,19 @@ var components
 try {
   components = {
     uTabsSwiper: function() {
-      return Promise.all(/*! import() | uview-ui/components/u-tabs-swiper/u-tabs-swiper */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabs-swiper/u-tabs-swiper")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabs-swiper/u-tabs-swiper.vue */ 345))
+      return Promise.all(/*! import() | uview-ui/components/u-tabs-swiper/u-tabs-swiper */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabs-swiper/u-tabs-swiper")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabs-swiper/u-tabs-swiper.vue */ 398))
     },
     uIcon: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 261))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 300))
+    },
+    uPopup: function() {
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-popup/u-popup */ "uview-ui/components/u-popup/u-popup").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-popup/u-popup.vue */ 328))
+    },
+    uButton: function() {
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-button/u-button */ "uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-button/u-button.vue */ 342))
+    },
+    uGap: function() {
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-gap/u-gap */ "uview-ui/components/u-gap/u-gap").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-gap/u-gap.vue */ 412))
     }
   }
 } catch (e) {
@@ -126,29 +135,33 @@ var render = function() {
   var l0 = _vm.__map(_vm.goodsList, function(item, index) {
     var $orig = _vm.__get_orig(item)
 
-    var m0 = item.price ? _vm.formatPrice(item.price) : null
+    var m0 = item.conjuan
+      ? _vm.formatPrice(item.price * item.number - item.conjuan.reduce)
+      : null
+    var m1 = !item.conjuan ? _vm.formatPrice(item.price * item.number) : null
     return {
       $orig: $orig,
-      m0: m0
+      m0: m0,
+      m1: m1
     }
   })
 
-  var m1 = _vm.payment ? _vm.formatPrice(_vm.payment) : null
-  var m2 =
+  var m2 = _vm.payment ? _vm.formatPrice(_vm.payment) : null
+  var m3 =
     _vm.receiveText != "" && _vm.receiveText
       ? _vm.formatPrice(_vm.receiveText)
       : null
-  var m3 = _vm.payment ? _vm.formatPrice(_vm.payment) : null
   var m4 = _vm.payment ? _vm.formatPrice(_vm.payment) : null
+  var m5 = _vm.payment ? _vm.formatPrice(_vm.payment) : null
   _vm.$mp.data = Object.assign(
     {},
     {
       $root: {
         l0: l0,
-        m1: m1,
         m2: m2,
         m3: m3,
-        m4: m4
+        m4: m4,
+        m5: m5
       }
     }
   )
@@ -185,122 +198,165 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var _default =
-{
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var coupon = function coupon() {__webpack_require__.e(/*! require.ensure | components/coolc-coupon/listCoupon */ "components/coolc-coupon/listCoupon").then((function () {return resolve(__webpack_require__(/*! @/components/coolc-coupon/listCoupon.vue */ 419));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//优惠券组件
+var _default = {
+  components: {
+    coupon: coupon },
+
   data: function data() {
     return {
+      show: false, //底部弹窗
       isBulk: false,
       Self: false, //是否自提
       currentTab: 0,
-      menuTabs: [
-      {
+      menuTabs: [{
         name: '快递配送' },
 
       {
@@ -314,6 +370,7 @@ var _default =
       tdata: null, //当前时间
       goodsname: '', //加载商品名
       goodsList: [], //加载商品缓存
+      goodsIndex: 0, //商品下标
       addrInfo: null, //加载用户地址
       addSelf: { //自提地址
         address: '渝欧教育城B区4-1-8号门面',
@@ -343,8 +400,11 @@ var _default =
       userlist: {},
       zorder: {}, //主订单
       piece: false, //件起购
-      openId: '' };
-
+      openId: '',
+      conjuan: {}, //已选择优惠券
+      coupon: [], //优惠券数据
+      popupli: {} //弹窗数据
+    };
 
   },
 
@@ -366,12 +426,6 @@ var _default =
       this.userlist = uni.getStorageSync('userlist');
       this.orderFound.userId = this.userlist.usrId;
       this.piece = this.userlist.usrLevel > 0 ? true : false;
-      // this.orderFound.userId = 8;
-
-
-      // this.orderFound.phone = this.addrInfo.usrPhone;
-      // this.orderFound.usrName = this.addrInfo.usrName;
-      // this.orderFound.spareOne = this.addrInfo.address;
       this.orderFound.opendId = this.userlist.openId;
 
       console.log(this.userlist);
@@ -397,6 +451,113 @@ var _default =
       this.currentTab = index;
       // this.initialization();
       this.Self = index == 0 ? false : true;
+
+    },
+    //不使用优惠券
+    conjuanD: function conjuanD() {var _this2 = this;
+      console.log(this.goodsList);
+      delete this.goodsList[this.goodsIndex].conjuan;
+      this.goodsList[this.goodsIndex].reduce = 0;
+      this.utils.error('清除成功', function () {
+        _this2.Calculation(); //计算订单
+        _this2.show = false;
+      });
+    },
+    closePOP: function closePOP() {//关闭弹窗
+      // console.log(this.popupli);
+    },
+    openPOP: function openPOP() {//打开弹窗
+      // this.popupli = this.coupon;
+      // console.log(this.popupli);
+
+    },
+    //优惠券选择
+    addcouponCk: function addcouponCk(item) {
+      // console.log(item);
+      for (var i = 0; i < this.goodsList.length; i++) {
+        var li = this.goodsList[i];
+        if (this.goodsIndex == i) {
+          li.conjuan = item;
+          this.goodsList[i] = li;
+          this.goodsList[i].reduce = this.goodsList[i].number * this.goodsList[i].price >= item.full ? item.
+          reduce : 0;
+          this.Calculation(); //计算订单
+          // this.oyhjU(item.id,item.discountId)
+          console.log(this.goodsList);
+        }
+      }
+
+    },
+    //修改优惠券状态
+    oyhjU: function oyhjU(id, discountId) {var _this3 = this;
+      var li = {
+        state: 2,
+        id: id,
+        discountId: discountId };
+
+      console.log(li);
+      this.http.getApi('oyhj/update', li, 'post').then(function (res) {
+        console.log(res);
+      }).catch(function (err) {
+        console.log(err);
+        _this3.utils.error(err.message);
+        uni.hideLoading();
+      });
+    },
+    //点击优惠券弹窗确认选择
+    cartadd: function cartadd() {
+      this.show = false;
+
+    },
+    //计算立即购买值
+    Calculation: function Calculation() {
+      this.payment = 0;
+      for (var i = 0; i < this.goodsList.length; i++) {
+        if (this.goodsList[i].reduce) {
+          this.payment = this.payment + this.goodsList[i].number * this.goodsList[i].price - this.goodsList[
+          i].reduce;
+        } else {
+          this.payment = this.payment + this.goodsList[i].number * this.goodsList[i].price;
+        }
+
+      }
+    },
+    getOyhj: function getOyhj(id, index) {var _this4 = this; //获取用户优惠券
+      this.goodsIndex = index;
+      var li = {
+        userId: this.userlist.id,
+        commodityId: id };
+
+      console.log(li);
+      this.http.getApi('oyhj/oyhj', li, 'post').then(function (res) {
+        console.log(res);
+        _this4.coupon = _this4.filter(res.oyhjEntities);
+        console.log(_this4.coupon);
+        console.log(_this4.goodsList[_this4.goodsIndex]);
+        _this4.show = true;
+        // uni.hideLoading();
+      }).catch(function (err) {
+        console.log(err);
+        _this4.utils.error(err.message);
+        uni.hideLoading();
+      });
+    },
+    //过滤已使用优惠券
+    filter: function filter(list) {
+      var li = list;
+      console.log(this.goodsList[this.goodsIndex]);
+      console.log('执行过滤');
+      for (var i = 0; i < li.length; i++) {
+        for (var j = 0; j < this.goodsList.length; j++) {
+          if (this.goodsList[j].conjuan != undefined) {
+            if (li[i].id == this.goodsList[j].conjuan.id) {
+              li[i].state = 2;
+            }
+          }
+        }
+
+      }
+      return li;
 
     },
     //查看地址
@@ -436,33 +597,17 @@ var _default =
         } });
 
     },
-    //计算订单
-    Calculation: function Calculation() {
-      var pay = 0;
-      var Num = 0;
-      for (var i = 0; i < this.goodsList.length; i++) {
-        if (this.piece) {
-          this.goodsList[i].price = this.goodsList[i].price * 6;
-        }
-        pay = pay + this.goodsList[i].price * this.goodsList[i].number;
-        Num = Num + this.goodsList[i].number;
-      }
-
-      console.log(pay);
-      console.log(Num);
-      this.payment = pay;
-      this.orderFound.quantity = Num;
-      this.orderFound.amount = this.payment;
-    },
     addressG: function addressG() {//检测是否自提
       if (this.Self) {
         this.orderFound.phone = this.addSelf.usrPhone != null ? this.addSelf.usrPhone : '';
         this.orderFound.usrName = this.addSelf.usrPhone != null ? this.addSelf.usrName : '';
-        this.orderFound.spareOne = this.addSelf.usrPhone != null ? this.addSelf.provincial + this.addSelf.city + this.addSelf.area + this.addSelf.address : '';
+        this.orderFound.spareOne = this.addSelf.usrPhone != null ? this.addSelf.provincial + this.addSelf.
+        city + this.addSelf.area + this.addSelf.address : '';
       } else {
         this.orderFound.phone = this.addrInfo.usrPhone != null ? this.addrInfo.usrPhone : '';
         this.orderFound.usrName = this.addrInfo.usrPhone != null ? this.addrInfo.usrName : '';
-        this.orderFound.spareOne = this.addrInfo.usrPhone != null ? this.addrInfo.provincial + this.addrInfo.city + this.addrInfo.area + this.addrInfo.address : '';
+        this.orderFound.spareOne = this.addrInfo.usrPhone != null ? this.addrInfo.provincial + this.addrInfo.
+        city + this.addrInfo.area + this.addrInfo.address : '';
       }
     },
     //执行提交订单
@@ -480,23 +625,23 @@ var _default =
       this.utils.showloading();
       this.OrderFound(jsonData);
     },
-    OrderFound: function OrderFound(jsonData) {var _this2 = this; //主订单
+    OrderFound: function OrderFound(jsonData) {var _this5 = this; //主订单
       this.http.getApi('Order/found', jsonData, 'post').then(function (res) {
         console.log(res);
         // this.csjjj(res.data);
-        _this2.zorder = res.data;
-        _this2.screen(_this2.goodsList, res.data.orderId, function (data) {
+        _this5.zorder = res.data;
+        _this5.screen(_this5.goodsList, res.data.orderId, function (data) {
           console.log(data);
           console.log('执行子订单');
-          _this2.corderAdd(data);
+          _this5.corderAdd(data);
         });
       }).catch(function (err) {
         console.log(err);
         uni.hideLoading();
-        _this2.utils.error(err.msg);
+        _this5.utils.error(err.msg);
       });
     },
-    csjjj: function csjjj(jsonData) {var _this3 = this;
+    csjjj: function csjjj(jsonData) {var _this6 = this;
       // console.log('执行子订单');
       console.log(jsonData);
       this.http.getApi('wxPay/endOrder', jsonData, 'post').then(function (res) {
@@ -504,22 +649,22 @@ var _default =
         uni.hideLoading();
       }).catch(function (err) {
         console.log(err);
-        _this3.utils.error(err.msg);
+        _this6.utils.error(err.msg);
         uni.hideLoading();
       });
     },
-    corderAdd: function corderAdd(jsonData) {var _this4 = this; //子订单
+    corderAdd: function corderAdd(jsonData) {var _this7 = this; //子订单
       this.http.getApi('corder/add', jsonData, 'post').then(function (res) {
         console.log(res);
         // uni.hideLoading();
-        _this4.wxPayorder();
+        _this7.wxPayorder();
       }).catch(function (err) {
         console.log(err);
         uni.hideLoading();
-        _this4.utils.error(err.msg);
+        _this7.utils.error(err.msg);
       });
     },
-    wxPayorder: function wxPayorder() {var _this5 = this; //支付订单
+    wxPayorder: function wxPayorder() {var _this8 = this; //支付订单
       var li = {
         orderNo: this.zorder.orderNo,
         // amount: 0.01,
@@ -530,12 +675,12 @@ var _default =
       console.log(li);
       this.http.getApi('wxPay/unifiedOrder', li, 'get').then(function (res) {
         console.log(res);
-        _this5.paymentorder(res.data);
+        _this8.paymentorder(res.data);
         // uni.hideLoading();
       }).catch(function (err) {
         console.log(err);
         uni.hideLoading();
-        _this5.utils.error(err.msg);
+        _this8.utils.error(err.msg);
       });
     },
     paymentorder: function paymentorder(data) {
@@ -594,7 +739,7 @@ var _default =
         }
       }
     },
-    goodsUp: function goodsUp(goodsId, sumTwo) {var _this6 = this; //修改商品
+    goodsUp: function goodsUp(goodsId, sumTwo) {var _this9 = this; //修改商品
       this.http.getApi('goods/up', {
         goodsId: goodsId,
         sumTwo: sumTwo },
@@ -604,10 +749,10 @@ var _default =
       }).catch(function (err) {
         console.log(err);
         uni.hideLoading();
-        _this6.utils.error(err.msg);
+        _this9.utils.error(err.msg);
       });
     },
-    carDe: function carDe(CarId) {var _this7 = this;
+    carDe: function carDe(CarId) {var _this10 = this;
       this.http.getApi('car/de', {
         shopCarId: CarId },
       'get').then(function (res) {
@@ -616,7 +761,7 @@ var _default =
       }).catch(function (err) {
         console.log(err);
         uni.hideLoading();
-        _this7.utils.error(err.msg);
+        _this10.utils.error(err.msg);
       });
     },
     screen: function screen(list, Order, data) {//筛选

@@ -148,10 +148,6 @@
 		methods: {
 			// 初始化数据
 			initialization() {
-				// if (this.utils.isLogin()) {
-				// 	this.userlist = uni.getStorageSync('userlist');
-				// 	// console.log(this.userlist)
-				// }
 				this.utils.showloading('正在刷新');
 				this.datalist = [];
 				this.pageNum = 1;
@@ -176,7 +172,7 @@
 			},
 			getSort() { //获取分类
 				var li = {
-					// sortId: 0,
+					dictionaries: 'fruits',
 					pageNum: 0,
 					pageSize: 0,
 				};

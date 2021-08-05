@@ -17,46 +17,51 @@
 							<text>自营店</text>
 						</view>
 						<view class="flex_between u-p-t-20 u-p-l-20 u-p-r-20 u-p-b-10"
-							v-for="(item2 ,index2) in item.corderList" :key="index2">
-							<view class="goodlog flex_rows">
-								<image :src="item2.imgRess" class="" mode=""></image>
-								<view class=" flex_wrap u-p-l-20">
-									<text class="u-font-lg ft-wh">{{item2.spareOne}}</text>
+							v-for="(item2 ,index2) in item.orderEntityList" :key="index2">
+							<view class="goodlog flex_rows ">
+								<image :src="item2.img" class="" mode=""></image>
+								<view class=" flex_wrap u-p-l-20 ellipsis" style="max-width: 50%;">
+									<!-- <text class="u-font-lg ft-wh ">{{item2.title}}</text> -->
+									<u-read-more :toggle="true" show-height="150" close-text="展开" text-indent="0" font-size="25" color="#333">
+										<rich-text :nodes="item2.title"></rich-text>
+									</u-read-more>
 								</view>
 							</view>
-							<view class="one_ck_two flex_columns flex_align_end">
-								<cn-money :money="item2.goodsPrice" thousandth :size="30" color="#989898"></cn-money>
-								<text>x{{item2.goodsSum}}</text>
+							<view class="one_ck_two flex_columns flex_align_end ">
+								<cn-money :money="item2.price" thousandth :size="35" color="#df473c"></cn-money>
+								<text>{{item2.specificationsName}}</text>
+								<text>x{{item2.quantity}}</text>
 							</view>
 						</view>
-						<view class="tit_ck flex_between">
+						<view class="tit_ck flex_between flex_center">
 							<text>订单号:</text>
-							<text>{{item.order.orderNo}}</text>
+							<text>{{item.orders}}</text>
 						</view>
-						<view class="tit_ck flex_between" v-if="item.order.spareThree">
+						<view class="tit_ck flex_between flex_center" v-if="item.spareThree">
 							<text>物流号:</text>
-							<text>{{item.order.spareThree}}</text>
+							<text>{{item.spareThree}}</text>
 						</view>
-						<view class="tit_ck flex_between">
+						<view class="tit_ck flex_between flex_center">
 							<text>总价:</text>
-							<text class="tit_b">{{item.order.amount/100}}元</text>
+							<!-- <text class="tit_b">{{item.totalAmount}}元</text> -->
+							<cn-money :money="item.totalAmount" thousandth :size="50" color="#E54D42"></cn-money>
 						</view>
 						<view class="tit_ck flex_between">
 							<text>创建时间:</text>
-							<text>{{item.order.createdTime.substring(0,16)}}</text>
+							<text>{{item.addTime}}</text>
 						</view>
 						<view class="bt_ck flex_center flex_wrap flex_row_reverse">
-							<view v-if="item.order.status == 0">
-								<button type="warn" class=""  @click="qupay(item.order)">去支付</button>
+							<view v-if="item.state == 2">
+								<button type="default" class="buttA"  @click="qupay(item)">去支付</button>
 							</view>
-							<view v-if="item.order.status === 0">
-								<button type="default" class="buttB" @click="exitOrder(item.order)">取消订单</button>
+							<view v-if="item.state === 2">
+								<button type="default" class="buttB" @click="exitOrder(item)">取消订单</button>
 							</view>
-							<view v-if="item.order.status != 0" >
-								<button type="default" :disabled="true" class="buttA">{{menuTabs[item.order.status].name}}</button>
+							<view v-if="item.state != 2" >
+								<button type="default" :disabled="true" class="buttA">{{menuTabs[item.state-2].name}}</button>
 							</view>
-							<view v-if="item.order.status == 2">
-								<button type="default" class="buttB" @click="confirmOrder(item.order)">确认收货</button>
+							<view v-if="item.state == 4">
+								<button type="default" class="buttB" @click="confirmOrder(item)">确认收货</button>
 							</view>
 						</view>
 					</view>
@@ -124,19 +129,19 @@
 			this.screenHeight = res.windowHeight;
 		},
 		onLoad(e) {
-			// if (this.utils.isLogin()) {
-			// 	console.log(e);
-			// 	if(e.index){
-			// 		this.currentTab = e.index;
-			// 	}
-			// 	this.userlist = uni.getStorageSync('userlist');
-			// 	console.log(this.userlist);
-			// 	this.initialization();
-			// } else {
-			// 	this.utils.error('请先登录账号！', () => {
-			// 		this.utils.navback();
-			// 	});
-			// }
+			if (this.utils.isLogin()) {
+				console.log(e);
+				if(e.index){
+					this.currentTab = Number(e.index);
+				}
+				this.userlist = uni.getStorageSync('userlist');
+				console.log(this.userlist);
+				this.initialization();
+			} else {
+				this.utils.error('请先登录账号！', () => {
+					this.utils.navback();
+				});
+			}
 		},
 		methods: {
 			// 上划加载更多
@@ -186,19 +191,22 @@
 					return;
 				}
 				let li = {
-					UsrId: this.userlist.usrId,
-					status: status==4?5:status,
+					userId: this.userlist.id,
+					state: status===4 ? 0 : status+2,
 					pageNum: this.pageNum,
 					pageSize: this.pageSize
 				}
 				console.log(li)
+				// if(li.state ==6){
+					
+				// }
 				// this.utils.showloading();
-				this.http.getApi('Order/getMyOrder', li, 'get').then(res => {
+				this.http.getApi('order/querys', li, 'post').then(res => {
 					uni.hideLoading();
 					console.log(res);
-					this.more = res.data[0].pageInfo.hasNextPage;
-					this.totalPage = res.data[0].pageInfo.total;
-					this.pageNum = res.data[0].pageInfo.hasNextPage ? this.pageNum + 1 : this.pageNum;
+					this.more = res.pages>this.pageNum?true :false;
+					this.totalPage = res.pages;
+					this.pageNum = this.more ? this.pageNum + 1 : this.pageNum;
 					this.menuLists = this.pageNum > 1 ? this.menuLists.concat(res.data) : res.data;
 					this.loadStatus = this.more ? 'loadmore' : 'nomore';
 				}).catch(err => {
@@ -327,12 +335,15 @@
 
 		.goodlog {
 			margin-right: 30upx;
-
+			width: 70%;
 			>image {
 				width: 180upx;
 				height: 150upx;
 				border-radius: 15upx;
 			}
+		}
+		.one_ck_two{
+			width: 30%;
 		}
 
 		/* 内容 */

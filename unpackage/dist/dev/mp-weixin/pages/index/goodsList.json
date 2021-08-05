@@ -3,6 +3,7 @@
   "navigationBarBackgroundColor": "#FFFFFF",
   "enablePullDownRefresh": false,
   "usingComponents": {
+    "goodsList-u-waterfall-right": "/pages/index/goodsList-u-waterfall-right",
     "u-waterfall": "/uview-ui/components/u-waterfall/u-waterfall",
     "u-lazy-load": "/uview-ui/components/u-lazy-load/u-lazy-load",
     "u-empty": "/uview-ui/components/u-empty/u-empty",

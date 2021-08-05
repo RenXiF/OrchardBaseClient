@@ -22,7 +22,12 @@
     "pages/index/goodsList",
     "pages/video/video_details",
     "pages/index/evaluate_details",
-    "pages/index/evaluate"
+    "pages/index/evaluate",
+    "pages/user/note_submit",
+    "pages/user/onelist/logistics",
+    "pages/user/onelist/vip",
+    "pages/user/onelist/myCoupon",
+    "pages/user/onelist/open_vip"
   ],
   "subPackages": [],
   "window": {
@@ -73,7 +78,13 @@
       }
     ]
   },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "地址选择"
+    }
+  },
   "usingComponents": {
     "nav-bar": "/components/zhouWei-navBar/index"
-  }
+  },
+  "sitemapLocation": "sitemap.json"
 }

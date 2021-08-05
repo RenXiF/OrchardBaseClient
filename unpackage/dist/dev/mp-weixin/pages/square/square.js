@@ -96,16 +96,25 @@ var components
 try {
   components = {
     uSwiper: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-swiper/u-swiper */ "uview-ui/components/u-swiper/u-swiper").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-swiper/u-swiper.vue */ 240))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-swiper/u-swiper */ "uview-ui/components/u-swiper/u-swiper").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-swiper/u-swiper.vue */ 279))
     },
     uSticky: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-sticky/u-sticky */ "uview-ui/components/u-sticky/u-sticky").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-sticky/u-sticky.vue */ 310))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-sticky/u-sticky */ "uview-ui/components/u-sticky/u-sticky").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-sticky/u-sticky.vue */ 349))
     },
     uTabs: function() {
-      return Promise.all(/*! import() | uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabs/u-tabs.vue */ 317))
+      return Promise.all(/*! import() | uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabs/u-tabs.vue */ 356))
+    },
+    uWaterfall: function() {
+      return Promise.all(/*! import() | uview-ui/components/u-waterfall/u-waterfall */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-waterfall/u-waterfall")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-waterfall/u-waterfall.vue */ 363))
+    },
+    uLazyLoad: function() {
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-lazy-load/u-lazy-load */ "uview-ui/components/u-lazy-load/u-lazy-load").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-lazy-load/u-lazy-load.vue */ 370))
+    },
+    uEmpty: function() {
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-empty/u-empty */ "uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-empty/u-empty.vue */ 314))
     },
     uLoadmore: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-loadmore/u-loadmore */ "uview-ui/components/u-loadmore/u-loadmore").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-loadmore/u-loadmore.vue */ 282))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-loadmore/u-loadmore */ "uview-ui/components/u-loadmore/u-loadmore").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-loadmore/u-loadmore.vue */ 321))
     }
   }
 } catch (e) {
@@ -129,6 +138,32 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var m0 = _vm.$hasScopedSlotsParams("683f32a0-4")
+  var l0 = m0
+    ? _vm.$getScopedSlotsParams("683f32a0-4", "left", "leftList")
+    : null
+
+  if (!_vm._isMounted) {
+    _vm.e0 = function($event, item) {
+      var _temp = arguments[arguments.length - 1].currentTarget.dataset,
+        _temp2 = _temp.eventParams || _temp["event-params"],
+        item = _temp2.item
+
+      var _temp, _temp2
+
+      return _vm.doUrlli(item.id)
+    }
+  }
+
+  _vm.$mp.data = Object.assign(
+    {},
+    {
+      $root: {
+        m0: m0,
+        l0: l0
+      }
+    }
+  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -183,6 +218,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   components: {},
@@ -203,19 +263,9 @@ var _default =
 
       current: 0,
       userlist: {},
-      sortlist: [{
-        sortImg: '/static/index/menu1.png',
-        sortName: '周边旅游' },
-
-      {
-        sortImg: '/static/index/menu2.png',
-        sortName: '附近美食' },
-
-      {
-        sortImg: '/static/index/menu3.png',
-        sortName: '其他' }],
-
-      //分类数据
+      sortlist: [], //分类数据
+      datalist: [], //数据
+      yuanSli: [], //原始数据
       loadStatus: 'nomore',
       loadText: {
         loadmore: '轻轻上拉',
@@ -230,7 +280,7 @@ var _default =
 
   },
   onLoad: function onLoad() {
-    // this.initialization();//初始化
+    this.initialization(); //初始化
   },
   onShow: function onShow() {
     if (this.utils.isLogin()) {
@@ -249,7 +299,7 @@ var _default =
   //下拉刷新
   onPullDownRefresh: function onPullDownRefresh() {
     console.log('下拉刷新');
-    // this.initialization(); //初始化
+    this.initialization(); //初始化
     this.utils.success('刷新成功！', function () {
       uni.stopPullDownRefresh();
     });
@@ -272,6 +322,7 @@ var _default =
     // 分类点击事件
     changeck: function changeck(e) {
       this.current = e;
+      this.initialization(); //初始化
     },
     // 初始化数据
     initialization: function initialization() {
@@ -283,10 +334,53 @@ var _default =
       this.datalist = [];
       this.pageNum = 1;
       this.more = true;
+      this.getSort();
+      // this.getsquare();
     },
-    doUrlli: function doUrlli(item) {
-      // uni.setStorageSync('buylist', item);
-      this.doUrl('pages/square/article_details');
+    getSort: function getSort() {var _this = this; //获取分类
+      var li = {
+        dictionaries: 'classification',
+        pageNum: 0,
+        pageSize: 0 };
+
+      this.http.getApi('dictionaries/list', li, 'post').then(function (res) {
+        console.log(res);
+        _this.sortlist = res.list;
+        console.log(_this.sortlist);
+        _this.getsquare();
+        // uni.hideLoading();
+      }).catch(function (err) {
+        console.log(err);
+        _this.utils.error(err.msg);
+        uni.hideLoading();
+      });
+    },
+    getsquare: function getsquare() {var _this2 = this;
+      if (this.more == false) {
+        // this.utils.error('暂无下页');
+        this.loadStatus = 'nomore';
+        return;
+      }
+      var li = {
+        classification: this.sortlist[this.current].dictionaryValue,
+        pageNum: this.pageNum,
+        pageSize: this.pageSize };
+
+      console.log(li);
+      this.http.getApi('square/list', li, 'post').then(function (res) {
+        console.log(res);
+        _this2.more = res.pages > _this2.pageNum ? true : false;
+        _this2.total = res.pages;
+        _this2.pageNum = _this2.more ? _this2.pageNum + 1 : _this2.pageNum;
+        // this.datalist = this.pageNum > 1 ? this.datalist.concat(res.list) : res.list;
+        _this2.addRandomData(res.list);
+        _this2.loadStatus = _this2.more ? 'loadmore' : 'nomore';
+        uni.hideLoading();
+      }).catch(function (err) {
+        console.log(err);
+        _this2.utils.error(err.msg);
+        uni.hideLoading();
+      });
     },
     yulan: function yulan(list) {
       if (list.length != 0) {
@@ -297,6 +391,46 @@ var _default =
         console.log(li);
         this.openImg(li);
       }
+    },
+    clear: function clear() {//清空瀑布流
+      this.$refs.uWaterfall.clear();
+    },
+    addRandomData: function addRandomData(list) {
+      if (this.pageNum == 1) {
+        this.datalist = [];
+        this.yuanSli = [];
+        this.clear();
+      }
+      console.log(list);
+      // setTimeout(()=>{
+      for (var i = 0; i < list.length; i++) {
+        // console.log('111111111111')
+        // let index = this.$u.random(0, list.length - 1);
+        // console.log(index)
+        var j = list[i];
+        // 先转成字符串再转成对象，避免数组对象引用导致数据混乱
+        var item = JSON.parse(JSON.stringify(list[i]));
+        // item.id = this.$u.guid(10);
+        // j.id = item.id;
+        // item.image = list[i].imgList.length != 0 ? list[i].imgList[0].imgAddress : '/static/null.jpg';
+        this.datalist.push(item);
+        this.yuanSli.push(j);
+      }
+      // console.log(this.datalist)
+      // console.log(this.yuanSli)
+      // },500);
+
+    },
+    doUrlli: function doUrlli(id) {
+      console.log(id);
+      // this.$refs.uWaterfall.remove(id);
+      for (var i = 0; i < this.yuanSli.length; i++) {
+        if (this.yuanSli[i].id == id) {
+          uni.setStorageSync('squarelist', this.yuanSli[i]);
+          this.doUrl('pages/square/article_details');
+        }
+      }
+
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

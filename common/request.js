@@ -246,7 +246,7 @@ export function getArea(lat,lng){
 					areaId:0,
 					address:res.regeocode.formatted_address
 				}
-				console.log(res);
+				// console.log(res);
 				resolt(info);
 				uni.hideLoading();
 				// //获取省份ID

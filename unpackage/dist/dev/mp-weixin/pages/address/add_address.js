@@ -125,7 +125,7 @@ var components
 try {
   components = {
     uIcon: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 261))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 300))
     }
   }
 } catch (e) {
@@ -239,23 +239,19 @@ var _default =
       addrInfo: {},
       serverAddress: '',
       formData: {
-        address: '',
-        // addressId: 0,
-        areaId: 0,
-        cityId: 0,
+        detailedAddress: '', //详细地址
         distinctId: true, //地址选择
         gender: 0, //性别
-        // isDefault: 0,
-        // lat: '',
-        // lng: '',
-        // notes: '',
-        provincial: '', //省份
+        addressState: 0,
+        longitude: '', //经度
+        dimension: '', //维度
+        consigneeRegion: '', //省份
         city: '', //市份
-        area: '', //县份
-        usrId: '',
-        usrPhone: '',
+        county: '', //县份
+        userId: '',
+        phone: '',
         // provinceId: 0,
-        usrName: '' },
+        consigneeName: '' },
 
       userlist: {} };
 
@@ -266,7 +262,7 @@ var _default =
         this.edit();
       }
       this.userlist = uni.getStorageSync('userlist');
-      this.formData.usrId = this.userlist.usrId;
+      this.formData.userId = this.userlist.id;
       console.log(this.userlist);
     } else {
       // this.utils.error('请先登录账号！', () => {
@@ -279,23 +275,13 @@ var _default =
     //修改地址参数 
     edit: function edit() {
       var addr = uni.getStorageSync('edit_addr');
-      // console.log(addr)
-      // addr.provinceId = addr.pcdaIds[0];
-      // addr.cityId = addr.pcdaIds[1];
-      // addr.distinctId = addr.pcdaIds[2];
-      // delete addr.pcdaIds;
-      // delete addr.pcdaNames;
-
-      // addr.provincial = addr.provincial;
-      // addr.city = addr.pcdaIds[1];
-      // addr.area = addr.pcdaIds[2];
-      this.serverAddress = addr.provincial + '' + addr.city + '' + addr.area;
+      this.serverAddress = addr.consigneeRegion + '' + addr.city + '' + addr.county;
       // this.http.getArea(addr.lat, addr.lng).then((res) => {
       // 	this.serverAddress = res.province + '' + res.city + '' + res.area
       // 	this.formData.address = addr.address.replace(this.serverAddress, '');
       // }).catch();
       this.formData = addr;
-      this.formData.address = addr.address.replace(this.serverAddress, '');
+      this.formData.detailedAddress = addr.detailedAddress.replace(this.serverAddress, '');
       this.formData.distinctId = true;
       console.log(addr);
       console.log(this.formData);
@@ -322,6 +308,7 @@ var _default =
                     var lng = res.longitude;
                     that.serverAddress = res.address;
                     that.http.getArea(lat, lng).then(function (item) {
+                      // console.log(item);
                       that.getAddrInfo(item);
                     }).catch();
                   } });
@@ -343,6 +330,7 @@ var _default =
                 that.serverAddress = res.address;
                 // that.getAddrInfo(res);
                 that.http.getArea(lat, lng).then(function (item) {
+                  // console.log(item);
                   that.getAddrInfo(item);
                 }).catch();
               } });
@@ -350,85 +338,44 @@ var _default =
           }
         } });
 
-
-
-      // uni.chooseLocation({
-      // 	latitude: '27.695744',
-      // 	longitude: '106.926865',
-      // 	keyword: '',
-      // 	success(res) {
-      // 		console.log(res);
-      // 		let lat = res.latitude;
-      // 		let lng = res.longitude;
-      // 		// that.formData.lat = lat;
-      // 		// that.formData.lng = lng;
-      // 		that.serverAddress = res.address;
-      // 		// that.getAddrInfo(res);
-      // 		that.http.getArea(lat, lng).then((item) => {
-      // 			that.getAddrInfo(item)
-      // 		}).catch();
-      // 	}
-      // });
-
-
     },
     // 获取地址ID
     getAddrInfo: function getAddrInfo(res) {
-      console.log('111111111');
+      console.log('21321161');
       console.log(res);
       this.addrInfo = res;
       this.serverAddress = res.province + '' + res.city + '' + res.area;
-      // this.formData.provinceId = res.provinceId;
-      // this.formData.cityId = res.cityId;
-      // this.formData.distinctId = res.areaId;
-      this.formData.provincial = res.province; //省
+      this.formData.consigneeRegion = res.province; //省
       this.formData.city = res.city; //市
-      this.formData.area = res.area; //区
-      // this.formData.city = '贵州省';
-      // this.formData.area = '遵义市';
-      // this.formData.provincial = '红花岗区';
-
-
+      this.formData.county = res.area; //区
       this.formData.distinctId = true;
-      this.formData.address = res.address.replace(this.serverAddress, '');
+      this.formData.detailedAddress = res.address.replace(this.serverAddress, '');
     },
     radioClick: function radioClick(index) {
       this.formData.gender = index;
       this.radioIndex = index;
     },
     postAddress: function postAddress() {
-      // this.formData.city = '贵州省';
-      // this.formData.area = '遵义市';
-      // this.formData.provincial = '红花岗区';
       if (!this.formData.distinctId) {
         this.utils.error('请重新选择地址！');
         return;
       }
-      if (this.formData.usrPhone == '' || this.utils.checkMobile(this.formData.usrPhone) == false) {
+      if (this.formData.phone == '' || this.utils.checkMobile(this.formData.phone) == false) {
         this.utils.error('请填写手机号！');
         return;
       }
-      if (this.formData.usrName == '') {
+      if (this.formData.consigneeName == '') {
         this.utils.error('请填写联系人！');
         return;
       }
-      if (this.formData.address == '') {
+      if (this.formData.detailedAddress == '') {
         this.utils.error('请填写详细地址！');
         return;
       }
       var jsonData = this.formData;
       // jsonData.address = this.serverAddress + '' + this.formData.address;
       console.log(jsonData);
-      // let that = this;
       this.utils.showloading();
-      // this.http.getApi('address/add', jsonData, 'post').then(res => {
-      // 	uni.hideLoading();
-      // 	this.utils.success('操作成功！', () => {
-      // 		that.utils.navback();
-      // 	})
-      // }).catch(err => {
-      // 	console.log(err);
-      // });
       if (jsonData.id) {
         this.addressUp(jsonData);
       } else {
@@ -438,7 +385,7 @@ var _default =
     // 添加地址
     addressAdd: function addressAdd(jsonData) {var _this = this;
       var that = this;
-      this.http.getApi('address/add', jsonData, 'post').then(function (res) {
+      this.http.getApi('address/save', jsonData, 'post').then(function (res) {
         console.log(res);
         uni.hideLoading();
         _this.utils.success('操作成功！', function () {
@@ -451,7 +398,7 @@ var _default =
     // 修改地址
     addressUp: function addressUp(jsonData) {var _this2 = this;
       var that = this;
-      this.http.getApi('address/up', jsonData, 'post').then(function (res) {
+      this.http.getApi('address/update', jsonData, 'post').then(function (res) {
         console.log(res);
         uni.hideLoading();
         _this2.utils.success('修改成功！', function () {
@@ -464,9 +411,8 @@ var _default =
     // 删除地址
     removeAddress: function removeAddress(id) {var _this3 = this;
       var that = this;
-      this.http.getApi('address/de', {
-        AddressId: id },
-      'get').then(function (res) {
+      var li = [id];
+      this.http.getApi('address/delete', li, 'post').then(function (res) {
         console.log(res);
         uni.hideLoading();
         _this3.utils.success('删除成功！', function () {

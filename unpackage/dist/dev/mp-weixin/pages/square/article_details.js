@@ -96,10 +96,10 @@ var components
 try {
   components = {
     uSwiper: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-swiper/u-swiper */ "uview-ui/components/u-swiper/u-swiper").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-swiper/u-swiper.vue */ 240))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-swiper/u-swiper */ "uview-ui/components/u-swiper/u-swiper").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-swiper/u-swiper.vue */ 279))
     },
     uReadMore: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-read-more/u-read-more */ "uview-ui/components/u-read-more/u-read-more").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-read-more/u-read-more.vue */ 338))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-read-more/u-read-more */ "uview-ui/components/u-read-more/u-read-more").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-read-more/u-read-more.vue */ 391))
     }
   }
 } catch (e) {
@@ -156,7 +156,9 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+//
+//
 //
 //
 //
@@ -195,28 +197,37 @@ var _default =
   data: function data() {
     return {
       scrollTop: 0,
-      list: [{
-        imgAddress: '/static/index/wisp.png',
-        title: '昨夜星辰昨夜风，画楼西畔桂堂东' },
-
-      {
-        imgAddress: '/static/index/one.png',
-        title: '昨夜星辰昨夜风，画楼西畔桂堂东' },
-
-      {
-        imgAddress: '/static/index/two.png',
-        title: '昨夜星辰昨夜风，画楼西畔桂堂东' }],
-
-
-      content: "\u5C71\u4E0D\u5728\u9AD8\uFF0C\u6709\u4ED9\u5219\u540D\u3002\u6C34\u4E0D\u5728\u6DF1\uFF0C\u6709\u9F99\u5219\u7075\u3002\u65AF\u662F\u964B\u5BA4\uFF0C\u60DF\u543E\u5FB7\u99A8\u3002\n\t\t\t\t\t\t\t\u82D4\u75D5\u4E0A\u9636\u7EFF\uFF0C\u8349\u8272\u5165\u5E18\u9752\u3002\u8C08\u7B11\u6709\u9E3F\u5112\uFF0C\u5F80\u6765\u65E0\u767D\u4E01\u3002\u53EF\u4EE5\u8C03\u7D20\u7434\uFF0C\u9605\u91D1\u7ECF\u3002\n\t\t\t\t\t\t\t\u65E0\u4E1D\u7AF9\u4E4B\u4E71\u8033\uFF0C\u65E0\u6848\u724D\u4E4B\u52B3\u5F62\u3002\u5357\u9633\u8BF8\u845B\u5E90\uFF0C\u897F\u8700\u5B50\u4E91\u4EAD\u3002\u5B54\u5B50\u4E91\uFF1A\u4F55\u964B\u4E4B\u6709\uFF1F" };
-
-
+      list: [],
+      squarelist: {} };
 
   },
   onPageScroll: function onPageScroll(e) {
     this.scrollTop = e.scrollTop;
   },
+  onLoad: function onLoad() {
+    this.squarelist = uni.getStorageSync('squarelist');
+    console.log(this.squarelist);
+    this.getGoods(this.squarelist.id);
+    // this.getComment(this.buylist.id);
+    if (this.utils.isLogin()) {
+      this.userlist = uni.getStorageSync('userlist');
+      console.log(this.userlist);
+    }
+  },
   methods: {
+    getGoods: function getGoods(id) {var _this = this; //获取详细
+      this.http.getApi('square/info/' + id, {}, 'post').then(function (res) {
+        console.log(res);
+        _this.squarelist = res.square;
+        _this.list = res.square.imgs;
+        console.log(_this.squarelist);
+        // uni.hideLoading();
+      }).catch(function (err) {
+        console.log(err);
+        _this.utils.error(err.msg);
+        uni.hideLoading();
+      });
+    },
     yulan: function yulan(list) {//图片预览
       if (list.length != 0) {
         var li = [];
@@ -231,6 +242,7 @@ var _default =
       // uni.setStorageSync('buylist', item);
       this.doUrl('pages/square/article_details');
     } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 

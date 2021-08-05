@@ -5,25 +5,28 @@
 		<u-tabs-swiper ref="tabs" name="name" count="count" active-color="#ff8878" :list="menuTabs"
 			:current="currentTab" :is-scroll="false" @change="tabsChange" class="">
 		</u-tabs-swiper>
-		
+
 		<view class="order_top u-m-t-20">
-			<view class="order_address flex_rows space_bet  border_bottom" @click="doUrl('pages/address/ment_address', { select: 1 })" v-if="!Self">
-				<view class="address_left" v-if="addrInfo.address">
-					<view class="left_address ellipsis">{{addrInfo.address}}</view>
-					<view class="left_phone"><text>{{addrInfo.usrName}}</text>{{addrInfo.usrPhone}}</view>
+			<view class="order_address flex_rows space_bet  border_bottom"
+				@click="doUrl('pages/address/ment_address', { select: 1 })" v-if="!Self">
+				<view class="address_left" v-if="addrInfo.detailedAddress">
+					<view class="left_address ellipsis">{{addrInfo.detailedAddress}}</view>
+					<view class="left_phone"><text>{{addrInfo.consigneeName}}</text>{{addrInfo.phone}}</view>
 				</view>
 				<view class="address_left" v-else>
 					<view class="left_address">请选择服务地址</view>
 				</view>
-				<view class="Icon right_icon">&#xe638;</view>
+				<!-- <view class="Icon right_icon">&#xe638;</view> -->
+				<u-icon name="arrow-right"></u-icon>
 			</view>
-			
-			<view class="order_address flex_rows space_bet  border_bottom"  v-if="Self" @click="getLocation()">
+
+			<view class="order_address flex_rows space_bet  border_bottom" v-if="Self" @click="getLocation()">
 				<view class="address_left" v-if="addSelf.address">
 					<view class="left_address ellipsis">{{addSelf.address}}</view>
 					<view class="left_phone"><text>{{addSelf.usrName}}</text>{{addSelf.usrPhone}}</view>
 				</view>
-				<view class="Icon right_icon">&#xe638;</view>
+				<!-- <view class="Icon right_icon">&#xe638;</view> -->
+				<u-icon name="arrow-right"></u-icon>
 			</view>
 		</view>
 		<view class="order_detail">
@@ -40,18 +43,28 @@
 				</view> -->
 				<view class="cont_text columns">
 					<view class="text_top">
-						<view class="text_tit" v-if="piece">{{item.name}}/件</view>
-						<view class="text_tit" v-else>{{item.name}}</view>
+						<!-- <view class="text_tit" v-if="piece">{{item.name}}/件</view> -->
+						<view class="text_tit">{{item.name}}</view>
 						<view class="text_des">数量：{{item.number}}</view>
 					</view>
-					<view class="text_bot">
-						<text class="bot_num" v-if="item.price">{{formatPrice(item.price)}}</text>
+					<view class="flex_between">
+						<view class="text_des">优惠券：</view>
+						<view class="flex_rows flex_center" @click="getOyhj(item.goodsId,index)">
+							<view class="" v-if="item.conjuan.id">{{item.conjuan.concessionalRate}}</view>
+							<view class="" v-else>选择优惠券</view>
+							<u-icon name="arrow-right"></u-icon>
+						</view>
 					</view>
-					
+					<view class="text_bot">
+						<text class="bot_num"
+							v-if="item.conjuan">{{formatPrice(item.price*item.number - item.conjuan.reduce)}}</text>
+						<text class="bot_num" v-else>{{formatPrice(item.price*item.number)}}</text>
+					</view>
+
 				</view>
-				
+
 			</view>
-			
+
 		</view>
 		<view class="order_news">
 			<!-- <view class="news_coupon flex_rows space_bet border_bottom" v-if="receiveText">
@@ -64,13 +77,14 @@
 					<text class="Icon right_icon">&#xe638;</text>
 				</view>
 			</view> -->
-			<view class="news_note flex_rows space-between space_bet" @click="doUrl('pages/index/note_submit')">
+			<view class="news_note flex_rows space-between space_bet" @click="doUrl('pages/user/note_submit')">
 				<view class="note_left">留言</view>
 				<view class="note_right flex_rows" v-if="orderFound.spareTwo!=''">
 					<text class="Icon right_icon ellipsis">{{orderFound.spareTwo}}</text>
-					<text class="Icon right_icon">&#xe638;</text>
+					<u-icon name="arrow-right"></u-icon>
 				</view>
-				<view class="note_right flex_rows" v-else>建议留言前沟通确认<text class="Icon right_icon">&#xe638;</text></view>
+				<view class="note_right flex_rows" v-else>建议留言前沟通确认<u-icon name="arrow-right"></u-icon>
+				</view>
 			</view>
 		</view>
 		<view class="order_price">
@@ -90,7 +104,8 @@
 				</view>
 			</view>
 			<view class="price_bot flex_rows">
-				<text v-if="receiveText!=''">已优惠 <text class="bot_money" v-if="receiveText">{{formatPrice(receiveText)}}元</text></text>
+				<text v-if="receiveText!=''">已优惠 <text class="bot_money"
+						v-if="receiveText">{{formatPrice(receiveText)}}元</text></text>
 				<text class="bot_left">小计<text class="bot_money" v-if="payment">￥{{formatPrice(payment)}}元</text></text>
 			</view>
 		</view>
@@ -102,18 +117,46 @@
 			<!-- <view class="button_buy" v-if="isBulk" @click="doUrl('pages/mall/order_detail',{isbulk: true})">提交订单</view> -->
 			<view class="button_buy" @click="submit">提交订单</view>
 		</view>
+
+		<!-- 弹出框 -->
+		<u-popup v-model="show" mode="bottom" length="700" safe-area-inset-bottom @open="openPOP()" @close="closePOP()"
+			closeable>
+			<view class="flex_columns popup" v-if="coupon.length!=0">
+				<view class="u-p-40 one_ck">
+					<text v-if="!conjuan.id">是否使用优惠券</text>
+					<text v-else>已选择优惠券{{conjuan.concessionalRate}}</text>
+					
+					<coupon v-for="(item, index) in coupon" :key="index" @couponCk="addcouponCk" v-bind:item="item"
+						:cktit="item.id == goodsList[goodsIndex].conjuan.id?'已选择':'选择'"
+						:solid="item.id == goodsList[goodsIndex].conjuan.id?'#ff6c00':'#ffffff'"
+						:color="item.id == goodsList[goodsIndex].conjuan.id?'#ffffff':'#ff6c00'" v-if="item.state==1">
+					</coupon>
+					<coupon v-for="(item, index) in coupon" :key="index" v-bind:item="item" cktit="已使用" solid="#ff6c00"
+						color="#ffffff" v-if="item.state==2"></coupon>
+				</view>
+				<view class="u-p-10 u-m-t-30">
+					<u-button @click="conjuanD()" class="">不是使用优惠券</u-button>
+					<u-gap height="20" bg-color="#fff"></u-gap>
+					<u-button :ripple="true" type="error" @click="cartadd()">确定</u-button>
+				</view>
+			</view>
+		</u-popup>
 	</view>
 </template>
 
 <script>
+	import coupon from '@/components/coolc-coupon/listCoupon.vue'; //优惠券组件
 	export default {
+		components: {
+			coupon
+		},
 		data() {
 			return {
+				show: false, //底部弹窗
 				isBulk: false,
-				Self:false,//是否自提
+				Self: false, //是否自提
 				currentTab: 0,
-				menuTabs: [
-					{
+				menuTabs: [{
 						name: '快递配送'
 					},
 					{
@@ -127,8 +170,9 @@
 				tdata: null, //当前时间
 				goodsname: '', //加载商品名
 				goodsList: [], //加载商品缓存
+				goodsIndex: 0, //商品下标
 				addrInfo: null, //加载用户地址
-				addSelf: {//自提地址
+				addSelf: { //自提地址
 					address: '渝欧教育城B区4-1-8号门面',
 					provincial: '贵州省', //省份
 					city: '遵义市', //市份
@@ -140,23 +184,26 @@
 				payment: 0, //实际支付金额
 				orderLis: {},
 				receiveText: 0,
-				orderFound:{
-					userId:'',//
-					phone:'',//
-					opendId:'',//
-					usrName:'',//
-					spareOne:'',//详细地址
-					spareTwo:'',//留言
-					amount:0,//总价
-					status:0,//支付状态
-					quantity:0,//数量
-					body:'测试',//
-					paytype:1,//1微信支付
+				orderFound: {
+					userId: '', //
+					phone: '', //
+					opendId: '', //
+					usrName: '', //
+					spareOne: '', //详细地址
+					spareTwo: '', //留言
+					amount: 0, //总价
+					status: 0, //支付状态
+					quantity: 0, //数量
+					body: '测试', //
+					paytype: 1, //1微信支付
 				},
 				userlist: {},
-				zorder:{},//主订单
-				piece:false,//件起购
+				zorder: {}, //主订单
+				piece: false, //件起购
 				openId: '',
+				conjuan: {}, //已选择优惠券
+				coupon: [], //优惠券数据
+				popupli: {}, //弹窗数据
 
 			}
 		},
@@ -178,15 +225,9 @@
 			if (this.utils.isLogin()) {
 				this.userlist = uni.getStorageSync('userlist');
 				this.orderFound.userId = this.userlist.usrId;
-				this.piece = this.userlist.usrLevel>0?true:false;
-				// this.orderFound.userId = 8;
-				
-				
-				// this.orderFound.phone = this.addrInfo.usrPhone;
-				// this.orderFound.usrName = this.addrInfo.usrName;
-				// this.orderFound.spareOne = this.addrInfo.address;
+				this.piece = this.userlist.usrLevel > 0 ? true : false;
 				this.orderFound.opendId = this.userlist.openId;
-				
+
 				console.log(this.userlist);
 			} else {
 				this.utils.error('请先登录账号！');
@@ -209,80 +250,171 @@
 				console.log(index)
 				this.currentTab = index;
 				// this.initialization();
-				this.Self = index==0?false:true;
-				
+				this.Self = index == 0 ? false : true;
+
+			},
+			//不使用优惠券
+			conjuanD() {
+				console.log(this.goodsList);
+				delete this.goodsList[this.goodsIndex].conjuan;
+				this.goodsList[this.goodsIndex].reduce = 0;
+				this.utils.error('清除成功',()=>{
+					this.Calculation(); //计算订单
+					this.show = false;
+				})
+			},
+			closePOP() { //关闭弹窗
+				// console.log(this.popupli);
+			},
+			openPOP() { //打开弹窗
+				// this.popupli = this.coupon;
+				// console.log(this.popupli);
+
+			},
+			//优惠券选择
+			addcouponCk(item) {
+				// console.log(item);
+				for (let i = 0; i < this.goodsList.length; i++) {
+					let li = this.goodsList[i];
+					if (this.goodsIndex == i) {
+						li.conjuan = item;
+						this.goodsList[i] = li;
+						this.goodsList[i].reduce = this.goodsList[i].number * this.goodsList[i].price >= item.full ? item
+							.reduce : 0;
+						this.Calculation(); //计算订单
+						// this.oyhjU(item.id,item.discountId)
+						console.log(this.goodsList);
+					}
+				}
+
+			},
+			//修改优惠券状态
+			oyhjU(id, discountId) {
+				let li = {
+					state: 2,
+					id: id,
+					discountId: discountId
+				}
+				console.log(li);
+				this.http.getApi('oyhj/update', li, 'post').then(res => {
+					console.log(res);
+				}).catch(err => {
+					console.log(err);
+					this.utils.error(err.message);
+					uni.hideLoading();
+				});
+			},
+			//点击优惠券弹窗确认选择
+			cartadd() {
+				this.show = false;
+
+			},
+			//计算立即购买值
+			Calculation() {
+				this.payment = 0;
+				for (let i = 0; i < this.goodsList.length; i++) {
+					if (this.goodsList[i].reduce) {
+						this.payment = this.payment + this.goodsList[i].number * this.goodsList[i].price - this.goodsList[
+							i].reduce;
+					} else {
+						this.payment = this.payment + this.goodsList[i].number * this.goodsList[i].price;
+					}
+
+				}
+			},
+			getOyhj(id, index) { //获取用户优惠券
+				this.goodsIndex = index;
+				let li = {
+					userId: this.userlist.id,
+					commodityId: id
+				}
+				console.log(li);
+				this.http.getApi('oyhj/oyhj', li, 'post').then(res => {
+					console.log(res);
+					this.coupon = this.filter(res.oyhjEntities);
+					console.log(this.coupon);
+					console.log(this.goodsList[this.goodsIndex]);
+					this.show = true;
+					// uni.hideLoading();
+				}).catch(err => {
+					console.log(err);
+					this.utils.error(err.message);
+					uni.hideLoading();
+				});
+			},
+			//过滤已使用优惠券
+			filter(list) {
+				let li = list
+				console.log(this.goodsList[this.goodsIndex]);
+				console.log('执行过滤');
+				for (let i = 0; i < li.length; i++) {
+					for (let j = 0; j < this.goodsList.length; j++) {
+						if (this.goodsList[j].conjuan != undefined) {
+							if (li[i].id == this.goodsList[j].conjuan.id) {
+								li[i].state = 2
+							}
+						}
+					}
+
+				}
+				return li
+
 			},
 			//查看地址
-			getLocation(){
+			getLocation() {
 				let that = this;
 				uni.getSetting({
-					success: function (t) {
+					success: function(t) {
 						console.log(t)
 						if (!t.authSetting['scope.userLocation']) {
 							console.log('11111111');
 							uni.authorize({
 								scope: 'scope.userLocation',
-								success: function (s) {
+								success: function(s) {
 									console.log(s)
 									uni.openLocation({
 										address: '贵州省遵义市红花岗区长新大道与东联二线交叉口',
-									    latitude: 27.678051698,
-									    longitude: 106.972996349,
+										latitude: 27.678051698,
+										longitude: 106.972996349,
 										name: '渝欧教育城B区4-1-8号门面',
-									    success: function () {
-									        console.log('success');
-									    }
+										success: function() {
+											console.log('success');
+										}
 									});
 								}
 							})
 						} else {
 							uni.openLocation({
 								address: '贵州省遵义市红花岗区长新大道与东联二线交叉口',
-							    latitude: 27.678051698,
-							    longitude: 106.972996349,
+								latitude: 27.678051698,
+								longitude: 106.972996349,
 								name: '渝欧教育城B区4-1-8号门面',
-							    success: function () {
-							        console.log('success');
-							    }
+								success: function() {
+									console.log('success');
+								}
 							});
 						}
 					}
 				});
 			},
-			//计算订单
-			Calculation() {
-				var pay = 0;
-				var Num = 0;
-				for (let i=0;i<this.goodsList.length;i++) {
-					if(this.piece){
-						this.goodsList[i].price=this.goodsList[i].price * 6;
-					}
-					pay = pay + this.goodsList[i].price * this.goodsList[i].number;
-					Num = Num + this.goodsList[i].number;
-				}
-				
-				console.log(pay);
-				console.log(Num);
-				this.payment = pay;
-				this.orderFound.quantity = Num;
-				this.orderFound.amount = this.payment;
-			},
-			addressG(){//检测是否自提
+			addressG() { //检测是否自提
 				if (this.Self) {
-					this.orderFound.phone = this.addSelf.usrPhone!=null?this.addSelf.usrPhone:'';
-					this.orderFound.usrName = this.addSelf.usrPhone!=null?this.addSelf.usrName:'';
-					this.orderFound.spareOne = this.addSelf.usrPhone!=null?this.addSelf.provincial+this.addSelf.city+this.addSelf.area+this.addSelf.address:'';
-				} else{
-					this.orderFound.phone = this.addrInfo.usrPhone!=null?this.addrInfo.usrPhone:'';
-					this.orderFound.usrName = this.addrInfo.usrPhone!=null?this.addrInfo.usrName:'';
-					this.orderFound.spareOne = this.addrInfo.usrPhone!=null?this.addrInfo.provincial+this.addrInfo.city+this.addrInfo.area+this.addrInfo.address:'';
+					this.orderFound.phone = this.addSelf.usrPhone != null ? this.addSelf.usrPhone : '';
+					this.orderFound.usrName = this.addSelf.usrPhone != null ? this.addSelf.usrName : '';
+					this.orderFound.spareOne = this.addSelf.usrPhone != null ? this.addSelf.provincial + this.addSelf
+						.city + this.addSelf.area + this.addSelf.address : '';
+				} else {
+					this.orderFound.phone = this.addrInfo.usrPhone != null ? this.addrInfo.usrPhone : '';
+					this.orderFound.usrName = this.addrInfo.usrPhone != null ? this.addrInfo.usrName : '';
+					this.orderFound.spareOne = this.addrInfo.usrPhone != null ? this.addrInfo.provincial + this.addrInfo
+						.city + this.addrInfo.area + this.addrInfo.address : '';
 				}
 			},
 			//执行提交订单
 			submit() {
 				console.log(this.orderFound);
 				this.addressG();
-				if(this.orderFound.phone==''&&this.orderFound.usrName==''&&this.orderFound.spareOne==''){
+				if (this.orderFound.phone == '' && this.orderFound.usrName == '' && this.orderFound.spareOne == '') {
 					this.utils.error('请选择地址！');
 					return;
 				}
@@ -298,7 +430,7 @@
 					console.log(res);
 					// this.csjjj(res.data);
 					this.zorder = res.data;
-					this.screen(this.goodsList,res.data.orderId,(data)=>{
+					this.screen(this.goodsList, res.data.orderId, (data) => {
 						console.log(data);
 						console.log('执行子订单');
 						this.corderAdd(data);
@@ -309,7 +441,7 @@
 					this.utils.error(err.msg);
 				});
 			},
-			csjjj(jsonData){
+			csjjj(jsonData) {
 				// console.log('执行子订单');
 				console.log(jsonData);
 				this.http.getApi('wxPay/endOrder', jsonData, 'post').then(res => {
@@ -371,7 +503,7 @@
 						console.log(res);
 						_this.fordecar(_this.goodsList);
 						_this.upfor(_this.goodsList);
-						_this.utils.success('支付成功！',()=>{
+						_this.utils.success('支付成功！', () => {
 							_this.utils.navback();
 							uni.hideLoading();
 						});
@@ -384,33 +516,33 @@
 						console.log(_this.goodsList);
 						_this.fordecar(_this.goodsList);
 						_this.upfor(_this.goodsList);
-						_this.utils.error('您已取消支付！',()=>{
+						_this.utils.error('您已取消支付！', () => {
 							_this.utils.navback();
 							uni.hideLoading();
 						});
 					}
 				});
 			},
-			fordecar(list){
-				for (let i=0;i<list.length;i++) {
+			fordecar(list) {
+				for (let i = 0; i < list.length; i++) {
 					this.carDe(list[i].id);
 				}
 			},
-			upfor(list){//修改销量
-				if(list.length!=0){
-					for (let i=0;i<list.length;i++) {
+			upfor(list) { //修改销量
+				if (list.length != 0) {
+					for (let i = 0; i < list.length; i++) {
 						if (this.piece) {
-							this.goodsUp(list[i].goodsId,list[i].number*6);
-						} else{
-							this.goodsUp(list[i].goodsId,list[i].number);
+							this.goodsUp(list[i].goodsId, list[i].number * 6);
+						} else {
+							this.goodsUp(list[i].goodsId, list[i].number);
 						}
 					}
 				}
 			},
-			goodsUp(goodsId,sumTwo) {//修改商品
+			goodsUp(goodsId, sumTwo) { //修改商品
 				this.http.getApi('goods/up', {
 					goodsId: goodsId,
-					sumTwo:sumTwo
+					sumTwo: sumTwo
 				}, 'get').then(res => {
 					console.log(res);
 					// uni.hideLoading();
@@ -432,7 +564,7 @@
 					this.utils.error(err.msg);
 				});
 			},
-			screen(list,Order,data) { //筛选
+			screen(list, Order, data) { //筛选
 				let tt = [];
 				tt = list.map(iterator => {
 					return {
@@ -441,8 +573,8 @@
 						goodsId: iterator.goodsId,
 						orderId: Order,
 						imgRess: iterator.img,
-						priceSum: iterator.price *iterator.number,
-						goodsPrice:iterator.price
+						priceSum: iterator.price * iterator.number,
+						goodsPrice: iterator.price
 					}
 				});
 				data(tt);
@@ -452,9 +584,10 @@
 </script>
 
 <style lang="scss">
-	page{
+	page {
 		background-color: #F8F8F8;
 	}
+
 	.server_order {
 		padding-bottom: 200upx;
 		background-color: #F8F8F8;
@@ -603,6 +736,7 @@
 				.cont_img {
 					margin-right: 30upx;
 					border-radius: 15upx;
+
 					>image {
 						width: 180upx;
 						height: 150upx;

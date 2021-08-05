@@ -96,15 +96,20 @@
 						http: 'pages/address/ment_address'
 					},
 					{
+						title: '会员中心',
+						icon: 'level',
+						http: 'pages/user/onelist/vip'
+					},
+					{
 						title: '在线客服',
 						icon: 'server-fill',
 						http: 'no'
 					},
-					{
-						title: '投诉建议',
-						icon: 'edit-pen',
-						http: 'pages/user/onelist/complaintList'
-					},
+					// {
+					// 	title: '投诉建议',
+					// 	icon: 'edit-pen',
+					// 	http: 'pages/user/onelist/complaintList'
+					// },
 					{
 						title: '关于我们',
 						icon: 'setting',

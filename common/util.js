@@ -524,7 +524,7 @@ function getRandStr(len) {
 /**
  * 判断登录状态
  */
-function isLogin(is) {
+function isLogin() {
 	var UserInfo = uni.getStorageSync('userlist');
 	if (UserInfo == '') {
 		return false;

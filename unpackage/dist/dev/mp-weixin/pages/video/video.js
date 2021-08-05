@@ -96,7 +96,7 @@ var components
 try {
   components = {
     uAvatar: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-avatar/u-avatar */ "uview-ui/components/u-avatar/u-avatar").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-avatar/u-avatar.vue */ 324))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-avatar/u-avatar */ "uview-ui/components/u-avatar/u-avatar").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-avatar/u-avatar.vue */ 377))
     }
   }
 } catch (e) {
@@ -153,7 +153,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var HCard = function HCard() {__webpack_require__.e(/*! require.ensure | components/hg-cards/hg-cards */ "components/hg-cards/hg-cards").then((function () {return resolve(__webpack_require__(/*! @/components/hg-cards/hg-cards.vue */ 331));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var HCard = function HCard() {__webpack_require__.e(/*! require.ensure | components/hg-cards/hg-cards */ "components/hg-cards/hg-cards").then((function () {return resolve(__webpack_require__(/*! @/components/hg-cards/hg-cards.vue */ 384));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -179,50 +179,80 @@ __webpack_require__.r(__webpack_exports__);
 
   data: function data() {
     return {
-      data: [{
-        name: '张1',
-        color: '#aaff00',
-        video: 'https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/%E7%AC%AC1%E8%AE%B2%EF%BC%88uni-app%E4%BA%A7%E5%93%81%E4%BB%8B%E7%BB%8D%EF%BC%89-%20DCloud%E5%AE%98%E6%96%B9%E8%A7%86%E9%A2%91%E6%95%99%E7%A8%8B@20200317.mp4' },
+      datalist: [{
+        color: '#FFFFFF' },
 
       {
-        name: '张2',
-        color: '#23ffde',
-        video: 'https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/%E7%AC%AC1%E8%AE%B2%EF%BC%88uni-app%E4%BA%A7%E5%93%81%E4%BB%8B%E7%BB%8D%EF%BC%89-%20DCloud%E5%AE%98%E6%96%B9%E8%A7%86%E9%A2%91%E6%95%99%E7%A8%8B@20200317.mp4' },
+        color: '#FFFFFF' },
 
       {
-        name: '张3',
-        color: '#78beff',
-        video: 'https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/%E7%AC%AC1%E8%AE%B2%EF%BC%88uni-app%E4%BA%A7%E5%93%81%E4%BB%8B%E7%BB%8D%EF%BC%89-%20DCloud%E5%AE%98%E6%96%B9%E8%A7%86%E9%A2%91%E6%95%99%E7%A8%8B@20200317.mp4' },
+        color: '#FFFFFF' },
 
       {
-        name: '张4',
-        color: '#d87dff',
-        video: 'https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/%E7%AC%AC1%E8%AE%B2%EF%BC%88uni-app%E4%BA%A7%E5%93%81%E4%BB%8B%E7%BB%8D%EF%BC%89-%20DCloud%E5%AE%98%E6%96%B9%E8%A7%86%E9%A2%91%E6%95%99%E7%A8%8B@20200317.mp4' }
+        color: '#FFFFFF' }],
 
-      // {
-      // 	name: '张5',
-      // 	color: '#ffc39b'
-      // },
-      // {
-      // 	name: '张6',
-      // 	color: '#ffcef7'
-      // },
-      // {
-      // 	name: '张7',
-      // 	color: '#eaff9d'
-      // },
-      // {
-      // 	name: '张8',
-      // 	color: '#8c92ff'
-      // },
-      ] };
+
+      inde: 0,
+      titledat: '',
+      list: ['#aaff00'] };
 
   },
+  onLoad: function onLoad() {
+
+  },
+  onShow: function onShow() {
+    this.videolist();
+    this.datanew();
+  },
+  //下拉刷新
+  onPullDownRefresh: function onPullDownRefresh() {},
+  //触底加载更多
+  onReachBottom: function onReachBottom() {},
   methods: {
+    datanew: function datanew() {
+      var now = new Date();
+      var hour = now.getHours();
+      if (hour < 6) {
+        this.titledat = '凌晨好!';
+      } else if (hour < 9) {
+        this.titledat = '早上好!';
+      } else if (hour < 12) {
+        this.titledat = '上午好!';
+      } else if (hour < 14) {
+        this.titledat = '中午好!';
+      } else if (hour < 17) {
+        this.titledat = '下午好!';
+      } else if (hour < 19) {
+        this.titledat = '傍晚好!';
+      } else if (hour < 22) {
+        this.titledat = '晚上好!';
+      } else {
+        this.titledat = '夜里好!';
+      }
+    },
     corCK: function corCK(item) {
       // console.log(item)
       uni.setStorageSync('videolist', item);
       this.doUrl('pages/video/video_details');
+    },
+    indexc: function indexc(i) {
+      this.inde = i;
+    },
+    videolist: function videolist() {var _this = this;
+      var li = {
+        // keyWord: "string",
+        pageNum: 0,
+        pageSize: 0 };
+
+      this.http.getApi('video/list', li, 'post').then(function (res) {
+        console.log(res);
+        _this.datalist = res.list;
+
+      }).catch(function (err) {
+        console.log(err);
+        _this.utils.error(err.msg);
+        uni.hideLoading();
+      });
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

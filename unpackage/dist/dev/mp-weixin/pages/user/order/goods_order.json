@@ -4,6 +4,10 @@
   "enablePullDownRefresh": false,
   "usingComponents": {
     "u-tabs-swiper": "/uview-ui/components/u-tabs-swiper/u-tabs-swiper",
-    "u-icon": "/uview-ui/components/u-icon/u-icon"
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "u-popup": "/uview-ui/components/u-popup/u-popup",
+    "u-button": "/uview-ui/components/u-button/u-button",
+    "u-gap": "/uview-ui/components/u-gap/u-gap",
+    "coupon": "/components/coolc-coupon/listCoupon"
   }
 }

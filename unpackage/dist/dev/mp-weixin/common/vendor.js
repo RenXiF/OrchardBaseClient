@@ -9132,7 +9132,11 @@ var _default = [{
   "type": 'hierarchy',
   "submenu": [{
     "name": "综合排序",
-    "value": 0 }] },
+    "value": 0 },
+
+  {
+    "name": "收藏",
+    "value": 1 }] },
 
 
 {
@@ -10153,6 +10157,45 @@ function colorToRgba(color) {var alpha = arguments.length > 1 && arguments[1] !=
 
 /***/ }),
 
+/***/ 247:
+/*!*******************************************************************!*\
+  !*** E:/开发程序/前端程序/果园基地客户端/components/logistics/init-logistics.js ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = exports.changeAttribute = exports.setAttribute = void 0;var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var setAttribute = function setAttribute(data) {
+  if (Array.isArray(data) && data.length > 0) {
+    return data.map(function (item, index) {
+      _vue.default.set(item, 'isFirstNode', false);
+      return item;
+    });
+  } else {
+    return [];
+  }
+};exports.setAttribute = setAttribute;
+
+var changeAttribute = function changeAttribute(testStrList, targetList) {
+  var cacheData = targetList;
+  testStrList.forEach(function (item, index) {
+    var result_Index = targetList.findIndex(function (f_item, f_index) {
+      return String(f_item.status) == item;
+    });
+    if (result_Index != -1) {
+      cacheData[result_Index].isFirstNode = true;
+    }
+  });
+  return cacheData;
+};exports.changeAttribute = changeAttribute;var _default =
+
+{
+  setAttribute: setAttribute,
+  changeAttribute: changeAttribute };exports.default = _default;
+
+/***/ }),
+
 /***/ 25:
 /*!***********************************************************!*\
   !*** E:/开发程序/前端程序/果园基地客户端/uview-ui/libs/function/guid.js ***!
@@ -10945,7 +10988,7 @@ function getArea(lat, lng) {
           areaId: 0,
           address: res.regeocode.formatted_address };
 
-        console.log(res);
+        // console.log(res);
         resolt(info);
         uni.hideLoading();
         // //获取省份ID
@@ -11542,7 +11585,7 @@ function getRandStr(len) {
 /**
    * 判断登录状态
    */
-function isLogin(is) {
+function isLogin() {
   var UserInfo = uni.getStorageSync('userlist');
   if (UserInfo == '') {
     return false;
