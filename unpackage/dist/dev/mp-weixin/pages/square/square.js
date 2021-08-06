@@ -248,19 +248,7 @@ var _default =
   components: {},
   data: function data() {
     return {
-      list: [{
-        imgAddress: '/static/index/wisp.png',
-        title: '昨夜星辰昨夜风，画楼西畔桂堂东' },
-
-      {
-        imgAddress: '/static/index/one.png',
-        title: '昨夜星辰昨夜风，画楼西畔桂堂东' },
-
-      {
-        imgAddress: '/static/index/two.png',
-        title: '昨夜星辰昨夜风，画楼西畔桂堂东' }],
-
-
+      list: [], //轮播图
       current: 0,
       userlist: {},
       sortlist: [], //分类数据
@@ -335,9 +323,26 @@ var _default =
       this.pageNum = 1;
       this.more = true;
       this.getSort();
-      // this.getsquare();
+      this.getchart();
     },
-    getSort: function getSort() {var _this = this; //获取分类
+    getchart: function getchart() {var _this = this; //获取轮播图
+      var li = {
+        state: 3,
+        pageNum: 0,
+        pageSize: 0 };
+
+      this.http.getApi('chart/list', li, 'post').then(function (res) {
+        console.log(res);
+        _this.list = res.list;
+        // console.log(this.list);
+        uni.hideLoading();
+      }).catch(function (err) {
+        console.log(err);
+        _this.utils.error(err.msg);
+        uni.hideLoading();
+      });
+    },
+    getSort: function getSort() {var _this2 = this; //获取分类
       var li = {
         dictionaries: 'classification',
         pageNum: 0,
@@ -345,17 +350,17 @@ var _default =
 
       this.http.getApi('dictionaries/list', li, 'post').then(function (res) {
         console.log(res);
-        _this.sortlist = res.list;
-        console.log(_this.sortlist);
-        _this.getsquare();
+        _this2.sortlist = res.list;
+        console.log(_this2.sortlist);
+        _this2.getsquare();
         // uni.hideLoading();
       }).catch(function (err) {
         console.log(err);
-        _this.utils.error(err.msg);
+        _this2.utils.error(err.msg);
         uni.hideLoading();
       });
     },
-    getsquare: function getsquare() {var _this2 = this;
+    getsquare: function getsquare() {var _this3 = this;
       if (this.more == false) {
         // this.utils.error('暂无下页');
         this.loadStatus = 'nomore';
@@ -369,16 +374,16 @@ var _default =
       console.log(li);
       this.http.getApi('square/list', li, 'post').then(function (res) {
         console.log(res);
-        _this2.more = res.pages > _this2.pageNum ? true : false;
-        _this2.total = res.pages;
-        _this2.pageNum = _this2.more ? _this2.pageNum + 1 : _this2.pageNum;
+        _this3.more = res.pages > _this3.pageNum ? true : false;
+        _this3.total = res.pages;
+        _this3.pageNum = _this3.more ? _this3.pageNum + 1 : _this3.pageNum;
         // this.datalist = this.pageNum > 1 ? this.datalist.concat(res.list) : res.list;
-        _this2.addRandomData(res.list);
-        _this2.loadStatus = _this2.more ? 'loadmore' : 'nomore';
+        _this3.addRandomData(res.list);
+        _this3.loadStatus = _this3.more ? 'loadmore' : 'nomore';
         uni.hideLoading();
       }).catch(function (err) {
         console.log(err);
-        _this2.utils.error(err.msg);
+        _this3.utils.error(err.msg);
         uni.hideLoading();
       });
     },
@@ -386,9 +391,9 @@ var _default =
       if (list.length != 0) {
         var li = [];
         for (var i = 0; i < list.length; i++) {
-          li.splice(i, 0, list[i].imgAddress);
+          li.splice(i, 0, list[i].img);
         }
-        console.log(li);
+        // console.log(li);
         this.openImg(li);
       }
     },

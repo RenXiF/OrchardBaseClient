@@ -1,6 +1,6 @@
 <template>
 	<view class="index_home flex_columns">
-		<u-swiper :list="list" name="imgAddress" effect3d @click="yulan(list)"></u-swiper>
+		<u-swiper :list="list" name="img" effect3d @click="yulan(list)"></u-swiper>
 		<view class="" v-if="sortlist.length!=0">
 			<u-grid :col="4" :border="false">
 				<u-grid-item v-for="(item ,index) in sortlist" :key="index"
@@ -68,20 +68,7 @@
 			return {
 				show: false,
 				keyword: '',
-				list: [
-					{
-						imgAddress: '/static/index/wisp.png',
-						title: '昨夜星辰昨夜风，画楼西畔桂堂东'
-					},
-					{
-						imgAddress: '/static/index/one.png',
-						title: '昨夜星辰昨夜风，画楼西畔桂堂东'
-					},
-					{
-						imgAddress: '/static/index/two.png',
-						title: '昨夜星辰昨夜风，画楼西畔桂堂东'
-					},
-				],
+				list: [],//轮播图
 				datalist: [],
 				userlist: {},
 				popupli: {},
@@ -155,6 +142,7 @@
 				// this.getBygId(); //获取轮播
 				this.getSort(); //获取分类
 				this.getGoods(); //初始化
+				this.getchart()//获取轮播
 			},
 			doUrlli(item) {
 				uni.setStorageSync('buylist', item);
@@ -164,9 +152,9 @@
 				if (list.length != 0) {
 					let li = [];
 					for (let i = 0; i < list.length; i++) {
-						li.splice(i, 0, list[i].imgAddress);
+						li.splice(i, 0, list[i].img);
 					}
-					console.log(li);
+					// console.log(li);
 					this.openImg(li);
 				}
 			},
@@ -180,6 +168,23 @@
 					console.log(res);
 					this.sortlist = res.list;
 					console.log(this.sortlist);
+					uni.hideLoading();
+				}).catch(err => {
+					console.log(err);
+					this.utils.error(err.msg);
+					uni.hideLoading();
+				});
+			},
+			getchart() { //获取轮播图
+				var li = {
+					state: 2,
+					pageNum: 0,
+					pageSize: 0,
+				};
+				this.http.getApi('chart/list', li, 'post').then(res => {
+					console.log(res);
+					this.list = res.list;
+					// console.log(this.list);
 					uni.hideLoading();
 				}).catch(err => {
 					console.log(err);

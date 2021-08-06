@@ -272,20 +272,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       show: false,
       keyword: '',
-      list: [
-      {
-        imgAddress: '/static/index/wisp.png',
-        title: '昨夜星辰昨夜风，画楼西畔桂堂东' },
-
-      {
-        imgAddress: '/static/index/one.png',
-        title: '昨夜星辰昨夜风，画楼西畔桂堂东' },
-
-      {
-        imgAddress: '/static/index/two.png',
-        title: '昨夜星辰昨夜风，画楼西畔桂堂东' }],
-
-
+      list: [], //轮播图
       datalist: [],
       userlist: {},
       popupli: {},
@@ -359,6 +346,7 @@ __webpack_require__.r(__webpack_exports__);
       // this.getBygId(); //获取轮播
       this.getSort(); //获取分类
       this.getGoods(); //初始化
+      this.getchart(); //获取轮播
     },
     doUrlli: function doUrlli(item) {
       uni.setStorageSync('buylist', item);
@@ -368,9 +356,9 @@ __webpack_require__.r(__webpack_exports__);
       if (list.length != 0) {
         var li = [];
         for (var i = 0; i < list.length; i++) {
-          li.splice(i, 0, list[i].imgAddress);
+          li.splice(i, 0, list[i].img);
         }
-        console.log(li);
+        // console.log(li);
         this.openImg(li);
       }
     },
@@ -391,13 +379,30 @@ __webpack_require__.r(__webpack_exports__);
         uni.hideLoading();
       });
     },
+    getchart: function getchart() {var _this2 = this; //获取轮播图
+      var li = {
+        state: 2,
+        pageNum: 0,
+        pageSize: 0 };
+
+      this.http.getApi('chart/list', li, 'post').then(function (res) {
+        console.log(res);
+        _this2.list = res.list;
+        // console.log(this.list);
+        uni.hideLoading();
+      }).catch(function (err) {
+        console.log(err);
+        _this2.utils.error(err.msg);
+        uni.hideLoading();
+      });
+    },
     popshow: function popshow(item) {
       this.popupli = item.good;
       this.popupli.imgRess = item.imgList.length != 0 ? item.imgList[0].imgAddress : '/static/index/menu1.png';
       this.show = true;
       // console.log(this.popupli)
     },
-    getGoods: function getGoods() {var _this2 = this;
+    getGoods: function getGoods() {var _this3 = this;
       if (this.more == false) {
         // this.utils.error('暂无下页');
         this.loadStatus = 'nomore';
@@ -410,15 +415,15 @@ __webpack_require__.r(__webpack_exports__);
       console.log(li);
       this.http.getApi('commodity/list', li, 'post').then(function (res) {
         console.log(res);
-        _this2.more = res.pages > _this2.pageNum ? true : false;
-        _this2.total = res.pages;
-        _this2.pageNum = _this2.more ? _this2.pageNum + 1 : _this2.pageNum;
-        _this2.datalist = _this2.pageNum > 1 ? _this2.datalist.concat(res.list) : res.list;
-        _this2.loadStatus = _this2.more ? 'loadmore' : 'nomore';
+        _this3.more = res.pages > _this3.pageNum ? true : false;
+        _this3.total = res.pages;
+        _this3.pageNum = _this3.more ? _this3.pageNum + 1 : _this3.pageNum;
+        _this3.datalist = _this3.pageNum > 1 ? _this3.datalist.concat(res.list) : res.list;
+        _this3.loadStatus = _this3.more ? 'loadmore' : 'nomore';
         uni.hideLoading();
       }).catch(function (err) {
         console.log(err);
-        _this2.utils.error(err.msg);
+        _this3.utils.error(err.msg);
         uni.hideLoading();
       });
     },
@@ -444,7 +449,7 @@ __webpack_require__.r(__webpack_exports__);
       // console.log(e);
       this.goodsSum = e.value;
     },
-    getBygId: function getBygId() {var _this3 = this; //获取轮播
+    getBygId: function getBygId() {var _this4 = this; //获取轮播
       var li = {
         goodsId: 0,
         pageNum: 1,
@@ -452,15 +457,15 @@ __webpack_require__.r(__webpack_exports__);
 
       this.http.getApi('img/getBygId', li, 'get').then(function (res) {
         // console.log(res);
-        _this3.list = res.data;
+        _this4.list = res.data;
         // uni.hideLoading();
       }).catch(function (err) {
         console.log(err);
-        _this3.utils.error(err.msg);
+        _this4.utils.error(err.msg);
         uni.hideLoading();
       });
     },
-    carAdd: function carAdd(list) {var _this4 = this;
+    carAdd: function carAdd(list) {var _this5 = this;
       var li = {
         usrId: list.usrId,
         goodsId: list.goodsId,
@@ -477,16 +482,16 @@ __webpack_require__.r(__webpack_exports__);
       }
       this.http.getApi('car/add', li, 'post').then(function (res) {
         console.log(res);
-        _this4.goodsUp(li.goodsId, li.goodsSum); //添加销量
+        _this5.goodsUp(li.goodsId, li.goodsSum); //添加销量
         uni.hideLoading();
-        _this4.utils.success('添加成功！');
+        _this5.utils.success('添加成功！');
       }).catch(function (err) {
         console.log(err);
         uni.hideLoading();
-        _this4.utils.error(err.msg);
+        _this5.utils.error(err.msg);
       });
     },
-    goodsUp: function goodsUp(goodsId, sumTwo) {var _this5 = this; //修改商品
+    goodsUp: function goodsUp(goodsId, sumTwo) {var _this6 = this; //修改商品
       this.http.getApi('goods/up', {
         goodsId: goodsId,
         sumTwo: this.popupli.sumTwo == null ? sumTwo : this.popupli.sumTwo + sumTwo },
@@ -495,7 +500,7 @@ __webpack_require__.r(__webpack_exports__);
         // uni.hideLoading();
       }).catch(function (err) {
         console.log(err);
-        _this5.utils.error(err.msg);
+        _this6.utils.error(err.msg);
         uni.hideLoading();
       });
     } } };exports.default = _default;

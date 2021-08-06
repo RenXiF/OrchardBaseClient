@@ -1,7 +1,7 @@
 <template>
 	<view class="index_home flex_columns" style="height: 1200px;">
 		<!-- <nav-bar>我的</nav-bar> -->
-		<u-swiper :list="list" name="imgAddress" effect3d @click="yulan(list)"></u-swiper>
+		<u-swiper :list="list" name="img" effect3d @click="yulan(list)"></u-swiper>
 		<u-sticky class="u-m-t-30">
 			<view class="sticky" style="">
 				<u-tabs :list="sortlist" name="dictionaryValue" active-color="#F55F54" :is-scroll="true" :current="current"
@@ -49,19 +49,7 @@
 		components: {},
 		data() {
 			return {
-				list: [{
-						imgAddress: '/static/index/wisp.png',
-						title: '昨夜星辰昨夜风，画楼西畔桂堂东'
-					},
-					{
-						imgAddress: '/static/index/one.png',
-						title: '昨夜星辰昨夜风，画楼西畔桂堂东'
-					},
-					{
-						imgAddress: '/static/index/two.png',
-						title: '昨夜星辰昨夜风，画楼西畔桂堂东'
-					},
-				],
+				list: [],//轮播图
 				current: 0,
 				userlist: {},
 				sortlist: [], //分类数据
@@ -136,7 +124,24 @@
 				this.pageNum = 1;
 				this.more = true;
 				this.getSort();
-				// this.getsquare();
+				this.getchart();
+			},
+			getchart() { //获取轮播图
+				var li = {
+					state: 3,
+					pageNum: 0,
+					pageSize: 0,
+				};
+				this.http.getApi('chart/list', li, 'post').then(res => {
+					console.log(res);
+					this.list = res.list;
+					// console.log(this.list);
+					uni.hideLoading();
+				}).catch(err => {
+					console.log(err);
+					this.utils.error(err.msg);
+					uni.hideLoading();
+				});
 			},
 			getSort() { //获取分类
 				var li = {
@@ -187,9 +192,9 @@
 				if (list.length != 0) {
 					let li = [];
 					for (let i = 0; i < list.length; i++) {
-						li.splice(i, 0, list[i].imgAddress);
+						li.splice(i, 0, list[i].img);
 					}
-					console.log(li);
+					// console.log(li);
 					this.openImg(li);
 				}
 			},
