@@ -209,6 +209,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 {
   components: {
     money: money },
@@ -217,33 +218,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       onlist: {},
       scrollTop: 0,
-      datalist: [{
-        title: '火龙果',
-        num: 1235,
-        Price: 15.13,
-        subtit: '副标题12311566145',
-        show: false },
-
-      {
-        title: '葡萄',
-        num: 13654,
-        Price: 16.13,
-        subtit: '副标题12311566145',
-        show: false }
-
-      // {
-      // 	title: '火龙果3',
-      // 	num: 4564,
-      // 	subtit: '副标题12311566145',
-      // 	show: false
-      // },
-      // {
-      // 	title: '火龙果4',
-      // 	num: 45645,
-      // 	subtit: '副标题12311566145',
-      // 	show: false
-      // }
-      ],
+      datalist: [], //视频绑定商品
       options: [{
         text: '收藏',
         style: {
@@ -257,6 +232,7 @@ __webpack_require__.r(__webpack_exports__);
       // 	}
       // }
       ],
+      goodslist: [], //推荐商品
       loadStatus: 'nomore',
       loadText: {
         loadmore: '轻轻上拉',
@@ -269,6 +245,7 @@ __webpack_require__.r(__webpack_exports__);
     this.onlist = uni.getStorageSync('videolist');
     console.log(this.onlist);
     this.videolist();
+    this.getGoods();
   },
   onPageScroll: function onPageScroll(e) {
     this.scrollTop = e.scrollTop;
@@ -297,6 +274,11 @@ __webpack_require__.r(__webpack_exports__);
         if (index != idx) _this.datalist[idx].show = false;
       });
     },
+    //跳转商品详情
+    doUrlli: function doUrlli(item) {
+      uni.setStorageSync('buylist', item);
+      this.doUrl('pages/index/productDetails');
+    },
     videolist: function videolist() {var _this2 = this;
       var li = {
         keyWord: this.onlist.keyWord,
@@ -311,6 +293,22 @@ __webpack_require__.r(__webpack_exports__);
       }).catch(function (err) {
         console.log(err);
         _this2.utils.error(err.msg);
+        uni.hideLoading();
+      });
+    },
+    //获取商品列表
+    getGoods: function getGoods() {var _this3 = this;
+      var li = {
+        pageNum: 1,
+        pageSize: 10 };
+
+      this.http.getApi('commodity/list', li, 'post').then(function (res) {
+        console.log(res);
+        _this3.goodslist = res.list;
+        uni.hideLoading();
+      }).catch(function (err) {
+        console.log(err);
+        _this3.utils.error(err.msg);
         uni.hideLoading();
       });
     } } };exports.default = _default;

@@ -303,9 +303,11 @@
 			},
 			cartadd() {
 				this.show = false;
-				if (this.utils.isLogin()) {
-					this.carAdd(this.popupli);
+				if (!this.utils.isLogin()) {
+					this.utils.error('请先登录账号')
+					return
 				}
+				this.carAdd(this.popupli);
 			},
 			openPOP() { //打开弹窗
 				this.popupli = this.buylist;

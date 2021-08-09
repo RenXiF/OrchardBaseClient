@@ -6,10 +6,10 @@
     "u-grid": "/uview-ui/components/u-grid/u-grid",
     "u-grid-item": "/uview-ui/components/u-grid-item/u-grid-item",
     "u-icon": "/uview-ui/components/u-icon/u-icon",
-    "cn-money": "/components/cn-money/cn-money",
     "u-empty": "/uview-ui/components/u-empty/u-empty",
     "u-loadmore": "/uview-ui/components/u-loadmore/u-loadmore",
     "u-popup": "/uview-ui/components/u-popup/u-popup",
+    "cn-money": "/components/cn-money/cn-money",
     "u-number-box": "/uview-ui/components/u-number-box/u-number-box",
     "u-button": "/uview-ui/components/u-button/u-button",
     "money": "/components/cn-money/cn-money"

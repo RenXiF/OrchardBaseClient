@@ -13,7 +13,7 @@
 			<view class="flex_columns comhome">
 				<view class="comhome_bock u-border-bottom " v-for="(item, index) in datalist" :key="index">
 					<u-swipe-action :show="item.show" :index="index" @click="click" @open="open" :options="options">
-						<view class=" flex_rows flex_center u-p-20 bg_radius">
+						<view class=" flex_rows flex_center u-p-20 bg_radius" @click="doUrlli(item)">
 							<image :src="item.commodityImges" mode="aspectFill" class=""></image>
 							<view class="flex_columns  u-m-l-20">
 								<text class="u-font-lg ft-wh">{{item.commodityName}}</text>
@@ -34,11 +34,12 @@
 				<text class="u-font-xl ft-wh">推荐商品</text>
 			</view>
 			<view class="flex_between one_class flex_wrap">
-				<view class="flex_columns one_ck  u-p-b-20" v-for="(item, index) in 6" :key="index"
-					@click="doUrl('pages/square/article_details');">
-					<image src="../../static/logo.png" mode="widthFix"></image>
-					<text class="u-font-lg ft-wh u-p-t-10">标题1</text>
-					<text class="u-font-xs u-p-t-10">副标题1</text>
+				<view class="flex_columns one_ck  u-p-b-20" v-for="(item, index) in goodslist" :key="index"
+					@click="doUrlli(item)">
+					<image :src="item.commodityImges" mode="widthFix"></image>
+					<text class="u-font-lg ft-wh u-p-t-10">{{item.commodityName}}</text>
+					<text class="u-font-xl ft-wh u-type-error u-p-t-10">{{item.commodityPrice}}</text>
+					<text class="u-font-xs u-p-t-10">{{item.commodityDescribe}}</text>
 				</view>
 			</view>
 			<u-loadmore :status="loadStatus" :load-text="loadText" v-if="datalist.length!=0" />
@@ -56,33 +57,7 @@
 			return {
 				onlist: {},
 				scrollTop: 0,
-				datalist: [{
-						title: '火龙果',
-						num: 1235,
-						Price: 15.13,
-						subtit: '副标题12311566145',
-						show: false
-					},
-					{
-						title: '葡萄',
-						num: 13654,
-						Price: 16.13,
-						subtit: '副标题12311566145',
-						show: false
-					},
-					// {
-					// 	title: '火龙果3',
-					// 	num: 4564,
-					// 	subtit: '副标题12311566145',
-					// 	show: false
-					// },
-					// {
-					// 	title: '火龙果4',
-					// 	num: 45645,
-					// 	subtit: '副标题12311566145',
-					// 	show: false
-					// }
-				],
+				datalist: [],//视频绑定商品
 				options: [{
 						text: '收藏',
 						style: {
@@ -96,6 +71,7 @@
 					// 	}
 					// }
 				],
+				goodslist:[],//推荐商品
 				loadStatus: 'nomore',
 				loadText: {
 					loadmore: '轻轻上拉',
@@ -108,6 +84,7 @@
 			this.onlist = uni.getStorageSync('videolist');
 			console.log(this.onlist);
 			this.videolist()
+			this.getGoods()
 		},
 		onPageScroll(e) {
 			this.scrollTop = e.scrollTop;
@@ -136,6 +113,11 @@
 					if (index != idx) this.datalist[idx].show = false;
 				})
 			},
+			//跳转商品详情
+			doUrlli(item) {
+				uni.setStorageSync('buylist', item);
+				this.doUrl('pages/index/productDetails');
+			},
 			videolist() {
 				let li = {
 					keyWord: this.onlist.keyWord,
@@ -147,6 +129,22 @@
 					console.log(res);
 					this.datalist = res.list;
 
+				}).catch(err => {
+					console.log(err);
+					this.utils.error(err.msg);
+					uni.hideLoading();
+				});
+			},
+			//获取商品列表
+			getGoods() {
+				let li = {
+					pageNum: 1,
+					pageSize: 10,
+				}
+				this.http.getApi('commodity/list', li, 'post').then(res => {
+					console.log(res)
+					this.goodslist = res.list;
+					uni.hideLoading();
 				}).catch(err => {
 					console.log(err);
 					this.utils.error(err.msg);

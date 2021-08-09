@@ -15,7 +15,7 @@
 			</view>
 			<view class="t-a">
 				<image src="@/static/login/yz.png"></image>
-				<input type="text" name="code" maxlength="6" placeholder="请输入密码" v-model="pass" />
+				<input type="text" name="code"  placeholder="请输入密码" v-model="pass" />
 				<!-- <view v-if="showText" class="t-c" @click="getCode()">发送短信</view>
 				<view v-else class="t-c" style="background-color: #A7A7A7;">重新发送({{ second }})</view> -->
 			</view>

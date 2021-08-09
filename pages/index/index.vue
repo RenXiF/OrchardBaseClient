@@ -17,16 +17,21 @@
 		</view>
 		<view class="flex_columns">
 			<view class="flex_between commodity flex_center u-p-b-20 u-p-t-20 u-border-bottom "
-				v-for="(item ,index) in datalist" :key="index">
-				<image :src="item.commodityImges?item.commodityImges:'/static/index/menu2.png'" mode="widthFix" @click="doUrlli(item)"></image>
+				v-for="(item ,index) in datalist" :key="index" @click="doUrlli(item)">
+				<image :src="item.commodityImges?item.commodityImges:'/static/index/menu2.png'" mode="widthFix"></image>
 				<view class="flex_columns " style="width: 65%;">
-					<text class="u-font-xl ft-wh" @click="doUrlli(item)">{{item.commodityName}}</text>
-					<view class="flex_between flex_center" style="width: 100%;margin-top: 70rpx;">
-						<cn-money :money="item.commodityPrice" thousandth :size="48" color="#FA3534"></cn-money>
-						<!-- <u-icon name="plus-circle-fill" color="#010101" size="60" @click="popshow(item)"></u-icon> -->
-						<view class="cartadd" @click="popshow(item)">
-							<text class="u-font-md">购买</text>
+					<text class="u-font-xl ft-wh">{{item.commodityName}}</text>
+					<view class="flex_between flex_center u-m-t-10" style="width: 100%;">
+						<!-- <cn-money :money="item.commodityPrice" thousandth :size="48" color="#FA3534"></cn-money> -->
+						<view class="flex_columns flex_wrap">
+							<text class="u-font-sm">{{item.commodityDescribe}}</text>
+							<text class="u-font-xl ft-wh u-type-error">{{item.commodityPrice}}</text>
 						</view>
+						
+						<!-- <u-icon name="plus-circle-fill" color="#010101" size="60" @click="popshow(item)"></u-icon> -->
+						<!-- <view class="cartadd" @click="popshow(item)">
+							<text class="u-font-md">购买</text>
+						</view> -->
 					</view>
 				</view>
 			</view>
@@ -207,6 +212,7 @@
 				let li = {
 					pageNum: this.pageNum,
 					pageSize: this.pageSize,
+					state:3
 				}
 				console.log(li)
 				this.http.getApi('commodity/list', li, 'post').then(res => {
