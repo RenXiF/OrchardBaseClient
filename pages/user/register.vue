@@ -1,4 +1,4 @@
-<!-- 蓝色简洁登录页面 -->
+<!-- 注册页面 -->
 <template>
 	<view class="">
 		<nav-bar ref="navBar" transparentFixedFontColor="#333" type="transparentFixed"></nav-bar>
@@ -10,11 +10,18 @@
 		<view class="t-b">{{ title }}</view>
 		<form class="cl">
 			<view class="t-a">
-				<image src="@/static/login/sj.png"></image>
-				<input type="number" name="phone" placeholder="请输入手机号" maxlength="11" v-model="phone" />
+				<!-- <image src="@/static/login/sj.png"></image> -->
+				<u-icon name="account" :color="icolor" size="45" class="l_icon"></u-icon>
+				<input type="text" name="name" placeholder="请输入账号" v-model="name" />
 			</view>
 			<view class="t-a">
-				<image src="@/static/login/yz.png"></image>
+				<!-- <image src="@/static/login/sj.png"></image> -->
+				<u-icon name="email" :color="icolor" size="45" class="l_icon"></u-icon>
+				<input type="text" name="mail" placeholder="请输入邮箱号" v-model="mail" />
+			</view>
+			<view class="t-a">
+				<!-- <image src="@/static/login/yz.png"></image> -->
+				<u-icon name="edit-pen" :color="icolor" size="45" class="l_icon"></u-icon>
 				<input type="text" name="code" mixlength="6" placeholder="请输入密码" :password="shwopass" v-model="pass" />
 				<view class="t-c" @click="shwopass=!shwopass"><u-icon :name="!shwopass?'eye-fill':'eye-off'" color="#949494" size="45"></u-icon></view>
 				<!-- <u-icon :name="shwopass?'eye-fill':'eye-off'" color="#ff0004" size="38"></u-icon> -->
@@ -22,8 +29,9 @@
 				<view v-else class="t-c" style="background-color: #A7A7A7;">重新发送({{ second }})</view> -->
 			</view>
 			<view class="t-a">
-				<image src="@/static/login/yz.png"></image>
-				<input type="number" name="phone" placeholder="请输入确认密码" mixlength="6" :password="shwoypass" v-model="ypass" />
+				<!-- <image src="@/static/login/yz.png"></image> -->
+				<u-icon name="edit-pen-fill" :color="icolor" size="45" class="l_icon"></u-icon>
+				<input type="number" name="name" placeholder="请输入确认密码" mixlength="6" :password="shwoypass" v-model="ypass" />
 				<view class="t-c" @tap="shwoypass=!shwoypass"><u-icon :name="!shwoypass?'eye-fill':'eye-off'" color="#949494" size="45"></u-icon></view>
 			</view>
 			<button @click="login()" class="login_but">注 册</button>
@@ -50,11 +58,13 @@ export default {
 	data() {
 		return {
 			title: '注册页面', //填写logo或者app名称，也可以用：欢迎回来，看您需求
+			icolor:'#3f3f3f',
 			second: 60, //默认60秒
 			shwopass:true,
 			shwoypass:true,
 			showText: true, //判断短信是否发送
-			phone: '', //手机号码
+			name: '', //账号
+			mail:'',//邮箱
 			pass: '' ,//密码
 			ypass: '' //密码
 		};
@@ -64,28 +74,50 @@ export default {
 		//当前登录按钮操作
 		login() {
 			var that = this;
-			if (!that.phone) {
-				uni.showToast({ title: '请输入手机号', icon: 'none' });
+			if (!that.name) {
+				that.utils.error('请输入账号')
 				return;
 			}
-			if (!/^[1][3,4,5,7,8,9][0-9]{9}$/.test(that.phone)) {
-				uni.showToast({ title: '请输入正确手机号', icon: 'none' });
+			// if (that.name.replace(/[^\x00-\xff]/g, 'AA').length > 20) {
+			// 	that.utils.error('请输入长度不能大于20个字符')
+			// 	return;
+			// }
+			if (!that.utils.cheMail(that.mail)) {
+				that.utils.error('请输入正确邮箱')
 				return;
 			}
 			if (!that.pass) {
-				uni.showToast({ title: '请输入密码', icon: 'none' });
+				that.utils.error('请输入密码')
 				return;
 			}
-			if (!that.pass!==that.ypass) {
-				uni.showToast({ title: '请确认密码是否一致', icon: 'none' });
+			if (that.pass != that.ypass) {
+				that.utils.error('请确认密码是否一致')
 				return;
 			}
 			//....此处省略，这里需要调用后台验证一下密码是否正确，根据您的需求来
-			uni.showToast({ title: '登录成功！', icon: 'none' });
+			// uni.showToast({ title: '登录成功！', icon: 'none' });
+			this.utils.showloading()
+			this.register()
 		},
 		//当前注册按钮操作
 		register(){
-			
+			let li = {
+				userEmail: this.mail,
+				userImg: "https://oss.gzkts.xyz/%E6%B0%B4%E6%9E%9C.png",
+				userName: this.name,
+				userPassword: this.pass,
+			}
+			this.http.getApi('user/register', li, 'post').then(res => {
+				console.log(res);
+				uni.hideLoading();
+				this.utils.success(res.message,()=>{
+					this.utils.navback()
+				})
+			}).catch(err => {
+				console.log(err);
+				uni.hideLoading();
+				this.utils.error(err.message)
+			});
 		},
 		showpas(){
 			console.log(this.shwopass);
@@ -150,7 +182,7 @@ export default {
 	font-size: 28rpx;
 	height: 90rpx;
 	line-height: 90rpx;
-	border-radius: 50rpx;
+	/* border-radius: 50rpx; */
 	/* box-shadow: 0 5px 7px 0 rgba(86, 119, 252, 0.2); */
 	margin-bottom: 20rpx;
 }
@@ -194,7 +226,7 @@ export default {
 	text-align: left;
 	font-size: 46rpx;
 	color: #000;
-	padding: 300rpx 0 120rpx 0;
+	padding: 150rpx 0 120rpx 0;
 	font-weight: bold;
 }
 

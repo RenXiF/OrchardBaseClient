@@ -93,10 +93,38 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return recyclableRender; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components
+try {
+  components = {
+    uIcon: function() {
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 300))
+    }
+  }
+} catch (e) {
+  if (
+    e.message.indexOf("Cannot find module") !== -1 &&
+    e.message.indexOf(".vue") !== -1
+  ) {
+    console.error(e.message)
+    console.error("1. 排查组件名称拼写是否正确")
+    console.error(
+      "2. 排查组件是否符合 easycom 规范，文档：https://uniapp.dcloud.net.cn/collocation/pages?id=easycom"
+    )
+    console.error(
+      "3. 若组件不符合 easycom 规范，需手动引入，并在 components 中注册该组件"
+    )
+  } else {
+    throw e
+  }
+}
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  if (!_vm._isMounted) {
+    _vm.e0 = function($event) {
+      _vm.shwopass = !_vm.shwopass
+    }
+  }
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -164,6 +192,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 var _default =
 {
   /**
@@ -177,10 +208,12 @@ var _default =
     return {
       title: '果园基地', //填写logo或者app名称，也可以用：欢迎回来，看您需求
       second: 60, //默认60秒
+      shwopass: true,
       showText: true, //判断短信是否发送
-      name: '东盗主', //手机号码
-      pass: 'qa123456' //密码
-    };
+      name: '', //手机号码
+      pass: '', //密码
+      icolor: '#3f3f3f' };
+
   },
   onLoad: function onLoad() {},
   methods: {

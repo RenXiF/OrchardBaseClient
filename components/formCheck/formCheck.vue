@@ -103,7 +103,9 @@ export default {
 	props: {
 		listFrom: {
 			type: Array,
-			default: 'default'
+			default () {
+				return [];
+			}
 		},
 		submitType: {
 			type: Object,

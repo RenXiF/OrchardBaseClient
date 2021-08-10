@@ -271,7 +271,9 @@ var _default2 =
   props: {
     listFrom: {
       type: Array,
-      default: 'default' },
+      default: function _default() {
+        return [];
+      } },
 
     submitType: {
       type: Object,

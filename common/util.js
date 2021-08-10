@@ -8,6 +8,7 @@ module.exports = {
 	getRandStr, //生成随机字符串
 	md5: md5, //MD5加密
 	checkMobile: checkMobile, //检测手机号的合法性
+	cheMail,//检测邮箱合法性
 	getDate: getDate, //获取当前日期
 	urlToarray: urlCut, //url转对象
 	isLogin: isLogin, //登录状态判断
@@ -56,7 +57,7 @@ module.exports = {
  */
 function DiGuiDelete(list, backImgeUrl, index, length, successBack, errorBack) {
 	http.getApi('oss/deleteFile',
-	{url:list[index].imgAddress.substring(34)},
+	{url:list[index].url.substring(28)},
 	'postfrom').then(res => {
 		console.log(res);
 		index++;
@@ -687,6 +688,19 @@ function checkMobile(mobile) {
 		return false;
 	}
 	if (!(/^1[3|4|5|6|7|8|9][0-9]\d{4,8}$/.test(mobile))) {
+		return false;
+	} else {
+		return true;
+	}
+}
+/**
+ * 邮箱验证
+ */
+function cheMail(email) {
+	if (email == '' || email == undefined) {
+		return false;
+	}
+	if (!(/^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/.test(email))) {
 		return false;
 	} else {
 		return true;

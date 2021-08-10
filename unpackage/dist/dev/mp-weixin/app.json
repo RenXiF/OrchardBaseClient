@@ -27,7 +27,10 @@
     "pages/user/onelist/logistics",
     "pages/user/onelist/vip",
     "pages/user/onelist/myCoupon",
-    "pages/user/onelist/open_vip"
+    "pages/user/onelist/open_vip",
+    "pages/user/onelist/userlist",
+    "pages/user/onelist/forgetPass",
+    "pages/user/onelist/u_user"
   ],
   "subPackages": [],
   "window": {
@@ -85,6 +88,5 @@
   },
   "usingComponents": {
     "nav-bar": "/components/zhouWei-navBar/index"
-  },
-  "sitemapLocation": "sitemap.json"
+  }
 }

@@ -99,7 +99,7 @@ try {
       return __webpack_require__.e(/*! import() | components/car-list/car-list */ "components/car-list/car-list").then(__webpack_require__.bind(null, /*! @/components/car-list/car-list.vue */ 426))
     },
     uEmpty: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-empty/u-empty */ "uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-empty/u-empty.vue */ 314))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-empty/u-empty */ "uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-empty/u-empty.vue */ 307))
     }
   }
 } catch (e) {

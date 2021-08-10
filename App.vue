@@ -53,7 +53,14 @@
 		box-shadow: #cacaca 1rpx 10rpx 20rpx;
 
 	}
-
+	//登陆注册通用icon
+	.l_icon {
+		position: absolute;
+		left: 40rpx;
+		top: 25rpx;
+		border-right: 2rpx solid #dedede;
+		padding-right: 20rpx;
+	}
 	.bg_radius {
 		background-color: #FFFFFF;
 		border-radius: 15rpx;

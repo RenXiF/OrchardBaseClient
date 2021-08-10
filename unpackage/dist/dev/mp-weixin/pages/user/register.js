@@ -202,6 +202,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   /**
@@ -214,11 +222,13 @@ var _default =
   data: function data() {
     return {
       title: '注册页面', //填写logo或者app名称，也可以用：欢迎回来，看您需求
+      icolor: '#3f3f3f',
       second: 60, //默认60秒
       shwopass: true,
       shwoypass: true,
       showText: true, //判断短信是否发送
-      phone: '', //手机号码
+      name: '', //账号
+      mail: '', //邮箱
       pass: '', //密码
       ypass: '' //密码
     };
@@ -228,28 +238,50 @@ var _default =
     //当前登录按钮操作
     login: function login() {
       var that = this;
-      if (!that.phone) {
-        uni.showToast({ title: '请输入手机号', icon: 'none' });
+      if (!that.name) {
+        that.utils.error('请输入账号');
         return;
       }
-      if (!/^[1][3,4,5,7,8,9][0-9]{9}$/.test(that.phone)) {
-        uni.showToast({ title: '请输入正确手机号', icon: 'none' });
+      // if (that.name.replace(/[^\x00-\xff]/g, 'AA').length > 20) {
+      // 	that.utils.error('请输入长度不能大于20个字符')
+      // 	return;
+      // }
+      if (!that.utils.cheMail(that.mail)) {
+        that.utils.error('请输入正确邮箱');
         return;
       }
       if (!that.pass) {
-        uni.showToast({ title: '请输入密码', icon: 'none' });
+        that.utils.error('请输入密码');
         return;
       }
-      if (!that.pass !== that.ypass) {
-        uni.showToast({ title: '请确认密码是否一致', icon: 'none' });
+      if (that.pass != that.ypass) {
+        that.utils.error('请确认密码是否一致');
         return;
       }
       //....此处省略，这里需要调用后台验证一下密码是否正确，根据您的需求来
-      uni.showToast({ title: '登录成功！', icon: 'none' });
+      // uni.showToast({ title: '登录成功！', icon: 'none' });
+      this.utils.showloading();
+      this.register();
     },
     //当前注册按钮操作
-    register: function register() {
+    register: function register() {var _this = this;
+      var li = {
+        userEmail: this.mail,
+        userImg: "https://oss.gzkts.xyz/%E6%B0%B4%E6%9E%9C.png",
+        userName: this.name,
+        userPassword: this.pass };
 
+      this.http.getApi('user/register', li, 'post').then(function (res) {
+        console.log(res);
+        uni.hideLoading();
+        _this.utils.success(res.message, function () {
+          _this.utils.navback();
+        });
+      }).catch(function (err) {
+        console.log(err);
+        uni.hideLoading();
+        _this.utils.error(err.message);
+      });
     },
     showpas: function showpas() {
       console.log(this.shwopass);

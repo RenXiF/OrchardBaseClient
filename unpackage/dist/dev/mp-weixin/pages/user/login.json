@@ -3,5 +3,7 @@
   "navigationStyle": "custom",
   "navigationBarTextStyle": "black",
   "enablePullDownRefresh": false,
-  "usingComponents": {}
+  "usingComponents": {
+    "u-icon": "/uview-ui/components/u-icon/u-icon"
+  }
 }

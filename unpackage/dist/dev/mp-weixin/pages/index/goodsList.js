@@ -104,10 +104,10 @@ try {
       return __webpack_require__.e(/*! import() | uview-ui/components/u-lazy-load/u-lazy-load */ "uview-ui/components/u-lazy-load/u-lazy-load").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-lazy-load/u-lazy-load.vue */ 370))
     },
     uEmpty: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-empty/u-empty */ "uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-empty/u-empty.vue */ 314))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-empty/u-empty */ "uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-empty/u-empty.vue */ 307))
     },
     uLoadmore: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-loadmore/u-loadmore */ "uview-ui/components/u-loadmore/u-loadmore").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-loadmore/u-loadmore.vue */ 321))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-loadmore/u-loadmore */ "uview-ui/components/u-loadmore/u-loadmore").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-loadmore/u-loadmore.vue */ 314))
     }
   }
 } catch (e) {
@@ -241,7 +241,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var _data = _interopRequireDefault(__webpack_require__(/*! @/common/js/data.js */ 204));
 
-var _applist = _interopRequireDefault(__webpack_require__(/*! @/common/js/applist.js */ 44));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var HMfilterDropdown = function HMfilterDropdown() {__webpack_require__.e(/*! require.ensure | components/HM-filterDropdown/HM-filterDropdown */ "components/HM-filterDropdown/HM-filterDropdown").then((function () {return resolve(__webpack_require__(/*! @/components/HM-filterDropdown/HM-filterDropdown.vue */ 468));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var money = function money() {__webpack_require__.e(/*! require.ensure | components/cn-money/cn-money */ "components/cn-money/cn-money").then((function () {return resolve(__webpack_require__(/*! @/components/cn-money/cn-money.vue */ 307));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+var _applist = _interopRequireDefault(__webpack_require__(/*! @/common/js/applist.js */ 44));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var HMfilterDropdown = function HMfilterDropdown() {__webpack_require__.e(/*! require.ensure | components/HM-filterDropdown/HM-filterDropdown */ "components/HM-filterDropdown/HM-filterDropdown").then((function () {return resolve(__webpack_require__(/*! @/components/HM-filterDropdown/HM-filterDropdown.vue */ 468));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var money = function money() {__webpack_require__.e(/*! require.ensure | components/cn-money/cn-money */ "components/cn-money/cn-money").then((function () {return resolve(__webpack_require__(/*! @/components/cn-money/cn-money.vue */ 328));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 {
   components: {
     HMfilterDropdown: HMfilterDropdown,
@@ -271,6 +271,8 @@ var _applist = _interopRequireDefault(__webpack_require__(/*! @/common/js/applis
         commodityClass: null, //分类名
         collection: 0,
         sort: 0, //价格排序
+        state: 2, //已上架
+        recommend: 1, //必传
         pageNum: 1, // 第几页
         pageSize: 10 // 每页数
       },

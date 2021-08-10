@@ -265,6 +265,11 @@ var _default =
         http: 'pages/user/onelist/vip' },
 
       {
+        title: '设置',
+        icon: 'edit-pen',
+        http: 'pages/user/onelist/userlist' },
+
+      {
         title: '在线客服',
         icon: 'server-fill',
         http: 'no' },
@@ -298,14 +303,11 @@ var _default =
   onLoad: function onLoad() {},
   onShow: function onShow() {
     if (this.utils.isLogin()) {
-      // this.openId = uni.getStorageSync('WXopenid');
       this.userlist = uni.getStorageSync('userlist');
       if (this.userlist.id) {
         this.lognum = 1;
       }
-      console.log('执行赋值');
       console.log(this.userlist);
-      // console.log(this.openId)
     }
     if (!this.userlist.id) {
       this.lognum = 0;
@@ -325,9 +327,8 @@ var _default =
         this.utils.success('退出成功！');
         this.lognum = 0;
         this.userlist = {};
-        this.openId = '';
+        // this.openId = '';
         this.wxlist = '';
-        this.utils.logout();
       }
     },
     appLoginWx: function appLoginWx() {

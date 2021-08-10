@@ -255,6 +255,35 @@
             }
             
         }
+        ,{
+            "path" : "pages/user/onelist/userlist",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "用户信息",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/user/onelist/forgetPass",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "忘记密码",
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/user/onelist/u_user",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "修改",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

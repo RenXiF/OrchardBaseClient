@@ -79,6 +79,8 @@
 					commodityClass: null,//分类名
 					collection: 0,
 					sort:0,//价格排序
+					state:2,//已上架
+					recommend:1,//必传
 					pageNum: 1, // 第几页
 					pageSize: 10, // 每页数
 				},

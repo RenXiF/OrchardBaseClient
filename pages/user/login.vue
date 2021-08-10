@@ -10,17 +10,20 @@
 		<view class="t-b">{{ title }}</view>
 		<form class="cl">
 			<view class="t-a">
-				<image src="@/static/login/sj.png"></image>
+				<!-- <image src="@/static/login/sj.png"></image> -->
+				<u-icon name="account" :color="icolor" size="45" class="l_icon"></u-icon>
 				<input type="text" name="phone" placeholder="请输入手机号" v-model="name" />
 			</view>
 			<view class="t-a">
-				<image src="@/static/login/yz.png"></image>
-				<input type="text" name="code"  placeholder="请输入密码" v-model="pass" />
+				<!-- <image src="@/static/login/yz.png"></image> -->
+				<u-icon class="l_icon" @click="shwopass=!shwopass" :name="!shwopass?'eye-fill':'eye-off'" :color="icolor" size="45"></u-icon>
+				<input type="text" name="code" :password="shwopass"  placeholder="请输入密码" v-model="pass" />
 				<!-- <view v-if="showText" class="t-c" @click="getCode()">发送短信</view>
 				<view v-else class="t-c" style="background-color: #A7A7A7;">重新发送({{ second }})</view> -->
 			</view>
 			<button @click="login()" class="login_but">登 录</button>
 			<button @click="register()" class="register_but">注 册</button>
+			<button @click="doUrl('pages/user/onelist/forgetPass')" class="register_but">忘记密码</button>
 		</form>
 		<view class="t-f"><text>————— 第三方账号登录 —————</text></view>
 		<view class="t-e cl flex_jufy_center">
@@ -45,9 +48,11 @@ export default {
 		return {
 			title: '果园基地', //填写logo或者app名称，也可以用：欢迎回来，看您需求
 			second: 60, //默认60秒
+			shwopass:true,
 			showText: true, //判断短信是否发送
-			name: '东盗主', //手机号码
-			pass: 'qa123456' //密码
+			name: '', //手机号码
+			pass: '' ,//密码
+			icolor:'#3f3f3f'
 		};
 	},
 	onLoad() {},
@@ -153,7 +158,7 @@ export default {
 	font-size: 28rpx;
 	height: 90rpx;
 	line-height: 90rpx;
-	border-radius: 50rpx;
+	/* border-radius: 50rpx; */
 	/* box-shadow: 0 5px 7px 0 rgba(86, 119, 252, 0.2); */
 	margin-bottom: 20rpx;
 }
@@ -197,7 +202,7 @@ export default {
 	text-align: left;
 	font-size: 46rpx;
 	color: #000;
-	padding: 300rpx 0 120rpx 0;
+	padding: 120rpx 0 120rpx 0;
 	font-weight: bold;
 }
 
@@ -238,7 +243,7 @@ export default {
 
 .t-login .t-f {
 	text-align: center;
-	margin: 200rpx 0 0 0;
+	margin: 150rpx 0 0 0;
 	color: #666;
 }
 
