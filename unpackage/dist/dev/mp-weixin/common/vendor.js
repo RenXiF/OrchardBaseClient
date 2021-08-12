@@ -872,7 +872,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"果园基地客户端","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_NAME":"果园基地客户端","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -8510,7 +8510,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_NAME":"果园基地客户端","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"VUE_APP_NAME":"果园基地客户端","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -8531,14 +8531,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"果园基地客户端","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_NAME":"果园基地客户端","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"果园基地客户端","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_NAME":"果园基地客户端","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -8624,7 +8624,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"果园基地客户端","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_NAME":"果园基地客户端","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -10745,9 +10745,9 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.getApi = getApi;exports.upload = upload;exports.sendCode = sendCode;exports.getLocal = getLocal;exports.getAddList = getAddList;exports.getArea = getArea;exports.getAreaId = getAreaId;exports.AmapObj = exports.amap = exports.AppId = exports.ApiServer = void 0; // export const ApiServer = 'http://120.24.28.135:8080/';
-// export const ApiServer = 'http://172.30.113.148:8888/';
+var ApiServer = 'http://47.99.209.170:8084/';
 // export const ApiServer = 'https://www.hszc.ink/';
-var ApiServer = 'http://192.168.1.106:8084/';
+// export const ApiServer = 'http://192.168.1.106:8084/';
 // export const ApiUpload = 'https://oss.gzkts.xyz/';
 exports.ApiServer = ApiServer;var utils = __webpack_require__(/*! @/common/util.js */ 41);
 var AppId = 'wxe9d550b839b8b22c';exports.AppId = AppId;
@@ -11109,17 +11109,43 @@ module.exports = {
   DiGuiUpimg: DiGuiUpimg, //递归上传图片
   DiGuiDelete: DiGuiDelete, //递归删除服务器图片
   DiGuiDeleimg: DiGuiDeleimg, //递归删除服务器图片
-  OSSdeleteIMG: OSSdeleteIMG //单个删除服务器图片
+  OSSdeleteIMG: OSSdeleteIMG, //单个删除服务器图片
+  getOpenId: getOpenId //获取微信openid
 };
-
-
 /**
-    * 递归删除服务器图片
-    * @param str
-    * @param rep
-    * @param repl
-    * @returns {void | string | never}
+    * 获取微信openid<br>
+    * code 提示信息<br>
+    * callback 回调函数<br>
     */
+function getOpenId(code, callback) {
+  if (code === undefined || code === null) {
+    error('code为空');
+    return;
+  }
+  uni.request({
+    url: 'https://api.weixin.qq.com/sns/jscode2session', //仅为示例，并非真实接口地址。
+    data: {
+      appid: 'wxccb195b2920ad5dd',
+      secret: '494eb6d790b3aad0e6645aa9015fbf29',
+      js_code: code,
+      grant_type: 'authorization_code' },
+
+    success: function success(res) {
+      callback(res.data);
+    },
+    fail: function fail(err) {
+      console.log(err);
+      error('请求错误');
+    } });
+
+}
+/**
+   * 递归删除服务器图片
+   * @param str
+   * @param rep
+   * @param repl
+   * @returns {void | string | never}
+   */
 function DiGuiDelete(list, backImgeUrl, index, length, successBack, errorBack) {
   http.getApi('oss/deleteFile',
   { url: list[index].url.substring(28) },

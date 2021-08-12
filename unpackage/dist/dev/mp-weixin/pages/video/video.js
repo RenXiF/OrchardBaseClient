@@ -96,7 +96,7 @@ var components
 try {
   components = {
     uAvatar: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-avatar/u-avatar */ "uview-ui/components/u-avatar/u-avatar").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-avatar/u-avatar.vue */ 377))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-avatar/u-avatar */ "uview-ui/components/u-avatar/u-avatar").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-avatar/u-avatar.vue */ 397))
     }
   }
 } catch (e) {
@@ -153,7 +153,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var HCard = function HCard() {__webpack_require__.e(/*! require.ensure | components/hg-cards/hg-cards */ "components/hg-cards/hg-cards").then((function () {return resolve(__webpack_require__(/*! @/components/hg-cards/hg-cards.vue */ 384));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var HCard = function HCard() {__webpack_require__.e(/*! require.ensure | components/hg-cards/hg-cards */ "components/hg-cards/hg-cards").then((function () {return resolve(__webpack_require__(/*! @/components/hg-cards/hg-cards.vue */ 404));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 

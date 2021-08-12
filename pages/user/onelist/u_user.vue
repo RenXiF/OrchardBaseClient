@@ -137,7 +137,8 @@
 					uni.hideLoading();
 					this.utils.logout()
 					this.utils.success(res.message,()=>{
-						this.utils.navback()
+						// this.utils.navback()
+						this.doSwitch('/pages/user/user')
 					})
 				}).catch(err => {
 					console.log(err);

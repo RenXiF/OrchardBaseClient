@@ -10,7 +10,7 @@
 				<u-icon slot="icon" size="32" name="account"></u-icon>
 				<input type="text" v-model="userlist.userName":disabled="disabled" />
 			</u-cell-item>
-			<u-cell-item  title="会员" arrow-direction="right" @click="duhttp(3)">
+			<u-cell-item  title="会员" arrow-direction="right" :arrow="false">
 				<u-icon slot="icon" size="32" name="level"></u-icon>
 				<input type="text" v-model="userlist.userRole" :disabled="disabled" />
 			</u-cell-item>

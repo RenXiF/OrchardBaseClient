@@ -96,16 +96,16 @@ var components
 try {
   components = {
     uAvatar: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-avatar/u-avatar */ "uview-ui/components/u-avatar/u-avatar").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-avatar/u-avatar.vue */ 377))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-avatar/u-avatar */ "uview-ui/components/u-avatar/u-avatar").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-avatar/u-avatar.vue */ 397))
     },
     uGrid: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-grid/u-grid */ "uview-ui/components/u-grid/u-grid").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-grid/u-grid.vue */ 286))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-grid/u-grid */ "uview-ui/components/u-grid/u-grid").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-grid/u-grid.vue */ 306))
     },
     uGridItem: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-grid-item/u-grid-item */ "uview-ui/components/u-grid-item/u-grid-item").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-grid-item/u-grid-item.vue */ 293))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-grid-item/u-grid-item */ "uview-ui/components/u-grid-item/u-grid-item").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-grid-item/u-grid-item.vue */ 313))
     },
     uIcon: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 300))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 320))
     }
   }
 } catch (e) {
@@ -333,7 +333,10 @@ var _default =
     },
     appLoginWx: function appLoginWx() {
       this.doUrl('pages/user/login');
+      // this.wxpay()
       // this.userUp();
+
+      // this.verificationLogin();
       // var _this = this;
       // if (_this.wxlist != '') {
       // 	_this.verificationLogin();
@@ -351,6 +354,59 @@ var _default =
       // 		}
       // 	});
       // }
+    },
+    wxpay: function wxpay(code) {var _this2 = this;
+      var uer = {
+        amount: 0.01,
+        body: '测试',
+        orderNo: '4661316516',
+        openid: code };
+
+      console.log(uer);
+      this.http.getApi('wxPay/unifiedOrder', uer, 'get').then(function (res) {
+        console.log(res);
+        _this2.payment(res.data);
+        console.log('12313213213');
+      }).catch(function (err) {
+        console.log(err);
+        uni.hideLoading();
+      });
+    },
+    payment: function payment(data) {
+      // console.log('执行');
+      console.log(data);
+      var _this = this;
+      console.log('执行支付');
+      uni.requestPayment({
+        provider: 'wxpay',
+        orderInfo: data, //微信、支付宝订单数据
+
+        timeStamp: data.timeStamp,
+        nonceStr: data.nonceStr,
+        package: data.package,
+        signType: data.signType,
+        paySign: data.paySign,
+
+        success: function success(res) {
+          console.log(res);
+          _this.utils.success('支付成功！');
+          // _this.payindex = 1;
+          // _this.addBarrage(_this.order);
+          // _this.utils.showloading('正在上传图片');
+          // _this.utils.upimg(_this.upimg, (res) => {
+          // 	console.log(res)
+          // 	_this.order.imgAddress = res.data.url;
+          // 	_this.addBarrage(_this.order);
+          // });
+        },
+        fail: function fail(err) {
+          // console.log('qqqqqqqqqq');
+          console.log(data);
+          console.log(err);
+          _this.utils.error('您已取消支付！');
+          uni.hideLoading();
+        } });
+
     },
     panduan: function panduan() {
       if (this.userlist.spareOne !== this.wxlist.avatarUrl && this.wxlist != '') {
@@ -376,31 +432,35 @@ var _default =
     verificationLogin: function verificationLogin() {
       // this.utils.showloading();
       this.lognum = 1;
-      // var _this = this;
-      // if (this.openId != '' && this.openId != undefined) {
-      // 	this.userLogin();
-      // } else {
-      // 	uni.login({
-      // 		provider: 'weixin',
-      // 		success: function(loginRes) {
-      // 			console.log(loginRes);
-      // 			_this.opengid(loginRes.code);
-      // 		}
-      // 	});
-      // }
+      var _this = this;
+      if (this.openId != '' && this.openId != undefined) {
+        this.userLogin();
+      } else {
+        uni.login({
+          provider: 'weixin',
+          success: function success(loginRes) {
+            console.log(loginRes);
+            // _this.opengid(loginRes.code);
+            _this.utils.getOpenId(loginRes.code, function (res) {
+              console.log(res);
+              _this.wxpay(res.openid);
+            });
+          } });
+
+      }
     },
-    opengid: function opengid(code) {var _this2 = this;
-      // console.log('code:'+code);
-      this.http.getApi('user/test', {
+    opengid: function opengid(code) {var _this3 = this;
+      console.log('code:' + code);
+      this.http.getApi('user/getWxOpenid', {
         code: code },
       'get').then(function (res) {
         console.log(res);
         if (res.data) {
-          _this2.openId = res.data;
-          uni.setStorageSync('WXopenid', _this2.openId);
-          _this2.userLogin();
+          // this.openId = res.data;
+          // uni.setStorageSync('WXopenid', this.openId);
+          // this.userLogin();
         } else {
-          _this2.utils.error('登录失败！');
+          _this3.utils.error('登录失败！');
         }
       }).catch(function (err) {
         console.log(err);
@@ -408,27 +468,27 @@ var _default =
       });
     },
     //登录
-    userLogin: function userLogin() {var _this3 = this;
+    userLogin: function userLogin() {var _this4 = this;
       this.http.getApi('user/login', {
         openId: this.openId },
       'get').then(function (res) {
         console.log(res);
-        _this3.userlist = res.data;
-        uni.setStorageSync('userlist', _this3.userlist);
-        _this3.panduan();
-        if (_this3.userlist.usrLevel > 0) {
-          _this3.Gvalueji();
+        _this4.userlist = res.data;
+        uni.setStorageSync('userlist', _this4.userlist);
+        _this4.panduan();
+        if (_this4.userlist.usrLevel > 0) {
+          _this4.Gvalueji();
         }
-        _this3.utils.success('登录成功！');
-        _this3.lognum = 1;
+        _this4.utils.success('登录成功！');
+        _this4.lognum = 1;
         uni.hideLoading();
       }).catch(function (err) {
         console.log(err);
         uni.hideLoading();
         if (err.status == 19) {
           // this.userRegister();
-          var _this = _this3;
-          _this3.utils.error('该用户未注册', function () {
+          var _this = _this4;
+          _this4.utils.error('该用户未注册', function () {
             var li = {
               openId: _this.openId,
               usrName: _this.wxlist.nickName,
@@ -439,11 +499,11 @@ var _default =
 
           });
         } else {
-          _this3.utils.error(err.msg);
+          _this4.utils.error(err.msg);
         }
       });
     },
-    userRegister: function userRegister() {var _this4 = this;
+    userRegister: function userRegister() {var _this5 = this;
       var li = {
         openId: this.openId,
         usrName: this.wxlist.nickName,
@@ -452,11 +512,11 @@ var _default =
       console.log(li);
       this.http.getApi('user/register', li, 'post').then(function (res) {
         console.log(res);
-        _this4.userLogin();
+        _this5.userLogin();
         // uni.hideLoading();
       }).catch(function (err) {
         console.log(err);
-        _this4.utils.error(err.msg);
+        _this5.utils.error(err.msg);
         uni.hideLoading();
       });
     },

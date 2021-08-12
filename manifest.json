@@ -17,7 +17,9 @@
             "delay" : 0
         },
         /* 模块配置 */
-        "modules" : {},
+        "modules" : {
+            "Payment" : {}
+        },
         /* 应用发布信息 */
         "distribute" : {
             /* android打包配置 */
@@ -44,7 +46,14 @@
             "ios" : {},
             /* SDK配置 */
             "sdkConfigs" : {
-                "geolocation" : {}
+                "geolocation" : {},
+                "payment" : {
+                    "weixin" : {
+                        "__platform__" : [ "ios", "android" ],
+                        "appid" : "wx6a369d01b47c441f",
+                        "UniversalLinks" : ""
+                    }
+                }
             }
         }
     },

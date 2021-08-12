@@ -96,19 +96,19 @@ var components
 try {
   components = {
     uTabsSwiper: function() {
-      return Promise.all(/*! import() | uview-ui/components/u-tabs-swiper/u-tabs-swiper */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabs-swiper/u-tabs-swiper")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabs-swiper/u-tabs-swiper.vue */ 398))
+      return Promise.all(/*! import() | uview-ui/components/u-tabs-swiper/u-tabs-swiper */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabs-swiper/u-tabs-swiper")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabs-swiper/u-tabs-swiper.vue */ 418))
     },
     uIcon: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 300))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 320))
     },
     uPopup: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-popup/u-popup */ "uview-ui/components/u-popup/u-popup").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-popup/u-popup.vue */ 321))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-popup/u-popup */ "uview-ui/components/u-popup/u-popup").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-popup/u-popup.vue */ 341))
     },
     uButton: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-button/u-button */ "uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-button/u-button.vue */ 342))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-button/u-button */ "uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-button/u-button.vue */ 362))
     },
     uGap: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-gap/u-gap */ "uview-ui/components/u-gap/u-gap").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-gap/u-gap.vue */ 412))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-gap/u-gap */ "uview-ui/components/u-gap/u-gap").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-gap/u-gap.vue */ 432))
     }
   }
 } catch (e) {
@@ -146,13 +146,19 @@ var render = function() {
     }
   })
 
-  var m2 = _vm.payment ? _vm.formatPrice(_vm.payment) : null
+  var m2 = _vm.orderlist.totalAmount
+    ? _vm.formatPrice(_vm.orderlist.totalAmount)
+    : null
   var m3 =
     _vm.receiveText != "" && _vm.receiveText
       ? _vm.formatPrice(_vm.receiveText)
       : null
-  var m4 = _vm.payment ? _vm.formatPrice(_vm.payment) : null
-  var m5 = _vm.payment ? _vm.formatPrice(_vm.payment) : null
+  var m4 = _vm.orderlist.totalAmount
+    ? _vm.formatPrice(_vm.orderlist.totalAmount)
+    : null
+  var m5 = _vm.orderlist.totalAmount
+    ? _vm.formatPrice(_vm.orderlist.totalAmount)
+    : null
   _vm.$mp.data = Object.assign(
     {},
     {
@@ -198,7 +204,11 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var coupon = function coupon() {__webpack_require__.e(/*! require.ensure | components/coolc-coupon/listCoupon */ "components/coolc-coupon/listCoupon").then((function () {return resolve(__webpack_require__(/*! @/components/coolc-coupon/listCoupon.vue */ 419));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var coupon = function coupon() {__webpack_require__.e(/*! require.ensure | components/coolc-coupon/listCoupon */ "components/coolc-coupon/listCoupon").then((function () {return resolve(__webpack_require__(/*! @/components/coolc-coupon/listCoupon.vue */ 439));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+
+
+
+
 
 
 
@@ -353,7 +363,7 @@ var _default = {
   data: function data() {
     return {
       show: false, //底部弹窗
-      isBulk: false,
+      // isBulk: false,
       Self: false, //是否自提
       currentTab: 0,
       menuTabs: [{
@@ -363,39 +373,32 @@ var _default = {
         name: '上门自提' }],
 
 
-      bulkImgList: [],
-      productId: '', //接收的商品id
-      data: {}, //加载商品信息
-      rdata: null, //当前日期
-      tdata: null, //当前时间
-      goodsname: '', //加载商品名
+      // bulkImgList: [],
+      // productId: '', //接收的商品id
+      // data: {}, //加载商品信息
+      // rdata: null, //当前日期
+      // tdata: null, //当前时间
+      // goodsname: '', //加载商品名
       goodsList: [], //加载商品缓存
       goodsIndex: 0, //商品下标
       addrInfo: null, //加载用户地址
       addSelf: { //自提地址
-        address: '渝欧教育城B区4-1-8号门面',
+        address: '测试自提地址',
         provincial: '贵州省', //省份
         city: '遵义市', //市份
         area: '红花岗区', //县份
-        usrPhone: '17102338333',
+        usrPhone: '12345678911',
         usrName: '自提' },
 
-      remark: '', //加载备注
-      payment: 0, //实际支付金额
-      orderLis: {},
+      leaving: '', //加载备注
+      // payment: 0, //实际支付金额
       receiveText: 0,
-      orderFound: {
-        userId: '', //
-        phone: '', //
-        opendId: '', //
-        usrName: '', //
-        spareOne: '', //详细地址
-        spareTwo: '', //留言
-        amount: 0, //总价
-        status: 0, //支付状态
-        quantity: 0, //数量
-        body: '测试', //
-        paytype: 1 //1微信支付
+      orderlist: {
+        addressId: '', //地址id
+        payVos: [], //商品数据
+        // state: 3, //订单状态
+        leaving: '', //留言
+        totalAmount: 0 //订单实际支付金额
       },
       userlist: {},
       zorder: {}, //主订单
@@ -407,26 +410,26 @@ var _default = {
     };
 
   },
-
   onShow: function onShow() {
     this.openId = uni.getStorageSync('WXopenid');
     this.goodsList = uni.getStorageSync('BespeakInfo'); //加载缓存
     this.addrInfo = uni.getStorageSync('setAddr'); //加载地址
-    this.orderFound.spareTwo = uni.getStorageSync('Remark'); //获取备注
+    this.orderlist.leaving = uni.getStorageSync('Remark'); //获取备注
     this.Calculation(); //加载计算
     console.log(this.goodsList);
     console.log(this.addrInfo);
     console.log(this.userlist);
-    // console.log(this.userlist.openId);
-    // console.log(this.openId);
+    if (this.addrInfo.id) {
+      this.orderlist.addressId = this.addrInfo.id;
+      console.log(this.orderlist);
+    }
   },
   onLoad: function onLoad(options) {
     console.log(options);
     if (this.utils.isLogin()) {
       this.userlist = uni.getStorageSync('userlist');
-      this.orderFound.userId = this.userlist.usrId;
-      this.piece = this.userlist.usrLevel > 0 ? true : false;
-      this.orderFound.opendId = this.userlist.openId;
+      // this.orderlist.userId = this.userlist.id;
+      // this.orderlist.opendId = this.userlist.openId;
 
       console.log(this.userlist);
     } else {
@@ -507,17 +510,17 @@ var _default = {
     //点击优惠券弹窗确认选择
     cartadd: function cartadd() {
       this.show = false;
-
     },
     //计算立即购买值
     Calculation: function Calculation() {
-      this.payment = 0;
+      this.orderlist.totalAmount = 0;
       for (var i = 0; i < this.goodsList.length; i++) {
         if (this.goodsList[i].reduce) {
-          this.payment = this.payment + this.goodsList[i].number * this.goodsList[i].price - this.goodsList[
-          i].reduce;
+          this.orderlist.totalAmount = this.orderlist.totalAmount + this.goodsList[i].number * this.
+          goodsList[i].price - this.goodsList[i].reduce;
         } else {
-          this.payment = this.payment + this.goodsList[i].number * this.goodsList[i].price;
+          this.orderlist.totalAmount = this.orderlist.totalAmount + this.goodsList[i].number * this.
+          goodsList[i].price;
         }
 
       }
@@ -545,8 +548,8 @@ var _default = {
     //过滤已使用优惠券
     filter: function filter(list) {
       var li = list;
-      console.log(this.goodsList[this.goodsIndex]);
-      console.log('执行过滤');
+      // console.log(this.goodsList[this.goodsIndex]);
+      // console.log('执行过滤');
       for (var i = 0; i < li.length; i++) {
         for (var j = 0; j < this.goodsList.length; j++) {
           if (this.goodsList[j].conjuan != undefined) {
@@ -555,10 +558,8 @@ var _default = {
             }
           }
         }
-
       }
       return li;
-
     },
     //查看地址
     getLocation: function getLocation() {
@@ -598,89 +599,69 @@ var _default = {
 
     },
     addressG: function addressG() {//检测是否自提
-      if (this.Self) {
-        this.orderFound.phone = this.addSelf.usrPhone != null ? this.addSelf.usrPhone : '';
-        this.orderFound.usrName = this.addSelf.usrPhone != null ? this.addSelf.usrName : '';
-        this.orderFound.spareOne = this.addSelf.usrPhone != null ? this.addSelf.provincial + this.addSelf.
-        city + this.addSelf.area + this.addSelf.address : '';
-      } else {
-        this.orderFound.phone = this.addrInfo.usrPhone != null ? this.addrInfo.usrPhone : '';
-        this.orderFound.usrName = this.addrInfo.usrPhone != null ? this.addrInfo.usrName : '';
-        this.orderFound.spareOne = this.addrInfo.usrPhone != null ? this.addrInfo.provincial + this.addrInfo.
-        city + this.addrInfo.area + this.addrInfo.address : '';
-      }
+      if (this.Self) {} else {}
     },
+
     //执行提交订单
-    submit: function submit() {
-      console.log(this.orderFound);
-      this.addressG();
-      if (this.orderFound.phone == '' && this.orderFound.usrName == '' && this.orderFound.spareOne == '') {
+    submit: function submit() {var _this5 = this;
+      console.log(this.orderlist);
+      // this.addressG();
+      if (this.orderlist.addressId == '') {
         this.utils.error('请选择地址！');
         return;
       }
-      var jsonData = this.orderFound;
-      jsonData.amount = jsonData.amount * 100;
-      // jsonData.userId = 7;
-      console.log(jsonData);
-      this.utils.showloading();
-      this.OrderFound(jsonData);
-    },
-    OrderFound: function OrderFound(jsonData) {var _this5 = this; //主订单
-      this.http.getApi('Order/found', jsonData, 'post').then(function (res) {
-        console.log(res);
-        // this.csjjj(res.data);
-        _this5.zorder = res.data;
-        _this5.screen(_this5.goodsList, res.data.orderId, function (data) {
-          console.log(data);
-          console.log('执行子订单');
-          _this5.corderAdd(data);
-        });
-      }).catch(function (err) {
-        console.log(err);
-        uni.hideLoading();
-        _this5.utils.error(err.msg);
+      //筛选商品
+      this.screen(this.goodsList, function (data) {
+        console.log(data);
+        _this5.orderlist.payVos = data;
+        console.log(_this5.orderlist);
+        _this5.utils.showloading();
+        _this5.orderfound(_this5.orderlist);
       });
     },
-    csjjj: function csjjj(jsonData) {var _this6 = this;
-      // console.log('执行子订单');
-      console.log(jsonData);
-      this.http.getApi('wxPay/endOrder', jsonData, 'post').then(function (res) {
-        console.log(res);
+    orderfound: function orderfound(jsonData) {var _this6 = this; //主订单
+      this.http.getApi('order/orders', jsonData, 'post').then(function (res) {
         uni.hideLoading();
+        console.log(res);
+        _this6.verificationLogin(res.payment);
       }).catch(function (err) {
         console.log(err);
+        uni.hideLoading();
         _this6.utils.error(err.msg);
-        uni.hideLoading();
       });
     },
-    corderAdd: function corderAdd(jsonData) {var _this7 = this; //子订单
-      this.http.getApi('corder/add', jsonData, 'post').then(function (res) {
-        console.log(res);
-        // uni.hideLoading();
-        _this7.wxPayorder();
-      }).catch(function (err) {
-        console.log(err);
-        uni.hideLoading();
-        _this7.utils.error(err.msg);
-      });
+    //验证登录状态
+    verificationLogin: function verificationLogin(item) {
+      var _this = this;
+      uni.login({
+        provider: 'weixin',
+        success: function success(loginRes) {
+          console.log(loginRes);
+          // _this.opengid(loginRes.code);
+          _this.utils.getOpenId(loginRes.code, function (res) {
+            console.log(res);
+            _this.wxPayorder(item, res.openid);
+          });
+        } });
+
     },
-    wxPayorder: function wxPayorder() {var _this8 = this; //支付订单
+    wxPayorder: function wxPayorder(item, openid) {var _this7 = this; //支付订单
       var li = {
-        orderNo: this.zorder.orderNo,
-        // amount: 0.01,
-        amount: this.zorder.amount / 100,
-        body: this.zorder.body,
-        opendid: this.userlist.openId };
+        orderNo: item.orders,
+        amount: 0.01,
+        // amount: item.totalAmount,
+        body: '商品下单',
+        openid: openid };
 
       console.log(li);
       this.http.getApi('wxPay/unifiedOrder', li, 'get').then(function (res) {
         console.log(res);
-        _this8.paymentorder(res.data);
+        _this7.paymentorder(res.data);
         // uni.hideLoading();
       }).catch(function (err) {
         console.log(err);
         uni.hideLoading();
-        _this8.utils.error(err.msg);
+        _this7.utils.error(err.msg);
       });
     },
     paymentorder: function paymentorder(data) {
@@ -701,24 +682,23 @@ var _default = {
 
         success: function success(res) {
           console.log(res);
-          _this.fordecar(_this.goodsList);
-          _this.upfor(_this.goodsList);
+          // _this.fordecar(_this.goodsList);
+          // _this.upfor(_this.goodsList);
           _this.utils.success('支付成功！', function () {
-            _this.utils.navback();
             uni.hideLoading();
+            _this.utils.navback();
           });
-          // _this.addBarrage(_this.order);
         },
         fail: function fail(err) {
           // console.log('qqqqqqqqqq');
           console.log(data);
           console.log(err);
           console.log(_this.goodsList);
-          _this.fordecar(_this.goodsList);
-          _this.upfor(_this.goodsList);
+          // _this.fordecar(_this.goodsList);
+          // _this.upfor(_this.goodsList);
           _this.utils.error('您已取消支付！', function () {
-            _this.utils.navback();
             uni.hideLoading();
+            _this.utils.navback();
           });
         } });
 
@@ -739,7 +719,7 @@ var _default = {
         }
       }
     },
-    goodsUp: function goodsUp(goodsId, sumTwo) {var _this9 = this; //修改商品
+    goodsUp: function goodsUp(goodsId, sumTwo) {var _this8 = this; //修改商品
       this.http.getApi('goods/up', {
         goodsId: goodsId,
         sumTwo: sumTwo },
@@ -749,10 +729,10 @@ var _default = {
       }).catch(function (err) {
         console.log(err);
         uni.hideLoading();
-        _this9.utils.error(err.msg);
+        _this8.utils.error(err.msg);
       });
     },
-    carDe: function carDe(CarId) {var _this10 = this;
+    carDe: function carDe(CarId) {var _this9 = this;
       this.http.getApi('car/de', {
         shopCarId: CarId },
       'get').then(function (res) {
@@ -761,20 +741,19 @@ var _default = {
       }).catch(function (err) {
         console.log(err);
         uni.hideLoading();
-        _this10.utils.error(err.msg);
+        _this9.utils.error(err.msg);
       });
     },
-    screen: function screen(list, Order, data) {//筛选
+    screen: function screen(list, data) {//筛选
       var tt = [];
       tt = list.map(function (iterator) {
         return {
-          spareOne: iterator.name,
-          goodsSum: iterator.number,
-          goodsId: iterator.goodsId,
-          orderId: Order,
-          imgRess: iterator.img,
-          priceSum: iterator.price * iterator.number,
-          goodsPrice: iterator.price };
+          commodityId: iterator.goodsId,
+          id: iterator.id,
+          // price: iterator.reduce ? iterator.number * iterator.price - iterator.reduce : iterator.number * iterator.price,
+          price: iterator.price,
+          quantity: iterator.number,
+          specificationsId: iterator.specId };
 
       });
       data(tt);

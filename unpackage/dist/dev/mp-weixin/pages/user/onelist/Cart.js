@@ -96,10 +96,10 @@ var components
 try {
   components = {
     carList: function() {
-      return __webpack_require__.e(/*! import() | components/car-list/car-list */ "components/car-list/car-list").then(__webpack_require__.bind(null, /*! @/components/car-list/car-list.vue */ 426))
+      return __webpack_require__.e(/*! import() | components/car-list/car-list */ "components/car-list/car-list").then(__webpack_require__.bind(null, /*! @/components/car-list/car-list.vue */ 446))
     },
     uEmpty: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-empty/u-empty */ "uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-empty/u-empty.vue */ 307))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-empty/u-empty */ "uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-empty/u-empty.vue */ 327))
     }
   }
 } catch (e) {
@@ -156,7 +156,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var carList = function carList() {__webpack_require__.e(/*! require.ensure | components/car-list/car-list */ "components/car-list/car-list").then((function () {return resolve(__webpack_require__(/*! @/components/car-list/car-list.vue */ 426));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var carList = function carList() {__webpack_require__.e(/*! require.ensure | components/car-list/car-list */ "components/car-list/car-list").then((function () {return resolve(__webpack_require__(/*! @/components/car-list/car-list.vue */ 446));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -181,26 +181,26 @@ __webpack_require__.r(__webpack_exports__);
         goodsAmount: 6051,
         selected: false,
         glist: [
-        {
-          id: 236,
-          gid: 47,
-          name: "毛巾（厚）",
-          img: "https://xthotel.palmbly.com/uploads/images/20201020/fb54b8d699c646908fde0af12def5a5b.png",
-          gsId: 72,
-          spec_key_name: "尺寸:M 颜色:黑色",
-          spec: [{
-            name: "尺寸",
-            value: "M" },
-          {
-            name: "颜色",
-            value: "黑色" }],
-
-          price: 19,
-          number: 1,
-          stock: 193,
-          selected: true }] }],
-
-
+          // {
+          // 	id: 236,
+          // 	gid: 47,
+          // 	name: "毛巾（厚）",
+          // 	img: "https://xthotel.palmbly.com/uploads/images/20201020/fb54b8d699c646908fde0af12def5a5b.png",
+          // 	gsId: 72,
+          // 	spec_key_name: "尺寸:M 颜色:黑色",
+          // 	spec: [{
+          // 		name: "尺寸",
+          // 		value: "M"
+          // 	}, {
+          // 		name: "颜色",
+          // 		value: "黑色"
+          // 	}],
+          // 	price: 19,
+          // 	number: 1,
+          // 	stock: 193,
+          // 	selected: true,
+          // },
+        ] }],
 
       loadStatus: 'nomore',
       loadText: {
@@ -237,20 +237,28 @@ __webpack_require__.r(__webpack_exports__);
 
   },
   onLoad: function onLoad(e) {
-    console.log(e);
+    // console.log(e);
+    // if (this.utils.isLogin()) {
+    // 	this.userlist = uni.getStorageSync('userlist');
+    // 	console.log(this.userlist);
+    // 	this.initialization(); //初始化
+    // } else {
+    // 	this.utils.error('请先登录账号！',()=>{
+    // 		this.utils.navback()
+    // 	})
+    // }
+  },
+  onShow: function onShow() {var _this = this;
+    console.log('执行初始化');
     if (this.utils.isLogin()) {
       this.userlist = uni.getStorageSync('userlist');
       console.log(this.userlist);
       this.initialization(); //初始化
     } else {
-      this.utils.error('请先登录账号！');
+      this.utils.error('请先登录账号！', function () {
+        _this.utils.navback();
+      });
     }
-  },
-  onShow: function onShow() {
-    // console.log('执行初始化');
-    // if (this.utils.isLogin()) {
-    // 	this.initialization(); //初始化
-    // }
   },
   methods: {
     // 初始化数据
@@ -263,7 +271,7 @@ __webpack_require__.r(__webpack_exports__);
       this.getByU(); //初始化
 
     },
-    getByU: function getByU() {var _this = this;
+    getByU: function getByU() {var _this2 = this;
       if (this.more == false) {
         this.utils.error('暂无下页');
         this.loadStatus = 'nomore';
@@ -278,17 +286,17 @@ __webpack_require__.r(__webpack_exports__);
       // console.log(li)
       this.http.getApi('order/query', li, 'post').then(function (res) {
         console.log(res);
-        _this.more = res.pages > _this.pageNum ? true : false;
-        _this.total = res.pages;
-        _this.pageNum = _this.more ? _this.pageNum + 1 : _this.pageNum;
-        _this.datalist = _this.pageNum > 1 ? _this.datalist.concat(res.list) : res.list;
-        _this.loadStatus = _this.more ? 'loadmore' : 'nomore';
+        _this2.more = res.pages > _this2.pageNum ? true : false;
+        _this2.total = res.pages;
+        _this2.pageNum = _this2.more ? _this2.pageNum + 1 : _this2.pageNum;
+        _this2.datalist = _this2.pageNum > 1 ? _this2.datalist.concat(res.list) : res.list;
+        _this2.loadStatus = _this2.more ? 'loadmore' : 'nomore';
         // this.loadStatus = this.more ? 'loadmore' : 'nomore';
-        _this.screen(_this.datalist);
+        _this2.screen(_this2.datalist);
         uni.hideLoading();
       }).catch(function (err) {
         console.log(err);
-        _this.utils.error(err.msg);
+        _this2.utils.error(err.msg);
         uni.hideLoading();
       });
     },
@@ -304,6 +312,7 @@ __webpack_require__.r(__webpack_exports__);
           number: list[i].quantity,
           goodsId: list[i].commodityId,
           spec_key_name: list[i].specificationsName,
+          specId: list[i].specificationsId,
           selected: false };
 
         that.carList[0].glist.push(item);
@@ -339,17 +348,17 @@ __webpack_require__.r(__webpack_exports__);
       uni.setStorageSync('BespeakInfo', ids);
       that.doUrl('pages/user/order/goods_order');
     },
-    OrderFound: function OrderFound() {var _this2 = this; //主订单
+    OrderFound: function OrderFound() {var _this3 = this; //主订单
       this.http.getApi('Order/found', li, 'get').then(function (res) {
         console.log(res);
         uni.hideLoading();
       }).catch(function (err) {
         console.log(err);
-        _this2.utils.error(err.msg);
+        _this3.utils.error(err.msg);
         uni.hideLoading();
       });
     },
-    wxPayorder: function wxPayorder() {var _this3 = this; //支付订单
+    wxPayorder: function wxPayorder() {var _this4 = this; //支付订单
       var li = {
         orderNo: '45946516545615',
         amount: 0.01,
@@ -362,7 +371,7 @@ __webpack_require__.r(__webpack_exports__);
         uni.hideLoading();
       }).catch(function (err) {
         console.log(err);
-        _this3.utils.error(err.msg);
+        _this4.utils.error(err.msg);
         uni.hideLoading();
       });
     },
@@ -393,14 +402,14 @@ __webpack_require__.r(__webpack_exports__);
       that.utils.success('删除成功！');
       that.$refs.mycar.getAllMount(list); //计算价格展示
     },
-    carDe: function carDe(CarId) {var _this4 = this;
+    carDe: function carDe(CarId) {var _this5 = this;
       var li = [CarId];
       this.http.getApi('order/delete', li, 'post').then(function (res) {
         console.log(res);
         uni.hideLoading();
       }).catch(function (err) {
         console.log(err);
-        _this4.utils.error(err.msg);
+        _this5.utils.error(err.msg);
         uni.hideLoading();
       });
     },

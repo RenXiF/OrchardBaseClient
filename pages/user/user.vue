@@ -169,7 +169,10 @@
 			},
 			appLoginWx() {
 				this.doUrl('pages/user/login')
+				// this.wxpay()
 				// this.userUp();
+				
+				// this.verificationLogin();
 				// var _this = this;
 				// if (_this.wxlist != '') {
 				// 	_this.verificationLogin();
@@ -187,6 +190,59 @@
 				// 		}
 				// 	});
 				// }
+			},
+			wxpay(code){
+				let uer = {
+					amount: 0.01,
+					body: '测试',
+					orderNo: '4661316516',
+					openid:code
+				}
+				console.log(uer);
+				this.http.getApi('wxPay/unifiedOrder', uer, 'get').then(res => {
+					console.log(res);
+					this.payment(res.data)
+					console.log('12313213213');
+				}).catch(err => {
+					console.log(err);
+					uni.hideLoading();
+				});
+			},
+			payment(data) {
+				// console.log('执行');
+				console.log(data);
+				var _this = this;
+				console.log('执行支付');
+				uni.requestPayment({
+					provider: 'wxpay',
+					orderInfo: data, //微信、支付宝订单数据
+					// #ifdef MP-WEIXIN 
+					timeStamp: data.timeStamp,
+					nonceStr: data.nonceStr,
+					package: data.package,
+					signType: data.signType,
+					paySign: data.paySign,
+					// #endif
+					success: function(res) {
+						console.log(res);
+						_this.utils.success('支付成功！');
+						// _this.payindex = 1;
+						// _this.addBarrage(_this.order);
+						// _this.utils.showloading('正在上传图片');
+						// _this.utils.upimg(_this.upimg, (res) => {
+						// 	console.log(res)
+						// 	_this.order.imgAddress = res.data.url;
+						// 	_this.addBarrage(_this.order);
+						// });
+					},
+					fail: function(err) {
+						// console.log('qqqqqqqqqq');
+						console.log(data);
+						console.log(err);
+						_this.utils.error('您已取消支付！');
+						uni.hideLoading();
+					}
+				});
 			},
 			panduan() {
 				if (this.userlist.spareOne !== this.wxlist.avatarUrl && this.wxlist != '') {
@@ -212,29 +268,33 @@
 			verificationLogin() {
 				// this.utils.showloading();
 				this.lognum = 1;
-				// var _this = this;
-				// if (this.openId != '' && this.openId != undefined) {
-				// 	this.userLogin();
-				// } else {
-				// 	uni.login({
-				// 		provider: 'weixin',
-				// 		success: function(loginRes) {
-				// 			console.log(loginRes);
-				// 			_this.opengid(loginRes.code);
-				// 		}
-				// 	});
-				// }
+				var _this = this;
+				if (this.openId != '' && this.openId != undefined) {
+					this.userLogin();
+				} else {
+					uni.login({
+						provider: 'weixin',
+						success: function(loginRes) {
+							console.log(loginRes);
+							// _this.opengid(loginRes.code);
+							_this.utils.getOpenId(loginRes.code,(res)=>{
+								console.log(res);
+								_this.wxpay(res.openid)
+							})
+						}
+					});
+				}
 			},
 			opengid(code) {
-				// console.log('code:'+code);
-				this.http.getApi('user/test', {
+				console.log('code:'+code);
+				this.http.getApi('user/getWxOpenid', {
 					code: code
 				}, 'get').then(res => {
 					console.log(res);
 					if (res.data) {
-						this.openId = res.data;
-						uni.setStorageSync('WXopenid', this.openId);
-						this.userLogin();
+						// this.openId = res.data;
+						// uni.setStorageSync('WXopenid', this.openId);
+						// this.userLogin();
 					} else {
 						this.utils.error('登录失败！');
 					}

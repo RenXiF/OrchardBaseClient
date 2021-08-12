@@ -23,25 +23,25 @@
 					goodsAmount: 6051,
 					selected: false,
 					glist: [
-						{
-							id: 236,
-							gid: 47,
-							name: "毛巾（厚）",
-							img: "https://xthotel.palmbly.com/uploads/images/20201020/fb54b8d699c646908fde0af12def5a5b.png",
-							gsId: 72,
-							spec_key_name: "尺寸:M 颜色:黑色",
-							spec: [{
-								name: "尺寸",
-								value: "M"
-							}, {
-								name: "颜色",
-								value: "黑色"
-							}],
-							price: 19,
-							number: 1,
-							stock: 193,
-							selected: true,
-						},
+						// {
+						// 	id: 236,
+						// 	gid: 47,
+						// 	name: "毛巾（厚）",
+						// 	img: "https://xthotel.palmbly.com/uploads/images/20201020/fb54b8d699c646908fde0af12def5a5b.png",
+						// 	gsId: 72,
+						// 	spec_key_name: "尺寸:M 颜色:黑色",
+						// 	spec: [{
+						// 		name: "尺寸",
+						// 		value: "M"
+						// 	}, {
+						// 		name: "颜色",
+						// 		value: "黑色"
+						// 	}],
+						// 	price: 19,
+						// 	number: 1,
+						// 	stock: 193,
+						// 	selected: true,
+						// },
 					]
 				}, ],
 				loadStatus: 'nomore',
@@ -79,20 +79,28 @@
 			};
 		},
 		onLoad(e) {
-			console.log(e);
+			// console.log(e);
+			// if (this.utils.isLogin()) {
+			// 	this.userlist = uni.getStorageSync('userlist');
+			// 	console.log(this.userlist);
+			// 	this.initialization(); //初始化
+			// } else {
+			// 	this.utils.error('请先登录账号！',()=>{
+			// 		this.utils.navback()
+			// 	})
+			// }
+		},
+		onShow() {
+			console.log('执行初始化');
 			if (this.utils.isLogin()) {
 				this.userlist = uni.getStorageSync('userlist');
 				console.log(this.userlist);
 				this.initialization(); //初始化
-			} else {
-				this.utils.error('请先登录账号！')
+			}else {
+				this.utils.error('请先登录账号！',()=>{
+					this.utils.navback()
+				})
 			}
-		},
-		onShow() {
-			// console.log('执行初始化');
-			// if (this.utils.isLogin()) {
-			// 	this.initialization(); //初始化
-			// }
 		},
 		methods: {
 			// 初始化数据
@@ -146,6 +154,7 @@
 						number: list[i].quantity,
 						goodsId: list[i].commodityId,
 						spec_key_name: list[i].specificationsName,
+						specId: list[i].specificationsId,
 						selected: false,
 					}
 					that.carList[0].glist.push(item);

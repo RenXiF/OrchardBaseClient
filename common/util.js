@@ -44,10 +44,36 @@ module.exports = {
 	DiGuiUpimg, //递归上传图片
 	DiGuiDelete,//递归删除服务器图片
 	DiGuiDeleimg,//递归删除服务器图片
-	OSSdeleteIMG//单个删除服务器图片
+	OSSdeleteIMG,//单个删除服务器图片
+	getOpenId//获取微信openid
 }
-
-
+/**
+ * 获取微信openid<br>
+ * code 提示信息<br>
+ * callback 回调函数<br>
+ */
+function getOpenId(code,callback){
+	if(code ===undefined || code ===null ){
+		error('code为空')
+		return
+	}
+	uni.request({
+	    url: 'https://api.weixin.qq.com/sns/jscode2session', //仅为示例，并非真实接口地址。
+	    data: {
+			appid:'wxccb195b2920ad5dd',
+			secret:'494eb6d790b3aad0e6645aa9015fbf29',
+			js_code:code,
+			grant_type:'authorization_code'
+	    },
+	    success: (res) => {
+			callback(res.data)
+	    },
+		fail: (err) => {
+			console.log(err);
+			error('请求错误')
+		}
+	});
+}
 /**
  * 递归删除服务器图片
  * @param str
