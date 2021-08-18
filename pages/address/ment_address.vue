@@ -3,8 +3,8 @@
 		<view class="management_item border_bottom flex_rows" @click="setAddr(item)" v-for="(item, index) in addressList" :key="index" v-if="addressList.length!=0">
 			<view class="item_left">
 				<view class="left_top flex_rows">
-					<text class="top_icon" v-show="item.addressState == 1">默认</text>
-					<text class="top_text">{{ item.detailedAddress }}</text>
+					<text class="top_icon" v-show="item.addressState">默认</text>
+					<text class="top_text u-m-l-10">{{ item.detailedAddress }}</text>
 				</view>
 				<view class="left_bottom flex_rows">
 					<view class="bottom_name">{{ item.consigneeName }}</view>
@@ -13,7 +13,7 @@
 			</view>
 			<view class="item_right" @click="edit(item)">编辑</view>
 		</view>
-		<view class="management_button boder" @click="doUrl('pages/address/add_address')">新增地址</view>
+		<view class="management_button" @click="doUrl('pages/address/add_address')">新增地址</view>
 	</view>
 </template>
 
@@ -87,16 +87,20 @@ export default {
 		justify-content: space-between;
 		align-items: center;
 		.item_left {
+			width: 90%;
 			.left_top {
+				
 				justify-content: flex-start;
 				align-items: center;
 				.top_icon {
+					width: 15%;
 					background-color: #fff4e0;
 					font-size: 20upx;
 					color: #ffa600;
 					border-radius: 8upx;
 					padding: 3upx 5upx;
 					margin-right: 5upx;
+					text-align: center;
 				}
 				.top_text {
 					font-size: 28upx;
@@ -104,6 +108,7 @@ export default {
 				}
 			}
 			.left_bottom {
+				
 				justify-content: flex-start;
 				align-items: center;
 				margin-top: 8upx;

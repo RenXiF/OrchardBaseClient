@@ -96,10 +96,13 @@ var components
 try {
   components = {
     uSwiper: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-swiper/u-swiper */ "uview-ui/components/u-swiper/u-swiper").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-swiper/u-swiper.vue */ 299))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-swiper/u-swiper */ "uview-ui/components/u-swiper/u-swiper").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-swiper/u-swiper.vue */ 313))
     },
     uReadMore: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-read-more/u-read-more */ "uview-ui/components/u-read-more/u-read-more").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-read-more/u-read-more.vue */ 411))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-read-more/u-read-more */ "uview-ui/components/u-read-more/u-read-more").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-read-more/u-read-more.vue */ 425))
+    },
+    uEmpty: function() {
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-empty/u-empty */ "uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-empty/u-empty.vue */ 341))
     }
   }
 } catch (e) {
@@ -192,13 +195,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
     return {
       scrollTop: 0,
       list: [],
-      squarelist: {} };
+      squarelist: {},
+      datalist: [] };
 
   },
   onPageScroll: function onPageScroll(e) {
@@ -208,6 +217,7 @@ var _default =
     this.squarelist = uni.getStorageSync('squarelist');
     console.log(this.squarelist);
     this.getGoods(this.squarelist.id);
+    this.getcommodity();
     // this.getComment(this.buylist.id);
     if (this.utils.isLogin()) {
       this.userlist = uni.getStorageSync('userlist');
@@ -228,15 +238,27 @@ var _default =
         uni.hideLoading();
       });
     },
-    yulan: function yulan(list) {//图片预览
-      if (list.length != 0) {
-        var li = [];
-        for (var i = 0; i < list.length; i++) {
-          li.splice(i, 0, list[i].imgAddress);
-        }
-        console.log(li);
-        this.openImg(li);
-      }
+    //推荐商品
+    getcommodity: function getcommodity() {var _this2 = this;
+      var li = {
+        pageNum: 1,
+        pageSize: 10,
+        state: 3 };
+
+      // console.log(li)
+      this.http.getApi('commodity/list', li, 'post').then(function (res) {
+        console.log(res);
+        _this2.datalist = res.list;
+        uni.hideLoading();
+      }).catch(function (err) {
+        console.log(err);
+        _this2.utils.error(err.msg);
+        uni.hideLoading();
+      });
+    },
+    yulan: function yulan(e) {//图片预览
+      // console.log(e);
+      this.openImg(this.list, e);
     },
     doUrlli: function doUrlli(item) {
       // uni.setStorageSync('buylist', item);

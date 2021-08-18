@@ -250,8 +250,8 @@
             "path" : "pages/user/onelist/open_vip",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "开通vip",
-                "enablePullDownRefresh": false
+                "navigationBarTitleText": "记录",
+                "enablePullDownRefresh": true
             }
             
         }
@@ -280,6 +280,24 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "修改",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/user/comment/add",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "添加评价",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/user/comment/list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "评论列表",
                 "enablePullDownRefresh": false
             }
             

@@ -122,7 +122,7 @@
 			</view>
 			<view class="right">
 				<view class="cart btn u-line-1" @click="show = true">加入购物车</view>
-				<view class="buy btn u-line-1">立即购买</view>
+				<!-- <view class="buy btn u-line-1">立即购买</view> -->
 			</view>
 		</view>
 	</view>
@@ -302,11 +302,16 @@
 				// console.log(this.popupli);
 			},
 			cartadd() {
-				this.show = false;
+				
 				if (!this.utils.isLogin()) {
 					this.utils.error('请先登录账号')
 					return
 				}
+				if(this.specID ==''){
+					this.utils.error('请先选择规格')
+					return
+				}
+				this.show = false;
 				this.carAdd(this.popupli);
 			},
 			openPOP() { //打开弹窗
@@ -326,8 +331,8 @@
 					commodityId: list.id,
 					quantity:this.goodsSum,
 					specificationsId: this.specID,
-					state: 1,
-					price: this.Price,
+					// state: 1,
+					// price: this.Price,
 					// price: this.Price>this.conjuan.full?this.Price-this.conjuan.reduce:this.Price,
 				}
 				console.log(li);
@@ -335,7 +340,7 @@
 					this.utils.error('请先登录账号');
 					return;
 				}
-				this.http.getApi('order/order', li, 'post').then(res => {
+				this.http.getApi('shopping/save', li, 'post').then(res => {
 					console.log(res);
 					// this.goodsUp(li.goodsId, li.goodsSum); //添加销量
 					this.utils.success('添加成功！');

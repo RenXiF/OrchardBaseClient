@@ -33,13 +33,16 @@
 		</view>
 		<!-- 弹出框 -->
 		<u-popup v-model="show" mode="bottom" length="600" safe-area-inset-bottom @open="openPOP()" @close="closePOP()"
-			closeable>
+			closeable safe-area-inset-bottom>
 			<view class="flex_columns u-p-20" v-if="popupli">
+				<view class="flex_jufy_center u-font-lg">
+					<text>VIP选择</text>
+				</view>
 				<view class="u-p-20 u-m-t-30">
-					<slide :list="vipli" @ckindex="clickin"></slide>
+					<slide :list="vipli" @ckindex="clickin" ></slide>
 				</view>
 				<view class=" u-p-10 u-m-t-30">
-					<u-button :ripple="true" type="warning" @click="cartadd()">立即开通</u-button>
+					<u-button :ripple="true" type="warning" @click="cartadd()" :disabled="!vipli?true:false">立即开通</u-button>
 				</view>
 			</view>
 		</u-popup>
@@ -57,7 +60,12 @@
 		data() {
 			return {
 				show: false,//弹窗控制
+				vipshow:false,//是否选择
+				vipitem:{},//已选择vip
+				vipTreatment:0,
+				viptli:{},
 				vipli:[],
+				yuanlist:[],//原数据
 				src: '/static/logo.png',
 				viplist: ['/static/vip/v1.png', '/static/vip/v2.png', '/static/vip/v3.png'],
 				sortlist: [{
@@ -74,13 +82,23 @@
 						bgcolor: '#FFF0D9',
 						http:'pages/user/onelist/openvip'
 					},
+					{
+						dictionaryValue: '开通记录',
+						logo: 'order',
+						color: '#ffaaff',
+						bgcolor: '#FFF0D9',
+						http:'pages/user/onelist/open_vip'
+					},
 				], //分类数据
 				popupli:[],
-				EntityList:[],
+				EntityList:[],//优惠卷数据
 				userlist: {},
 			}
 		},
 		onLoad() {
+			
+		},
+		onShow() {
 			if (this.utils.isLogin()) {
 				this.userlist = uni.getStorageSync('userlist');
 				console.log(this.userlist)
@@ -89,6 +107,18 @@
 			}
 		},
 		methods: {
+			//获取优惠券
+			getdiscount() {
+				this.http.getApi('discount/list', {}, 'post').then(res => {
+					console.log(res);
+					this.EntityList = res.list;
+					uni.hideLoading();
+				}).catch(err => {
+					console.log(err);
+					this.utils.error(err.msg);
+					uni.hideLoading();
+				});
+			},
 			doUrlck(http,item){
 				if (item.dictionaryValue==='开通VIP') {
 					this.show = true
@@ -104,10 +134,119 @@
 			},
 			//点击滑动块
 			clickin(index){
+				this.vipshow = true
+				this.vipitem = this.vipli[index]
 				this.vipli[index].show = true;
 				this.vipli.map((val, idx) => {
 					if (index != idx) this.vipli[idx].show = false;
 				})
+			},
+			//点击确认开通
+			cartadd(){
+				if(!this.vipshow){
+					this.utils.error('请先选择需要开通的vip')
+					return
+				}
+				var it = {
+					grade: this.vipitem.tit,
+					money: this.vipitem.price,
+					originalPrice:0,
+					userId: this.userlist.id
+				}
+				// console.log(it);
+				for(let i=0;i<this.yuanlist.length;i++){
+					if(it.grade == this.yuanlist[i].vipName){
+						it.originalPrice = this.yuanlist[i].price
+					}
+				}
+				this.orderfound(it)
+			},
+			 //开通vip订单
+			orderfound(jsonData) {
+				console.log(jsonData);
+				this.utils.showloading('正在加载数据.....');
+				this.http.getApi('vipor/save', jsonData, 'post').then(res => {
+					console.log(res);
+					this.verificationLogin(res)
+				}).catch(err => {
+					console.log(err);
+					uni.hideLoading();
+					this.utils.error(err.message);
+				});
+			},
+			//获取openid
+			verificationLogin(item) {
+				var _this = this;
+				uni.login({
+					provider: 'weixin',
+					success: function(loginRes) {
+						console.log(loginRes);
+						// _this.opengid(loginRes.code);
+						_this.utils.getOpenId(loginRes.code,(res)=>{
+							console.log(res);
+							_this.wxPayorder(item,res.openid)
+						})
+					}
+				});
+			},
+			 //支付订单
+			wxPayorder(item,openid) {
+				let li = {
+					orderNo: item.order,
+					amount: 0.01,
+					// amount: item.money,
+					body: 'vip开通',
+					openid: openid
+				}
+				console.log(li);
+				this.http.getApi('wxPay/unifiedOrder', li, 'get').then(res => {
+					console.log(res);
+					console.log('执行支付');
+					this.paymentorder(res.data);
+				}).catch(err => {
+					console.log(err);
+					uni.hideLoading();
+					this.utils.error(err.msg);
+				});
+			},
+			//拉起支付
+			paymentorder(data) {
+				console.log(data);
+				var _this = this;
+				_this.utils.showloading('正在支付');
+				uni.requestPayment({
+					provider: 'wxpay',
+					orderInfo: data, //微信、支付宝订单数据
+					// #ifdef MP-WEIXIN 
+					timeStamp: data.timeStamp,
+					nonceStr: data.nonceStr,
+					package: data.package,
+					signType: data.signType,
+					paySign: data.paySign,
+					// #endif
+					success: function(res) {
+						console.log(res);
+						// uni.hideLoading();
+						_this.utils.success('支付成功！', () => {
+							// _this.utils.navback();
+							_this.utils.showloading('刷新中...')
+							_this.utils.refLogin()
+							setTimeout(function() {
+								_this.userlist = uni.getStorageSync('userlist');
+								_this.getviplist()
+								console.log(_this.userlist);
+							}, 500)
+							_this.show = false
+						});
+					},
+					fail: function(err) {
+						console.log(err);
+						uni.hideLoading();
+						_this.utils.error('您已取消支付！', () => {
+							_this.show = false
+						});
+					}
+				});
 			},
 			//点击优惠券
 			couponCk(item) {
@@ -132,16 +271,37 @@
 			getviplist() {
 				this.http.getApi('vip/list',{}, 'post').then(res => {
 					console.log(res);
-					this.vipli = res.list.map(item =>{
-						return {
-							id: item.id,
-							tit: item.vipName,
-							price: item.price,
-							yprice: item.vipTreatment,
-							show:false
-						}
-					});
+					this.yuanlist = JSON.parse(JSON.stringify(res.list));
+					this.guolvvipt(res.list)
+					if (this.vipTreatment == 0) {
+						this.vipli =  res.list.map(item =>{
+							return {
+								id: item.id,
+								tit: item.vipName,
+								price: item.price,
+								yprice: item.vipTreatment,
+								show:false
+							}
+						});
+					} else{
+						let it = this.guolvvip(res.list)
+						console.log(this.viptli);
+						this.vipli = it.map(item =>{
+							if(this.viptli.vipTreatment){
+								item.price = item.price - this.viptli.price
+							}
+							return {
+								id: item.id,
+								tit: item.vipName,
+								price: item.price,
+								yprice: item.vipTreatment,
+								show:false
+							}
+						});
+					}
+					
 					console.log(this.vipli);
+					
 					uni.hideLoading();
 				}).catch(err => {
 					console.log(err);
@@ -149,18 +309,28 @@
 					uni.hideLoading();
 				});
 			},
-			//获取优惠券
-			getdiscount() {
-				this.http.getApi('discount/list', {}, 'post').then(res => {
-					console.log(res);
-					this.EntityList = res.list;
-					uni.hideLoading();
-				}).catch(err => {
-					console.log(err);
-					this.utils.error(err.msg);
-					uni.hideLoading();
-				});
+			//过滤折扣
+			guolvvipt(li){
+				for(let i=0;i<li.length;i++){
+					if(this.userlist.userRole ==li[i].vipName){
+						this.vipTreatment = li[i].vipTreatment
+						this.viptli = li[i]
+					}
+				}
+				// console.log(this.viptli);
 			},
+			//过滤vip
+			guolvvip(li){
+				// console.log(this.vipTreatment);
+				let vipli = []
+				for(let i=0;i<li.length;i++){
+					if( li[i].vipTreatment < this.vipTreatment && this.vipTreatment != 0){
+						vipli.splice(0,0,li[i])
+					}
+				}
+				return vipli
+			},
+			
 		}
 	}
 </script>

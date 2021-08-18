@@ -96,13 +96,13 @@ var components
 try {
   components = {
     uGap: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-gap/u-gap */ "uview-ui/components/u-gap/u-gap").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-gap/u-gap.vue */ 432))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-gap/u-gap */ "uview-ui/components/u-gap/u-gap").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-gap/u-gap.vue */ 446))
     },
     uSwipeAction: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-swipe-action/u-swipe-action */ "uview-ui/components/u-swipe-action/u-swipe-action").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-swipe-action/u-swipe-action.vue */ 481))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-swipe-action/u-swipe-action */ "uview-ui/components/u-swipe-action/u-swipe-action").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-swipe-action/u-swipe-action.vue */ 495))
     },
     uLoadmore: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-loadmore/u-loadmore */ "uview-ui/components/u-loadmore/u-loadmore").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-loadmore/u-loadmore.vue */ 334))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-loadmore/u-loadmore */ "uview-ui/components/u-loadmore/u-loadmore").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-loadmore/u-loadmore.vue */ 348))
     }
   }
 } catch (e) {
@@ -159,7 +159,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var money = function money() {__webpack_require__.e(/*! require.ensure | components/cn-money/cn-money */ "components/cn-money/cn-money").then((function () {return resolve(__webpack_require__(/*! @/components/cn-money/cn-money.vue */ 348));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var money = function money() {__webpack_require__.e(/*! require.ensure | components/cn-money/cn-money */ "components/cn-money/cn-money").then((function () {return resolve(__webpack_require__(/*! @/components/cn-money/cn-money.vue */ 362));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 

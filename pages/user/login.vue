@@ -93,6 +93,7 @@ export default {
 			}).catch(err => {
 				console.log(err);
 				uni.hideLoading();
+				this.utils.error(err.message)
 			});
 		},
 		//当前注册按钮操作
@@ -124,7 +125,66 @@ export default {
 		},
 		//等三方微信登录
 		wxLogin() {
-			uni.showToast({ title: '微信登录', icon: 'none' });
+			var _this = this
+			uni.getUserProfile({
+				desc: '获取基本资料',
+				success: function(loginRes) {
+					// console.log(loginRes);
+					let li = {
+						openId: "",
+						userImg: "",
+						userName: "",
+					}
+					li.userImg = loginRes.userInfo.avatarUrl
+					li.userName = loginRes.userInfo.nickName
+					_this.utils.showloading();
+					uni.login({
+						provider: 'weixin',
+						success: function(loginRes) {
+							// console.log(loginRes);
+							// #ifdef MP-WEIXIN
+							_this.utils.getOpenId(loginRes.code,(res)=>{
+								console.log(res);
+								li.openId = res.openid
+								// console.log(li);
+								_this.loginWeiXin(li);
+							})
+							// #endif
+						},
+						fail: function(err) {
+							console.log(err);
+							uni.hideLoading();
+							if (err.code == -2 || err.code == -100) {
+								_this.utils.error('您已取消授权！');
+							}
+						}
+					});
+				},
+				fail: function(err) {
+					console.log(err);
+					_this.utils.error('请先同意授权')
+				}
+			});
+		},
+		//微信验证登录
+		loginWeiXin(list) {
+			console.log(list);
+			this.http.getApi('wx/save', list, 'post').then(res => {
+				console.log("成功");
+				console.log(res);
+				uni.hideLoading();
+				this.utils.success("登录成功！", function() {
+					uni.setStorageSync('WXopenid', res.user.openId);
+					uni.setStorageSync('userlist', res.user);
+					uni.switchTab({
+						url: '/pages/user/user'
+					});
+				});
+			}).catch(err => {
+				console.log(err);
+				uni.hideLoading();
+				this.utils.error(err.message);
+			});
 		},
 		//第三方支付宝登录
 		zfbLogin() {

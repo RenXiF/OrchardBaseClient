@@ -125,7 +125,7 @@ var components
 try {
   components = {
     uIcon: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 320))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 334))
     }
   }
 } catch (e) {
@@ -242,7 +242,7 @@ var _default =
         detailedAddress: '', //详细地址
         distinctId: true, //地址选择
         gender: 0, //性别
-        addressState: 0,
+        addressState: false,
         longitude: '', //经度
         dimension: '', //维度
         consigneeRegion: '', //省份
@@ -272,6 +272,11 @@ var _default =
 
   },
   methods: {
+    //修改是否默认
+    switchck: function switchck(e) {
+      // console.log(e);
+      this.formData.addressState = e.detail.value;
+    },
     //修改地址参数 
     edit: function edit() {
       var addr = uni.getStorageSync('edit_addr');

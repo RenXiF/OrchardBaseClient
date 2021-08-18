@@ -2,7 +2,6 @@
   "navigationBarTitleText": "广场",
   "enablePullDownRefresh": true,
   "usingComponents": {
-    "square-u-waterfall-right": "/pages/square/square-u-waterfall-right",
     "u-swiper": "/uview-ui/components/u-swiper/u-swiper",
     "u-sticky": "/uview-ui/components/u-sticky/u-sticky",
     "u-tabs": "/uview-ui/components/u-tabs/u-tabs",

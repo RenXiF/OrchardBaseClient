@@ -1,7 +1,7 @@
 <template>
 	<view class="index_home flex_columns" style="height: 1200px;">
 		<!-- <nav-bar>我的</nav-bar> -->
-		<u-swiper :list="list" name="img" effect3d @click="yulan(list)"></u-swiper>
+		<u-swiper :list="list" name="img" effect3d @click="yulan"></u-swiper>
 		<u-sticky class="u-m-t-30">
 			<view class="sticky" style="">
 				<u-tabs :list="sortlist" name="dictionaryValue" active-color="#F55F54" :is-scroll="true" :current="current"
@@ -184,19 +184,23 @@
 					uni.hideLoading();
 				}).catch(err => {
 					console.log(err);
+					if(this.pageNum == 1){
+						this.clear();
+					}
 					this.utils.error(err.msg);
 					uni.hideLoading();
 				});
 			},
-			yulan(list) {
-				if (list.length != 0) {
+			yulan(e) {
+				// console.log(this.list);
+				if (this.list.length != 0) {
 					let li = [];
-					for (let i = 0; i < list.length; i++) {
-						li.splice(i, 0, list[i].img);
+					for (let i = 0; i < this.list.length; i++) {
+						li.splice(i, 0, this.list[i].img);
 					}
-					// console.log(li);
-					this.openImg(li);
+					this.openImg(li,e);
 				}
+				
 			},
 			clear() { //清空瀑布流
 				this.$refs.uWaterfall.clear();

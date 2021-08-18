@@ -51,7 +51,7 @@
 			};
 		},
 		onLoad() {
-			
+			var _this = this
 			if (this.utils.isLogin()) {
 				this.utils.showloading();
 				this.userlist = uni.getStorageSync('userlist');
@@ -59,7 +59,9 @@
 				console.log(this.buylist);
 				console.log(this.userlist);
 				this.getDictionaries(); //获取分类
-				this.initialization(); //初始化
+				setTimeout(function() {
+					_this.initialization(); //初始化
+				}, 500)
 			} else {
 				this.utils.error('请先登录账号！', () => {
 					this.utils.navback();

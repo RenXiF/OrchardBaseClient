@@ -91,14 +91,12 @@
 			<view class="price_top flex_rows space_bet border_bottom">
 				<view class="top_first">
 					<view class="first_price">商品价格</view>
-					<view class="first_price">商品数量</view>
+					<view class="first_price">商品折扣</view>
 					<!-- <view class="" v-if="receiveText!=''">优惠</view> -->
 				</view>
 				<view class="top_sencond">
-					<view class="sencond_num" v-if="orderlist.totalAmount">{{formatPrice(orderlist.totalAmount)}}元
-					</view>
-					<!-- <view class="sencond_num" v-if="orderlist.quantity!=0 && piece">×{{orderlist.quantity}}件</view>
-					<view class="sencond_num" v-if="orderlist.quantity!=0 && !piece">×{{orderlist.quantity}}</view> -->
+					<view class="sencond_num" v-if="orderlist.zkAmount">{{formatPrice(orderlist.zkAmount)}}元</view>
+					<view class="sencond_num" v-if="userlist.vipTreatment!=0">×{{formatPrice(userlist.vipTreatment)}}折</view>
 					<!-- <view class="sencond_coupon" v-if="receiveText!=''">优惠券
 						<text class="coupons_num" v-if="receiveText">-{{formatPrice(receiveText)}}元</text>
 					</view> -->
@@ -113,7 +111,7 @@
 				</text>
 			</view>
 		</view>
-		<text class=" text_des " v-if="piece">(注：成为会员后商品只能按件购买)</text>
+		<text class=" text_des ">(注：会员折扣是按实际支付金额进行打折)</text>
 		<view class="order_button flex_rows">
 			<view class="button_money">
 				实付：<text class="money_num" v-if="orderlist.totalAmount">￥{{formatPrice(orderlist.totalAmount)}}</text>
@@ -189,10 +187,15 @@
 				receiveText: 0,
 				orderlist: {
 					addressId: '', //地址id
+					consigneeName: '',//收货人
+					phone:'',//手机号
+					detailedAddress: '',//地址
 					payVos: [], //商品数据
 					// state: 3, //订单状态
 					leaving: '', //留言
+					userId:'',//用户id
 					totalAmount: 0, //订单实际支付金额
+					zkAmount: 0, //折扣前的价格
 				},
 				userlist: {},
 				zorder: {}, //主订单
@@ -215,6 +218,9 @@
 			console.log(this.userlist);
 			if (this.addrInfo.id) {
 				this.orderlist.addressId = this.addrInfo.id
+				this.orderlist.consigneeName = this.addrInfo.consigneeName
+				this.orderlist.phone = this.addrInfo.phone
+				this.orderlist.detailedAddress = this.addrInfo.consigneeRegion+this.addrInfo.city+this.addrInfo.county+this.addrInfo.detailedAddress
 				console.log(this.orderlist);
 			}
 		},
@@ -222,10 +228,8 @@
 			console.log(options);
 			if (this.utils.isLogin()) {
 				this.userlist = uni.getStorageSync('userlist');
-				// this.orderlist.userId = this.userlist.id;
-				// this.orderlist.opendId = this.userlist.openId;
-
 				console.log(this.userlist);
+				this.orderlist.userId = this.userlist.id
 			} else {
 				this.utils.error('请先登录账号！');
 			}
@@ -312,12 +316,17 @@
 					if (this.goodsList[i].reduce) {
 						this.orderlist.totalAmount = this.orderlist.totalAmount + this.goodsList[i].number * this
 							.goodsList[i].price - this.goodsList[i].reduce;
+							this.orderlist.zkAmount = this.orderlist.totalAmount
 					} else {
 						this.orderlist.totalAmount = this.orderlist.totalAmount + this.goodsList[i].number * this
 							.goodsList[i].price;
+							this.orderlist.zkAmount = this.orderlist.totalAmount
 					}
-
 				}
+				if(this.userlist.vipTreatment!=0){
+					this.orderlist.totalAmount = this.orderlist.totalAmount * this.userlist.vipTreatment
+				}
+				this.orderlist.totalAmount = this.orderlist.totalAmount==0?0.01:this.orderlist.totalAmount
 			},
 			getOyhj(id, index) { //获取用户优惠券
 				this.goodsIndex = index;
@@ -413,6 +422,20 @@
 					this.orderfound(this.orderlist);
 				});
 			},
+			screen(list, data) { //筛选
+				let tt = [];
+					tt = list.map(iterator => {
+					return {
+						commodityId: iterator.goodsId,
+						id: iterator.id,
+						discountId:iterator.conjuan!=undefined?iterator.conjuan.id : null,
+						price:iterator.price,
+						quantity: iterator.number,
+						specificationsId: iterator.specId
+					}
+				});
+				data(tt);
+			},
 			orderfound(jsonData) { //主订单
 				this.http.getApi('order/orders', jsonData, 'post').then(res => {
 					uni.hideLoading();
@@ -436,6 +459,7 @@
 							console.log(res);
 							_this.wxPayorder(item,res.openid)
 						})
+						// _this.wxPayorder(item,loginRes.code)
 					}
 				});
 			},
@@ -448,8 +472,10 @@
 					openid: openid
 				}
 				console.log(li);
+				// wxPay/unifiedOrder原支付
 				this.http.getApi('wxPay/unifiedOrder', li, 'get').then(res => {
 					console.log(res);
+					console.log('执行');
 					this.paymentorder(res.data);
 					// uni.hideLoading();
 				}).catch(err => {
@@ -538,20 +564,7 @@
 					this.utils.error(err.msg);
 				});
 			},
-			screen(list, data) { //筛选
-				let tt = [];
-					tt = list.map(iterator => {
-					return {
-						commodityId: iterator.goodsId,
-						id: iterator.id,
-						// price: iterator.reduce ? iterator.number * iterator.price - iterator.reduce : iterator.number * iterator.price,
-						price:iterator.price,
-						quantity: iterator.number,
-						specificationsId: iterator.specId
-					}
-				});
-				data(tt);
-			},
+			
 		}
 	}
 </script>

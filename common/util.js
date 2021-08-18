@@ -562,19 +562,19 @@ function isLogin() {
 /**
  * 刷新用户信息
  */
-function refLogin(is) {
+function refLogin() {
 	if (isLogin()) {
-		var openId = uni.getStorageSync('WXopenid');
-		http.getApi('user/login', {
-			openId: openId
+		var user = uni.getStorageSync('userlist');
+		http.getApi('user/info', {
+			id: user.id
 		}, 'get').then(res => {
 			console.log(res);
-			uni.setStorageSync('userlist', this.userlist);
-			// this.utils.success('登录成功！');
+			uni.setStorageSync('userlist', res.user);
+			//success('登录成功！');
 			return true;
 		}).catch(err => {
 			console.log(err);
-			this.utils.error(err.msg);
+			error('更新失败');
 			return false;
 		});
 	} else{
@@ -626,6 +626,8 @@ function logout() {
 	try {
 		uni.removeStorageSync("userlist");
 		uni.removeStorageSync("WXopenid");
+		uni.removeStorageSync("Remark");
+		uni.removeStorageSync("setAddr");
 		return true;
 	} catch (e) {
 		return false;

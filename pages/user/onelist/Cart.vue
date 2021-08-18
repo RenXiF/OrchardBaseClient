@@ -121,12 +121,12 @@
 				}
 				let li = {
 					userId: this.userlist.id,
-					state: 1,
+					// state: 1,
 					pageNum: this.pageNum,
 					pageSize: this.pageSize,
 				}
 				// console.log(li)
-				this.http.getApi('order/query', li, 'post').then(res => {
+				this.http.getApi('shopping/list', li, 'get').then(res => {
 					console.log(res);
 					this.more = res.pages>this.pageNum?true :false;
 					this.total = res.pages;
@@ -246,7 +246,7 @@
 			},
 			carDe(CarId) {
 				let li = [CarId];
-				this.http.getApi('order/delete',li, 'post').then(res => {
+				this.http.getApi('shopping/delete',li, 'post').then(res => {
 					console.log(res);
 					uni.hideLoading();
 				}).catch(err => {

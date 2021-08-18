@@ -41,7 +41,7 @@
 		</view>
 		<view class="add_sencond flex_rows">
 			<view class="sencond_left">设为默认地址</view>
-			<view class="sencond_right"><switch :value="formData.addressState" class="right_switch" color="#FFA600" /></view>
+			<view class="sencond_right"><switch :checked="formData.addressState" @change="switchck"  class="right_switch" color="#FFA600" /></view>
 		</view>
 		<view class="add_editor" v-show="formData.id" @click="removeAddress(formData.id)">删除地址</view>
 		<view class="add_button" @click="postAddress">保存地址</view>
@@ -58,7 +58,7 @@
 					detailedAddress: '',//详细地址
 					distinctId: true, //地址选择
 					gender: 0,//性别
-					addressState: 0,
+					addressState: false,
 					longitude: '',//经度
 					dimension: '',//维度
 					consigneeRegion: '', //省份
@@ -88,6 +88,11 @@
 
 		},
 		methods: {
+			//修改是否默认
+			switchck(e){
+				// console.log(e);
+				this.formData.addressState =e.detail.value
+			},
 			//修改地址参数 
 			edit() {
 				let addr = uni.getStorageSync('edit_addr');

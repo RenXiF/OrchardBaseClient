@@ -30,7 +30,9 @@
     "pages/user/onelist/open_vip",
     "pages/user/onelist/userlist",
     "pages/user/onelist/forgetPass",
-    "pages/user/onelist/u_user"
+    "pages/user/onelist/u_user",
+    "pages/user/comment/add",
+    "pages/user/comment/list"
   ],
   "subPackages": [],
   "window": {
@@ -86,8 +88,10 @@
       "desc": "地址选择"
     }
   },
+  "uniStatistics": {
+    "enable": false
+  },
   "usingComponents": {
     "nav-bar": "/components/zhouWei-navBar/index"
-  },
-  "sitemapLocation": "sitemap.json"
+  }
 }

@@ -96,16 +96,16 @@ var components
 try {
   components = {
     uAvatar: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-avatar/u-avatar */ "uview-ui/components/u-avatar/u-avatar").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-avatar/u-avatar.vue */ 397))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-avatar/u-avatar */ "uview-ui/components/u-avatar/u-avatar").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-avatar/u-avatar.vue */ 411))
     },
     uGrid: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-grid/u-grid */ "uview-ui/components/u-grid/u-grid").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-grid/u-grid.vue */ 306))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-grid/u-grid */ "uview-ui/components/u-grid/u-grid").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-grid/u-grid.vue */ 320))
     },
     uGridItem: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-grid-item/u-grid-item */ "uview-ui/components/u-grid-item/u-grid-item").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-grid-item/u-grid-item.vue */ 313))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-grid-item/u-grid-item */ "uview-ui/components/u-grid-item/u-grid-item").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-grid-item/u-grid-item.vue */ 327))
     },
     uIcon: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 320))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 334))
     }
   }
 } catch (e) {
@@ -162,119 +162,124 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var _default =
-{
-  data: function data() {
-    return {
-      lognum: 0,
-      src: '/static/logo.png',
-      menulist: [{
-        title: '待付款',
-        icon: 'photo',
-        http: 'pages/user/order/order' },
-
-      {
-        title: '待发货',
-        icon: 'lock',
-        http: 'pages/user/order/order' },
-
-      {
-        title: '待收货',
-        icon: 'hourglass',
-        http: 'pages/user/order/order' },
-
-      {
-        title: '待评价',
-        icon: 'more-dot-fill',
-        http: 'pages/user/order/order' }],
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
 
-      menulist2: [{
-        title: '收藏',
-        icon: 'thumb-up',
-        http: 'pages/user/onelist/Collection' },
 
-      {
-        title: '购物车',
-        icon: 'shopping-cart',
-        http: 'pages/user/onelist/Cart' },
 
-      {
-        title: '收货地址',
-        icon: 'car',
-        http: 'pages/address/ment_address' },
 
-      {
-        title: '会员中心',
-        icon: 'level',
-        http: 'pages/user/onelist/vip' },
 
-      {
-        title: '设置',
-        icon: 'edit-pen',
-        http: 'pages/user/onelist/userlist' },
 
-      {
-        title: '在线客服',
-        icon: 'server-fill',
-        http: 'no' },
 
-      // {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _formIdMixins = _interopRequireDefault(__webpack_require__(/*! @/common/form-id-mixins.js */ 668));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var _default = { mixins: [_formIdMixins.default], data: function data() {return { lognum: 0, src: '/static/logo.png', menulist: [{ title: '待付款', icon: 'photo', http: 'pages/user/order/order' }, { title: '待发货', icon: 'lock', http: 'pages/user/order/order' }, { title: '待收货', icon: 'hourglass', http: 'pages/user/order/order' }, { title: '待评价', icon: 'more-dot-fill', http: 'pages/user/order/order' }], menulist2: [{ title: '收藏', icon: 'thumb-up', http: 'pages/user/onelist/Collection' }, { title: '购物车', icon: 'shopping-cart', http: 'pages/user/onelist/Cart' }, { title: '收货地址', icon: 'car', http: 'pages/address/ment_address' }, { title: '会员中心', icon: 'level', http: 'pages/user/onelist/vip' }, { title: '设置', icon: 'edit-pen', http: 'pages/user/onelist/userlist' }, { title: '在线客服', icon: 'server-fill', http: 'no' }, // {
       // 	title: '投诉建议',
       // 	icon: 'edit-pen',
       // 	http: 'pages/user/onelist/complaintList'
@@ -306,6 +311,7 @@ var _default =
       this.userlist = uni.getStorageSync('userlist');
       if (this.userlist.id) {
         this.lognum = 1;
+        this.openMsg();
       }
       console.log(this.userlist);
     }
@@ -322,6 +328,41 @@ var _default =
     }
   },
   methods: {
+    handlePush: function handlePush(e) {
+      console.log(e);
+      this.getFormIdData(e.detail.formId);
+    },
+    // 开启订阅消息
+    openMsg: function openMsg() {
+      var that = this;
+      // 获取用户的当前设置，判断是否点击了“总是保持以上，不在询问”
+      wx.getSetting({
+        withSubscriptions: true, //是否获取用户订阅消息的订阅状态，默认false不返回
+        success: function success(res) {
+          console.log(res);
+          if (res.authSetting['scope.subscribeMessage']) {//用户点击了“总是保持以上，不再询问”
+            uni.openSetting({ // 打开设置页
+              success: function success(res) {
+                console.log(res.authSetting);
+              } });
+
+          } else {// 用户没有点击“总是保持以上，不再询问”则每次都会调起订阅消息
+            // var templateid = that.setting.templateid.map(item => item.tempid)
+            uni.requestSubscribeMessage({
+              tmplIds: ['6lF4LvrKBd3In2GpKHj7a5bpa4olZ9dGKSrDbBISOQU'],
+              success: function success(res) {
+                console.log(res);
+                console.log('1111111111');
+              },
+              fail: function fail(err) {
+                console.log(err);
+                console.log('22222222');
+              } });
+
+          }
+        } });
+
+    },
     exitLogin: function exitLogin() {
       if (this.utils.logout()) {
         this.utils.success('退出成功！');
@@ -524,7 +565,8 @@ var _default =
       if (item.title == '在线客服') {
         this.callPhone(this.phone);
       } else {
-        this.doUrl(item.http);
+        // this.doUrl(item.http);
+        this.openMsg();
       }
 
     } } };exports.default = _default;

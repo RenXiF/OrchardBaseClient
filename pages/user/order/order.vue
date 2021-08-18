@@ -29,7 +29,7 @@
 							</view>
 							<view class="one_ck_two flex_columns flex_align_end ">
 								<cn-money :money="item2.price" thousandth :size="35" color="#df473c"></cn-money>
-								<text>{{item2.specificationsName}}</text>
+								<text>{{item2.specificationsNname}}</text>
 								<text>x{{item2.quantity}}</text>
 							</view>
 						</view>
@@ -42,7 +42,7 @@
 							<text>{{item.spareThree}}</text>
 						</view>
 						<view class="tit_ck flex_between flex_center">
-							<text>总价:</text>
+							<text>支付金额:</text>
 							<!-- <text class="tit_b">{{item.totalAmount}}元</text> -->
 							<cn-money :money="item.totalAmount" thousandth :size="50" color="#E54D42"></cn-money>
 						</view>
@@ -51,17 +51,20 @@
 							<text>{{item.addTime}}</text>
 						</view>
 						<view class="bt_ck flex_center flex_wrap flex_row_reverse">
-							<view v-if="item.state == 2">
+							<view v-if="item.state == 1">
 								<button type="default" class="buttA"  @click="qupay(item)">去支付</button>
 							</view>
-							<view v-if="item.state === 2">
+							<view v-if="item.state == 1">
 								<button type="default" class="buttB" @click="exitOrder(item)">取消订单</button>
 							</view>
-							<view v-if="item.state != 2" >
-								<button type="default" :disabled="true" class="buttA">{{menuTabs[item.state-2].name}}</button>
+							<view v-if="item.state != 1" >
+								<button type="default" :disabled="true" class="buttA">{{menuTabs[item.state-1].name}}</button>
+							</view>
+							<view v-if="item.state == 3">
+								<button type="default" class="buttB" @click="confirmOrder(item)">确认收货</button>
 							</view>
 							<view v-if="item.state == 4">
-								<button type="default" class="buttB" @click="confirmOrder(item)">确认收货</button>
+								<button type="default" class="buttB" @click="evaluate(item)">去评价</button>
 							</view>
 						</view>
 					</view>
@@ -105,6 +108,9 @@
 						name: '待收货'
 					},
 					{
+						name: '待评价'
+					},
+					{
 						name: '已完成'
 					},
 					{
@@ -136,11 +142,19 @@
 				}
 				this.userlist = uni.getStorageSync('userlist');
 				console.log(this.userlist);
-				this.initialization();
+				// this.initialization();
 			} else {
 				this.utils.error('请先登录账号！', () => {
 					this.utils.navback();
 				});
+			}
+		},
+		onShow() {
+			if (this.utils.isLogin()) {
+				var _this = this
+				setTimeout(function() {
+					_this.initialization();
+				}, 500)
 			}
 		},
 		methods: {
@@ -192,7 +206,7 @@
 				}
 				let li = {
 					userId: this.userlist.id,
-					state: status===4 ? 0 : status+2,
+					state: status==5 ? 0 : status+1,
 					pageNum: this.pageNum,
 					pageSize: this.pageSize
 				}
@@ -207,7 +221,7 @@
 					this.more = res.pages>this.pageNum?true :false;
 					this.totalPage = res.pages;
 					this.pageNum = this.more ? this.pageNum + 1 : this.pageNum;
-					this.menuLists = this.pageNum > 1 ? this.menuLists.concat(res.data) : res.data;
+					this.menuLists = this.pageNum > 1 ? this.menuLists.concat(res.list) : res.list;
 					this.loadStatus = this.more ? 'loadmore' : 'nomore';
 				}).catch(err => {
 					uni.hideLoading();
@@ -215,26 +229,51 @@
 					this.loadStatus = 'nomore';
 				});
 			},
-			qupay(order){//去支付
-				console.log(order);
+			//getOpenId
+			getOpenId(open) {
+				var _this = this;
+				uni.login({
+					provider: 'weixin',
+					success: function(loginRes) {
+						console.log(loginRes);
+						// _this.opengid(loginRes.code);
+						_this.utils.getOpenId(loginRes.code,(res)=>{
+							console.log(res);
+							// _this.qupay(item,res.openid)
+							open(res.openid)
+							// return res.openid
+						})
+					}
+				});
+			},
+			qupay(item){//去支付
+				console.log(item);
 				let li = {
-					orderNo: order.orderNo,
-					// amount: 0.01,
-					amount: order.amount / 100,
-					body: order.body,
-					opendid: this.userlist.openId
+					orderNo: item.orders,
+					amount: 0.01,
+					// amount: item.totalAmount,
+					body: '商品下单',
+					openid: ''
 				}
 				console.log(li);
-				this.utils.showloading();
-				this.http.getApi('wxPay/unifiedOrder', li, 'get').then(res => {
-					console.log(res);
-					// uni.hideLoading();
-					this.paymentorder(res.data);
-				}).catch(err => {
-					console.log(err);
-					uni.hideLoading();
-					this.utils.error(err.msg);
-				});
+				this.getOpenId(res=>{
+					li.openid = res
+					if (li.openid != '') {
+						this.utils.showloading();
+						this.http.getApi('wxPay/unifiedOrder', li, 'get').then(res => {
+							console.log(res);
+							// uni.hideLoading();
+							this.paymentorder(res.data);
+						}).catch(err => {
+							console.log(err);
+							uni.hideLoading();
+							this.utils.error(err.msg);
+						});
+					} else{
+						this.utils.error('服务端错误！请联系管理员')
+					}
+				})
+				
 			},
 			paymentorder(data) {
 				// console.log('执行');
@@ -269,8 +308,8 @@
 			exitOrder(order) {//取消订单
 				console.log(order);
 				this.utils.showloading();
-				this.http.getApi('Order/de', {
-						orderId: order.orderId
+				this.http.getApi('order/deleteOrder', {
+						orders: order.orders
 					}, 'get').then(res => {
 						uni.hideLoading();
 						console.log(res);
@@ -292,25 +331,27 @@
 				    success: function (res) {
 				        if (res.confirm) {
 				            console.log('用户点击确定');
-							_this.upOrder(li.orderId,li.status);
+							_this.upOrder(li.orders);
 				        } else if (res.cancel) {
 				            console.log('用户点击取消');
 				        }
 				    }
 				});
 			},
-			upOrder(orderId,status) {//取消订单
-				console.log(orderId);
-				console.log(status);
+			upOrder(orders) {//确认收货订单
+				console.log(orders);
+				// console.log(status);
 				this.utils.showloading();
-				this.http.getApi('Order/up', {
-						orderId: orderId,
-						status:status+1
-					}, 'post').then(res => {
+				this.http.getApi('order/confirm', {
+						orders: orders,
+						state:4
+					}, 'get').then(res => {
 						uni.hideLoading();
 						console.log(res);
-						this.utils.success('收货成功！');
-						this.initialization();
+						this.utils.success('收货成功！',()=>{
+							this.initialization();
+						});
+						
 					})
 					.catch(err => {
 						uni.hideLoading();
@@ -318,6 +359,11 @@
 						this.utils.error(err.msg);
 					});
 			},
+			evaluate(item){
+				console.log(item)
+				uni.setStorageSync('evaluate', item);
+				this.doUrl('pages/user/comment/add')
+			}
 
 		}
 	};

@@ -96,19 +96,19 @@ var components
 try {
   components = {
     uTabsSwiper: function() {
-      return Promise.all(/*! import() | uview-ui/components/u-tabs-swiper/u-tabs-swiper */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabs-swiper/u-tabs-swiper")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabs-swiper/u-tabs-swiper.vue */ 418))
+      return Promise.all(/*! import() | uview-ui/components/u-tabs-swiper/u-tabs-swiper */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabs-swiper/u-tabs-swiper")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabs-swiper/u-tabs-swiper.vue */ 432))
     },
     uIcon: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 320))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 334))
     },
     uPopup: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-popup/u-popup */ "uview-ui/components/u-popup/u-popup").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-popup/u-popup.vue */ 341))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-popup/u-popup */ "uview-ui/components/u-popup/u-popup").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-popup/u-popup.vue */ 355))
     },
     uButton: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-button/u-button */ "uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-button/u-button.vue */ 362))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-button/u-button */ "uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-button/u-button.vue */ 376))
     },
     uGap: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-gap/u-gap */ "uview-ui/components/u-gap/u-gap").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-gap/u-gap.vue */ 432))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-gap/u-gap */ "uview-ui/components/u-gap/u-gap").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-gap/u-gap.vue */ 446))
     }
   }
 } catch (e) {
@@ -146,17 +146,21 @@ var render = function() {
     }
   })
 
-  var m2 = _vm.orderlist.totalAmount
-    ? _vm.formatPrice(_vm.orderlist.totalAmount)
+  var m2 = _vm.orderlist.zkAmount
+    ? _vm.formatPrice(_vm.orderlist.zkAmount)
     : null
   var m3 =
+    _vm.userlist.vipTreatment != 0
+      ? _vm.formatPrice(_vm.userlist.vipTreatment)
+      : null
+  var m4 =
     _vm.receiveText != "" && _vm.receiveText
       ? _vm.formatPrice(_vm.receiveText)
       : null
-  var m4 = _vm.orderlist.totalAmount
+  var m5 = _vm.orderlist.totalAmount
     ? _vm.formatPrice(_vm.orderlist.totalAmount)
     : null
-  var m5 = _vm.orderlist.totalAmount
+  var m6 = _vm.orderlist.totalAmount
     ? _vm.formatPrice(_vm.orderlist.totalAmount)
     : null
   _vm.$mp.data = Object.assign(
@@ -167,7 +171,8 @@ var render = function() {
         m2: m2,
         m3: m3,
         m4: m4,
-        m5: m5
+        m5: m5,
+        m6: m6
       }
     }
   )
@@ -204,9 +209,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var coupon = function coupon() {__webpack_require__.e(/*! require.ensure | components/coolc-coupon/listCoupon */ "components/coolc-coupon/listCoupon").then((function () {return resolve(__webpack_require__(/*! @/components/coolc-coupon/listCoupon.vue */ 439));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
-
-
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var coupon = function coupon() {__webpack_require__.e(/*! require.ensure | components/coolc-coupon/listCoupon */ "components/coolc-coupon/listCoupon").then((function () {return resolve(__webpack_require__(/*! @/components/coolc-coupon/listCoupon.vue */ 453));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 
 
 
@@ -395,10 +398,15 @@ var _default = {
       receiveText: 0,
       orderlist: {
         addressId: '', //地址id
+        consigneeName: '', //收货人
+        phone: '', //手机号
+        detailedAddress: '', //地址
         payVos: [], //商品数据
         // state: 3, //订单状态
         leaving: '', //留言
-        totalAmount: 0 //订单实际支付金额
+        userId: '', //用户id
+        totalAmount: 0, //订单实际支付金额
+        zkAmount: 0 //折扣前的价格
       },
       userlist: {},
       zorder: {}, //主订单
@@ -421,6 +429,9 @@ var _default = {
     console.log(this.userlist);
     if (this.addrInfo.id) {
       this.orderlist.addressId = this.addrInfo.id;
+      this.orderlist.consigneeName = this.addrInfo.consigneeName;
+      this.orderlist.phone = this.addrInfo.phone;
+      this.orderlist.detailedAddress = this.addrInfo.consigneeRegion + this.addrInfo.city + this.addrInfo.county + this.addrInfo.detailedAddress;
       console.log(this.orderlist);
     }
   },
@@ -428,10 +439,8 @@ var _default = {
     console.log(options);
     if (this.utils.isLogin()) {
       this.userlist = uni.getStorageSync('userlist');
-      // this.orderlist.userId = this.userlist.id;
-      // this.orderlist.opendId = this.userlist.openId;
-
       console.log(this.userlist);
+      this.orderlist.userId = this.userlist.id;
     } else {
       this.utils.error('请先登录账号！');
     }
@@ -518,12 +527,17 @@ var _default = {
         if (this.goodsList[i].reduce) {
           this.orderlist.totalAmount = this.orderlist.totalAmount + this.goodsList[i].number * this.
           goodsList[i].price - this.goodsList[i].reduce;
+          this.orderlist.zkAmount = this.orderlist.totalAmount;
         } else {
           this.orderlist.totalAmount = this.orderlist.totalAmount + this.goodsList[i].number * this.
           goodsList[i].price;
+          this.orderlist.zkAmount = this.orderlist.totalAmount;
         }
-
       }
+      if (this.userlist.vipTreatment != 0) {
+        this.orderlist.totalAmount = this.orderlist.totalAmount * this.userlist.vipTreatment;
+      }
+      this.orderlist.totalAmount = this.orderlist.totalAmount == 0 ? 0.01 : this.orderlist.totalAmount;
     },
     getOyhj: function getOyhj(id, index) {var _this4 = this; //获取用户优惠券
       this.goodsIndex = index;
@@ -619,6 +633,20 @@ var _default = {
         _this5.orderfound(_this5.orderlist);
       });
     },
+    screen: function screen(list, data) {//筛选
+      var tt = [];
+      tt = list.map(function (iterator) {
+        return {
+          commodityId: iterator.goodsId,
+          id: iterator.id,
+          discountId: iterator.conjuan != undefined ? iterator.conjuan.id : null,
+          price: iterator.price,
+          quantity: iterator.number,
+          specificationsId: iterator.specId };
+
+      });
+      data(tt);
+    },
     orderfound: function orderfound(jsonData) {var _this6 = this; //主订单
       this.http.getApi('order/orders', jsonData, 'post').then(function (res) {
         uni.hideLoading();
@@ -642,6 +670,7 @@ var _default = {
             console.log(res);
             _this.wxPayorder(item, res.openid);
           });
+          // _this.wxPayorder(item,loginRes.code)
         } });
 
     },
@@ -654,8 +683,10 @@ var _default = {
         openid: openid };
 
       console.log(li);
+      // wxPay/unifiedOrder原支付
       this.http.getApi('wxPay/unifiedOrder', li, 'get').then(function (res) {
         console.log(res);
+        console.log('执行');
         _this7.paymentorder(res.data);
         // uni.hideLoading();
       }).catch(function (err) {
@@ -743,20 +774,6 @@ var _default = {
         uni.hideLoading();
         _this9.utils.error(err.msg);
       });
-    },
-    screen: function screen(list, data) {//筛选
-      var tt = [];
-      tt = list.map(function (iterator) {
-        return {
-          commodityId: iterator.goodsId,
-          id: iterator.id,
-          // price: iterator.reduce ? iterator.number * iterator.price - iterator.reduce : iterator.number * iterator.price,
-          price: iterator.price,
-          quantity: iterator.number,
-          specificationsId: iterator.specId };
-
-      });
-      data(tt);
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

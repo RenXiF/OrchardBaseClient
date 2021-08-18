@@ -1,6 +1,6 @@
 <template>
 	<view class="index_home flex_columns">
-		<u-swiper :list="list" name="img" effect3d @click="yulan(list)"></u-swiper>
+		<u-swiper :list="list" name="img" effect3d @click="yulan"></u-swiper>
 		<view class="" v-if="sortlist.length!=0">
 			<u-grid :col="4" :border="false">
 				<u-grid-item v-for="(item ,index) in sortlist" :key="index"
@@ -153,14 +153,13 @@
 				uni.setStorageSync('buylist', item);
 				this.doUrl('pages/index/productDetails');
 			},
-			yulan(list) {
-				if (list.length != 0) {
+			yulan(e) {
+				if (this.list.length != 0) {
 					let li = [];
-					for (let i = 0; i < list.length; i++) {
-						li.splice(i, 0, list[i].img);
+					for (let i = 0; i < this.list.length; i++) {
+						li.splice(i, 0, this.list[i].img);
 					}
-					// console.log(li);
-					this.openImg(li);
+					this.openImg(li,e);
 				}
 			},
 			getSort() { //获取分类

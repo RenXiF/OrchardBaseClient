@@ -4,7 +4,7 @@
 		<nav-bar ref="navBar" :scrollTop="scrollTop" transparentFixedFontColor="#FFF" type="transparentFixed">
 			<view class="preview" slot="default">详情</view> <!-- 不状态下的按钮 -->
 		</nav-bar>
-		<u-swiper :list="list" height="400" @click="yulan(list)"></u-swiper>
+		<u-swiper :list="list" height="400" @click="yulan"></u-swiper>
 		<view class="two_ck">
 			<view class="flex_columns two_one">
 				<text class="u-font-xl ft-wh">{{squarelist.squareName}}</text>
@@ -19,15 +19,20 @@
 				</view>
 			</view>
 			<view class="two_two  flex_columns">
-				<text class="u-font-lg ft-wh">吃喝推荐</text>
+				<text class="u-font-lg ft-wh">推荐</text>
 				<view class="flex_between flex_wrap">
-					<view class="flex_columns one_ck  u-p-b-20" v-for="(item, index) in 3" :key="index"
+					<view class="flex_columns one_ck  u-p-b-20" v-for="(item, index) in datalist" :key="index"
 						@click="doUrlli(item)">
-						<image src="../../static/logo.png" mode="widthFix"></image>
-						<text class="u-font-lg ft-wh u-p-t-10">标题1</text>
-						<text class="u-font-xs u-p-t-10">副标题1</text>
+						<image :src="item.commodityImges" mode="widthFix"></image>
+						<text class="u-font-lg ft-wh u-p-t-10">{{item.commodityName}}</text>
+						<text class="u-font-xs u-p-t-5">{{item.commodityDescribe}}</text>
+						<text class="u-font-xl ft-wh u-type-error">{{item.commodityPrice}}</text>
 					</view>
 				</view>
+				<view class="flex_jufy_center">
+					<u-empty mode="list" v-if="datalist.length==0"></u-empty>
+				</view>
+				
 			</view>
 		</view>
 
@@ -41,6 +46,7 @@
 				scrollTop: 0,
 				list: [],
 				squarelist:{},
+				datalist: [],
 			}
 		},
 		onPageScroll(e) {
@@ -50,6 +56,7 @@
 			this.squarelist = uni.getStorageSync('squarelist');
 			console.log(this.squarelist);
 			this.getGoods(this.squarelist.id);
+			this.getcommodity()
 			// this.getComment(this.buylist.id);
 			if (this.utils.isLogin()) {
 				this.userlist = uni.getStorageSync('userlist');
@@ -70,15 +77,27 @@
 					uni.hideLoading();
 				});
 			},
-			yulan(list) { //图片预览
-				if (list.length != 0) {
-					let li = [];
-					for (let i = 0; i < list.length; i++) {
-						li.splice(i, 0, list[i].imgAddress);
-					}
-					console.log(li);
-					this.openImg(li);
+			//推荐商品
+			getcommodity() {
+				let li = {
+					pageNum: 1,
+					pageSize: 10,
+					state:3
 				}
+				// console.log(li)
+				this.http.getApi('commodity/list', li, 'post').then(res => {
+					console.log(res)
+					this.datalist = res.list;
+					uni.hideLoading();
+				}).catch(err => {
+					console.log(err);
+					this.utils.error(err.msg);
+					uni.hideLoading();
+				});
+			},
+			yulan(e) { //图片预览
+			// console.log(e);
+				this.openImg(this.list,e);
 			},
 			doUrlli(item) {
 				// uni.setStorageSync('buylist', item);

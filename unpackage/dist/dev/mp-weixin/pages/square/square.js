@@ -96,25 +96,25 @@ var components
 try {
   components = {
     uSwiper: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-swiper/u-swiper */ "uview-ui/components/u-swiper/u-swiper").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-swiper/u-swiper.vue */ 299))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-swiper/u-swiper */ "uview-ui/components/u-swiper/u-swiper").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-swiper/u-swiper.vue */ 313))
     },
     uSticky: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-sticky/u-sticky */ "uview-ui/components/u-sticky/u-sticky").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-sticky/u-sticky.vue */ 369))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-sticky/u-sticky */ "uview-ui/components/u-sticky/u-sticky").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-sticky/u-sticky.vue */ 383))
     },
     uTabs: function() {
-      return Promise.all(/*! import() | uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabs/u-tabs.vue */ 376))
+      return Promise.all(/*! import() | uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabs/u-tabs.vue */ 390))
     },
     uWaterfall: function() {
-      return Promise.all(/*! import() | uview-ui/components/u-waterfall/u-waterfall */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-waterfall/u-waterfall")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-waterfall/u-waterfall.vue */ 383))
+      return Promise.all(/*! import() | uview-ui/components/u-waterfall/u-waterfall */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-waterfall/u-waterfall")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-waterfall/u-waterfall.vue */ 397))
     },
     uLazyLoad: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-lazy-load/u-lazy-load */ "uview-ui/components/u-lazy-load/u-lazy-load").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-lazy-load/u-lazy-load.vue */ 390))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-lazy-load/u-lazy-load */ "uview-ui/components/u-lazy-load/u-lazy-load").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-lazy-load/u-lazy-load.vue */ 404))
     },
     uEmpty: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-empty/u-empty */ "uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-empty/u-empty.vue */ 327))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-empty/u-empty */ "uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-empty/u-empty.vue */ 341))
     },
     uLoadmore: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-loadmore/u-loadmore */ "uview-ui/components/u-loadmore/u-loadmore").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-loadmore/u-loadmore.vue */ 334))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-loadmore/u-loadmore */ "uview-ui/components/u-loadmore/u-loadmore").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-loadmore/u-loadmore.vue */ 348))
     }
   }
 } catch (e) {
@@ -383,19 +383,23 @@ var _default =
         uni.hideLoading();
       }).catch(function (err) {
         console.log(err);
+        if (_this3.pageNum == 1) {
+          _this3.clear();
+        }
         _this3.utils.error(err.msg);
         uni.hideLoading();
       });
     },
-    yulan: function yulan(list) {
-      if (list.length != 0) {
+    yulan: function yulan(e) {
+      // console.log(this.list);
+      if (this.list.length != 0) {
         var li = [];
-        for (var i = 0; i < list.length; i++) {
-          li.splice(i, 0, list[i].img);
+        for (var i = 0; i < this.list.length; i++) {
+          li.splice(i, 0, this.list[i].img);
         }
-        // console.log(li);
-        this.openImg(li);
+        this.openImg(li, e);
       }
+
     },
     clear: function clear() {//清空瀑布流
       this.$refs.uWaterfall.clear();

@@ -10745,9 +10745,9 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.getApi = getApi;exports.upload = upload;exports.sendCode = sendCode;exports.getLocal = getLocal;exports.getAddList = getAddList;exports.getArea = getArea;exports.getAreaId = getAreaId;exports.AmapObj = exports.amap = exports.AppId = exports.ApiServer = void 0; // export const ApiServer = 'http://120.24.28.135:8080/';
-var ApiServer = 'http://47.99.209.170:8084/';
+// export const ApiServer = 'http://47.99.209.170:8084/';
 // export const ApiServer = 'https://www.hszc.ink/';
-// export const ApiServer = 'http://192.168.1.106:8084/';
+var ApiServer = 'http://192.168.1.106:8084/';
 // export const ApiUpload = 'https://oss.gzkts.xyz/';
 exports.ApiServer = ApiServer;var utils = __webpack_require__(/*! @/common/util.js */ 41);
 var AppId = 'wxe9d550b839b8b22c';exports.AppId = AppId;
@@ -11627,19 +11627,19 @@ function isLogin() {
 /**
    * 刷新用户信息
    */
-function refLogin(is) {var _this = this;
+function refLogin() {
   if (isLogin()) {
-    var openId = uni.getStorageSync('WXopenid');
-    http.getApi('user/login', {
-      openId: openId },
+    var user = uni.getStorageSync('userlist');
+    http.getApi('user/info', {
+      id: user.id },
     'get').then(function (res) {
       console.log(res);
-      uni.setStorageSync('userlist', _this.userlist);
-      // this.utils.success('登录成功！');
+      uni.setStorageSync('userlist', res.user);
+      //success('登录成功！');
       return true;
     }).catch(function (err) {
       console.log(err);
-      _this.utils.error(err.msg);
+      error('更新失败');
       return false;
     });
   } else {
@@ -11691,6 +11691,8 @@ function logout() {
   try {
     uni.removeStorageSync("userlist");
     uni.removeStorageSync("WXopenid");
+    uni.removeStorageSync("Remark");
+    uni.removeStorageSync("setAddr");
     return true;
   } catch (e) {
     return false;
@@ -12854,6 +12856,65 @@ module.exports = {
 
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 549:
+/*!***************************************************!*\
+  !*** E:/开发程序/前端程序/果园基地客户端/static/imgs/st_pic.png ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,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"
+
+/***/ }),
+
+/***/ 550:
+/*!****************************************************!*\
+  !*** E:/开发程序/前端程序/果园基地客户端/static/imgs/st_star.png ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAgCAYAAACcuBHKAAAD9klEQVRYR8WXX2gcVRTGv3M3u9tsNDREiq2suzOz40REUkNEQVDBivVPtVYJ1JeiqIiIiIr4oNAXsaDgm08iiCFCWsU/RBAx0dqC0MUQiCHtZnc2CV2koLRpdLPu7P3kSiJJupvMpls6r/ec8/3mzNzvnivY4jM5OXlNe3v7ewDuJ3ma5Muu6+a3Uk62kjQ8PBzp6+t7VUTeARBdrjEUi8WeTSaT5WZrbgmiWCz2aa2/IblrleCSiDxn2/bgFYcwnyGRSAyR3FdH7ExbW9uDqVSq0AxI053I5/OvADgCIL5eSEQ0yU+UUi9alrUUFqQpCN/3d2utvwaQ3ECgrLU+5Lru0ZZDlEqlRLlc/hTAgRDFfxORh23bng0Ri1CdyOVy8Ugk8jzJ9wHENitsPovW+mOSr7muu7BpfKOAbDab6O7uvklrfTOAPQCeBNC5WcGVdZJVEfme5FdKqWmt9XQmkzlXL3+lE1IqldorlUonyVtJPgSgH4AFwGzDUB3bAPACAGNk0ySPB0HwI4CS53l/ma7J7OxsV7VaHQCwXynVS/JaEUmQVGHfusm4f0TkotY6p5QaqVQqg5LP598F8AaAKyW6ISPJbw3ECADT/qv1nDYQTwD4CMD2q0BRJfmWZLPZaFdX1+sADofZfq0CXXbXocXFxRf+++t939+mtf4QwNOtEglR5+dYLHYwmUye/X/rzc3N7QqC4DOSd4cocLkhxSAIBjzPO2UKrdn/xWLxtiAIjomIfbkqjfJJLojIM47jfL4Sc4kJFQqFR0maMyK0OzYBbFz0sGVZR8w/0RDCTE39/f1vkny73nHdhOCa0OXzZDAIgpd6enourl6sa8dTU1M74/H4TwDcrYquzyN5FsDeTCYzuX6tLsTybvkFQG+rIACcUUrdY1nW76EgxsfHt3d2dp4AcEurIESkoJTak06n/VAQMzMzO0TkOACvVRAk50nudV13KhREqVS6sVwujwJwWgUhIiWl1L50Ov1rKIhCoeCR/A5AqlUQAM6RPJDJZE6GhejVWo+IyA0thPgTwIDjOD+EgvB9/w6t9ZcArt8Ewty2LpC8TkTaNok1s+ZTjuOY0WGth9RLzOVy94qIse/ueusk/1BKjdZqNTP+T4nIfSLyAIC7AGxrAPO3iByybftYKIhCoWAOsS9IroZYIJkXkcFarTYajUanV19wfN8388hukgdJGqCd60aDhveRumY1MTHR0dHR8YGIPAbgvNb6ZDQaPbq0tHTC87xFEWGj1o+NjbU5jrMjCILHtdaPiMidywPTKaXUgGVZxVCdMEHz8/Pt1WrVTN7nbdvObSTcCMhcmCqVyu0kU5FIJJtKpS7xCJP7L8jJrBUMCpKaAAAAAElFTkSuQmCC"
+
+/***/ }),
+
+/***/ 551:
+/*!***********************************************************!*\
+  !*** E:/开发程序/前端程序/果园基地客户端/static/imgs/st_star_active.png ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAgCAYAAACcuBHKAAADVUlEQVRYR7XXX4iUVRjH8c8z7qq7mRnVkkZJRS0RYUWRpI1ua2im/bFYsBspKiIioiK6KPAmEgq6C4IIomWDtCjFSKIdd1cjULoqWRWtiJUQCv9Vos6ceGctVp113llnz+15zu/5vs97nj8nTHClkhl4G/cJu5W9EN32TUQuJnIofWqKDi/hTbSe1ugz1VNxt38a1ZwYxKDbJZskc8Y4PC55Orr0TjpE9TeEPqys4WyPKe6Pe+xvBKThSKSSF7FOmHaOo1CRfCR5LroczwvSEEQquVXYiKvP4yC7E2tisfVNh0g7tTvmY6yqK578pOKB6PZrXVvkikTaa5oRz+AdTK0rnP2Wig+1eTnmO1LPflyItEm7GW4UbsISPIaZ9QTH7J/EN/hSGHbccCx1sNb5KkTKIrJTm6NmCrcIy1XcIVxLNQ1zRWxcwOSwgn2SYcmgZKupDljgrwiVSEMudUoPHhbm4WKhXVJo4KsbMT2Bo5K9Cjar6I004C3Jq0ya03qAX0XaajOW17OcxP3dkfo9quADzJpER+NJZ5f39Ujva9XpFWGtlCP9mkU6msZ9Tnh2NDtKpgvv4Ylm+cihM6RsdXQb+T/10jZzlH0iKeYQuFCTX9ATi+3IhM7I/zTgNskGXHehXs5z/oiCJ6Pos/9szilCacCDUrVHNFId8zJnF3GtRdZlRWp8iGxqusJrwhvUaNd53Z1tN9rme7V4PhY6Ona7ZjlOX5ttugHcMFGfNc6NSJZFlx/P5athXc0Wvj9dxpvFsUeyKLr8nhdilrANNzeLAPuFJbHIz/kgtutw0iA6mwjxm4JlUbQrH8SQa5T14/omQhxQsDKKfsgH0a9T2CLMbSLEQRWr4l7b80EMmadc7a5XNRHiTwU9UfRtXoi7lH2BK+tAZJP1YVyOljq2WaV8PIrVjztj1a4TJYuxQbispnDyh9Av2ahilym6JUuFBVTTu9b6W7ImuqptIQfEgKLkc86AyKbm7MHbK1Uv7fDYB04qVeeR7F2yGksx+6zJfNz3SO1IbHGRad4VHpIcUrFdwXottlngWEQ2G9deqaRFqw5lj0hWYP7pgWmHpCe6ZB20fiQyi/SdNqeqk/chC+09n+NxgbJnwyXulMzN5vlaNSI7+y+jHvkCgjlOdgAAAABJRU5ErkJggg=="
+
+/***/ }),
+
+/***/ 668:
+/*!*****************************************************!*\
+  !*** E:/开发程序/前端程序/果园基地客户端/common/form-id-mixins.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /** form-id-mixins.js **/var _default =
+{
+  methods: {
+    getFormIdData: function getFormIdData(formId) {var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+      // 加type参数是为了有效区分都为同一类型的formId
+      var params = {
+        formId: formId,
+        type: type };
+
+      // 传值给后台的API
+      // Api.getFormId(params)
+      //   .then(res => {
+      //     console.log('success')
+      //   })
+    } } };exports.default = _default;
 
 /***/ })
 

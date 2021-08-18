@@ -48,6 +48,9 @@
   -webkit-align-items: center;
           align-items: center;
 }
+.management_address_page .management_item .item_left {
+  width: 90%;
+}
 .management_address_page .management_item .item_left .left_top {
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
@@ -57,12 +60,14 @@
           align-items: center;
 }
 .management_address_page .management_item .item_left .left_top .top_icon {
+  width: 15%;
   background-color: #fff4e0;
   font-size: 20rpx;
   color: #ffa600;
   border-radius: 8rpx;
   padding: 3rpx 5rpx;
   margin-right: 5rpx;
+  text-align: center;
 }
 .management_address_page .management_item .item_left .left_top .top_text {
   font-size: 28rpx;

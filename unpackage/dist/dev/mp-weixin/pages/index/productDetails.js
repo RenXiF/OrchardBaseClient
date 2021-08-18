@@ -96,34 +96,34 @@ var components
 try {
   components = {
     uSwiper: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-swiper/u-swiper */ "uview-ui/components/u-swiper/u-swiper").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-swiper/u-swiper.vue */ 299))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-swiper/u-swiper */ "uview-ui/components/u-swiper/u-swiper").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-swiper/u-swiper.vue */ 313))
     },
     uEmpty: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-empty/u-empty */ "uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-empty/u-empty.vue */ 327))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-empty/u-empty */ "uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-empty/u-empty.vue */ 341))
     },
     uGap: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-gap/u-gap */ "uview-ui/components/u-gap/u-gap").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-gap/u-gap.vue */ 432))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-gap/u-gap */ "uview-ui/components/u-gap/u-gap").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-gap/u-gap.vue */ 446))
     },
     uSection: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-section/u-section */ "uview-ui/components/u-section/u-section").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-section/u-section.vue */ 453))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-section/u-section */ "uview-ui/components/u-section/u-section").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-section/u-section.vue */ 467))
     },
     uAvatar: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-avatar/u-avatar */ "uview-ui/components/u-avatar/u-avatar").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-avatar/u-avatar.vue */ 397))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-avatar/u-avatar */ "uview-ui/components/u-avatar/u-avatar").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-avatar/u-avatar.vue */ 411))
     },
     uReadMore: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-read-more/u-read-more */ "uview-ui/components/u-read-more/u-read-more").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-read-more/u-read-more.vue */ 411))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-read-more/u-read-more */ "uview-ui/components/u-read-more/u-read-more").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-read-more/u-read-more.vue */ 425))
     },
     uPopup: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-popup/u-popup */ "uview-ui/components/u-popup/u-popup").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-popup/u-popup.vue */ 341))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-popup/u-popup */ "uview-ui/components/u-popup/u-popup").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-popup/u-popup.vue */ 355))
     },
     uNumberBox: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-number-box/u-number-box */ "uview-ui/components/u-number-box/u-number-box").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-number-box/u-number-box.vue */ 355))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-number-box/u-number-box */ "uview-ui/components/u-number-box/u-number-box").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-number-box/u-number-box.vue */ 369))
     },
     uButton: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-button/u-button */ "uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-button/u-button.vue */ 362))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-button/u-button */ "uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-button/u-button.vue */ 376))
     },
     uIcon: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 320))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 334))
     }
   }
 } catch (e) {
@@ -189,7 +189,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var money = function money() {__webpack_require__.e(/*! require.ensure | components/cn-money/cn-money */ "components/cn-money/cn-money").then((function () {return resolve(__webpack_require__(/*! @/components/cn-money/cn-money.vue */ 348));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var coupon = function coupon() {__webpack_require__.e(/*! require.ensure | components/coolc-coupon/coolc-coupon */ "components/coolc-coupon/coolc-coupon").then((function () {return resolve(__webpack_require__(/*! @/components/coolc-coupon/coolc-coupon */ 460));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var money = function money() {__webpack_require__.e(/*! require.ensure | components/cn-money/cn-money */ "components/cn-money/cn-money").then((function () {return resolve(__webpack_require__(/*! @/components/cn-money/cn-money.vue */ 362));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var coupon = function coupon() {__webpack_require__.e(/*! require.ensure | components/coolc-coupon/coolc-coupon */ "components/coolc-coupon/coolc-coupon").then((function () {return resolve(__webpack_require__(/*! @/components/coolc-coupon/coolc-coupon */ 474));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 
 
 
@@ -493,11 +493,16 @@ var _default = {
       // console.log(this.popupli);
     },
     cartadd: function cartadd() {
-      this.show = false;
+
       if (!this.utils.isLogin()) {
         this.utils.error('请先登录账号');
         return;
       }
+      if (this.specID == '') {
+        this.utils.error('请先选择规格');
+        return;
+      }
+      this.show = false;
       this.carAdd(this.popupli);
     },
     openPOP: function openPOP() {//打开弹窗
@@ -516,9 +521,9 @@ var _default = {
         userId: this.userlist.id,
         commodityId: list.id,
         quantity: this.goodsSum,
-        specificationsId: this.specID,
-        state: 1,
-        price: this.Price
+        specificationsId: this.specID
+        // state: 1,
+        // price: this.Price,
         // price: this.Price>this.conjuan.full?this.Price-this.conjuan.reduce:this.Price,
       };
       console.log(li);
@@ -526,7 +531,7 @@ var _default = {
         this.utils.error('请先登录账号');
         return;
       }
-      this.http.getApi('order/order', li, 'post').then(function (res) {
+      this.http.getApi('shopping/save', li, 'post').then(function (res) {
         console.log(res);
         // this.goodsUp(li.goodsId, li.goodsSum); //添加销量
         _this5.utils.success('添加成功！');

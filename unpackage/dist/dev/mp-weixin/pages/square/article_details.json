@@ -5,6 +5,7 @@
   "enablePullDownRefresh": false,
   "usingComponents": {
     "u-swiper": "/uview-ui/components/u-swiper/u-swiper",
-    "u-read-more": "/uview-ui/components/u-read-more/u-read-more"
+    "u-read-more": "/uview-ui/components/u-read-more/u-read-more",
+    "u-empty": "/uview-ui/components/u-empty/u-empty"
   }
 }

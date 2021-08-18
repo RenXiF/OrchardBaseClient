@@ -96,7 +96,7 @@ var components
 try {
   components = {
     uIcon: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 320))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 334))
     }
   }
 } catch (e) {
@@ -237,7 +237,7 @@ var _default =
       this.userLogin();
     },
     //登录
-    userLogin: function userLogin() {var _this = this;
+    userLogin: function userLogin() {var _this2 = this;
       var uer = {
         userName: this.name,
         password: this.pass };
@@ -246,13 +246,14 @@ var _default =
       this.http.getApi('/user/login', uer, 'post').then(function (res) {
         console.log(res);
         uni.setStorageSync('userlist', res.user);
-        _this.utils.success(res.message, function () {
-          _this.utils.navback();
+        _this2.utils.success(res.message, function () {
+          _this2.utils.navback();
         });
 
       }).catch(function (err) {
         console.log(err);
         uni.hideLoading();
+        _this2.utils.error(err.message);
       });
     },
     //当前注册按钮操作
@@ -284,7 +285,66 @@ var _default =
     },
     //等三方微信登录
     wxLogin: function wxLogin() {
-      uni.showToast({ title: '微信登录', icon: 'none' });
+      var _this = this;
+      uni.getUserProfile({
+        desc: '获取基本资料',
+        success: function success(loginRes) {
+          // console.log(loginRes);
+          var li = {
+            openId: "",
+            userImg: "",
+            userName: "" };
+
+          li.userImg = loginRes.userInfo.avatarUrl;
+          li.userName = loginRes.userInfo.nickName;
+          _this.utils.showloading();
+          uni.login({
+            provider: 'weixin',
+            success: function success(loginRes) {
+              // console.log(loginRes);
+
+              _this.utils.getOpenId(loginRes.code, function (res) {
+                console.log(res);
+                li.openId = res.openid;
+                // console.log(li);
+                _this.loginWeiXin(li);
+              });
+
+            },
+            fail: function fail(err) {
+              console.log(err);
+              uni.hideLoading();
+              if (err.code == -2 || err.code == -100) {
+                _this.utils.error('您已取消授权！');
+              }
+            } });
+
+        },
+        fail: function fail(err) {
+          console.log(err);
+          _this.utils.error('请先同意授权');
+        } });
+
+    },
+    //微信验证登录
+    loginWeiXin: function loginWeiXin(list) {var _this3 = this;
+      console.log(list);
+      this.http.getApi('wx/save', list, 'post').then(function (res) {
+        console.log("成功");
+        console.log(res);
+        uni.hideLoading();
+        _this3.utils.success("登录成功！", function () {
+          uni.setStorageSync('WXopenid', res.user.openId);
+          uni.setStorageSync('userlist', res.user);
+          uni.switchTab({
+            url: '/pages/user/user' });
+
+        });
+      }).catch(function (err) {
+        console.log(err);
+        uni.hideLoading();
+        _this3.utils.error(err.message);
+      });
     },
     //第三方支付宝登录
     zfbLogin: function zfbLogin() {

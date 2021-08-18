@@ -46,6 +46,9 @@
 					</u-grid-item>
 				</u-grid>
 			</view>
+			<form @submit="handlePush" report-submit='false'>
+			  <button formType="submit">推送消息</button>
+			</form>
 			<!-- <view class="boder">
 				<text>打印：{{shareli}}</text>
 			</view> -->
@@ -54,7 +57,9 @@
 </template>
 
 <script>
+	import mixin from '@/common/form-id-mixins.js'
 	export default {
+		mixins: [mixin],
 		data() {
 			return {
 				lognum: 0,
@@ -142,6 +147,7 @@
 				this.userlist = uni.getStorageSync('userlist');
 				if (this.userlist.id) {
 					this.lognum = 1;
+					this.openMsg()
 				}
 				console.log(this.userlist)
 			}
@@ -158,6 +164,41 @@
 			}
 		},
 		methods: {
+			handlePush(e) {
+				console.log(e);
+			      this.getFormIdData(e.detail.formId)
+			    },
+			// 开启订阅消息
+			openMsg() {
+			    var that = this
+			    // 获取用户的当前设置，判断是否点击了“总是保持以上，不在询问”
+			    wx.getSetting({
+			        withSubscriptions:true,  //是否获取用户订阅消息的订阅状态，默认false不返回
+			       success(res) {
+					   console.log(res)
+			          if(res.authSetting['scope.subscribeMessage']) { //用户点击了“总是保持以上，不再询问”
+			             uni.openSetting({ // 打开设置页
+			               success(res) {
+			                 console.log(res.authSetting)
+			               }
+			             });
+			          }else { // 用户没有点击“总是保持以上，不再询问”则每次都会调起订阅消息
+			             // var templateid = that.setting.templateid.map(item => item.tempid)
+			             uni.requestSubscribeMessage({
+			               tmplIds: ['6lF4LvrKBd3In2GpKHj7a5bpa4olZ9dGKSrDbBISOQU'],
+			               success (res) {
+			                  console.log(res)
+							  console.log('1111111111')
+			               },
+			               fail:(err) => {
+			                  console.log(err)
+							  console.log('22222222')
+			               }
+			             }) 
+			          }
+			       }
+			    })
+			},
 			exitLogin() {
 				if (this.utils.logout()) {
 					this.utils.success('退出成功！');
@@ -360,7 +401,8 @@
 				if (item.title == '在线客服') {
 					this.callPhone(this.phone);
 				} else {
-					this.doUrl(item.http);
+					// this.doUrl(item.http);
+					this.openMsg()
 				}
 
 			}

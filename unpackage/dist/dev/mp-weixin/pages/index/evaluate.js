@@ -96,16 +96,16 @@ var components
 try {
   components = {
     uSticky: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-sticky/u-sticky */ "uview-ui/components/u-sticky/u-sticky").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-sticky/u-sticky.vue */ 369))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-sticky/u-sticky */ "uview-ui/components/u-sticky/u-sticky").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-sticky/u-sticky.vue */ 383))
     },
     uTabs: function() {
-      return Promise.all(/*! import() | uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabs/u-tabs.vue */ 376))
+      return Promise.all(/*! import() | uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabs/u-tabs.vue */ 390))
     },
     uAvatar: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-avatar/u-avatar */ "uview-ui/components/u-avatar/u-avatar").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-avatar/u-avatar.vue */ 397))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-avatar/u-avatar */ "uview-ui/components/u-avatar/u-avatar").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-avatar/u-avatar.vue */ 411))
     },
     uReadMore: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-read-more/u-read-more */ "uview-ui/components/u-read-more/u-read-more").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-read-more/u-read-more.vue */ 411))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-read-more/u-read-more */ "uview-ui/components/u-read-more/u-read-more").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-read-more/u-read-more.vue */ 425))
     }
   }
 } catch (e) {
@@ -215,7 +215,7 @@ var _default =
     };
   },
   onLoad: function onLoad() {var _this2 = this;
-
+    var _this = this;
     if (this.utils.isLogin()) {
       this.utils.showloading();
       this.userlist = uni.getStorageSync('userlist');
@@ -223,7 +223,9 @@ var _default =
       console.log(this.buylist);
       console.log(this.userlist);
       this.getDictionaries(); //获取分类
-      this.initialization(); //初始化
+      setTimeout(function () {
+        _this.initialization(); //初始化
+      }, 500);
     } else {
       this.utils.error('请先登录账号！', function () {
         _this2.utils.navback();

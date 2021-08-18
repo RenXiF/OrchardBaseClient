@@ -96,10 +96,10 @@ var components
 try {
   components = {
     carList: function() {
-      return __webpack_require__.e(/*! import() | components/car-list/car-list */ "components/car-list/car-list").then(__webpack_require__.bind(null, /*! @/components/car-list/car-list.vue */ 446))
+      return __webpack_require__.e(/*! import() | components/car-list/car-list */ "components/car-list/car-list").then(__webpack_require__.bind(null, /*! @/components/car-list/car-list.vue */ 460))
     },
     uEmpty: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-empty/u-empty */ "uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-empty/u-empty.vue */ 327))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-empty/u-empty */ "uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-empty/u-empty.vue */ 341))
     }
   }
 } catch (e) {
@@ -156,7 +156,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var carList = function carList() {__webpack_require__.e(/*! require.ensure | components/car-list/car-list */ "components/car-list/car-list").then((function () {return resolve(__webpack_require__(/*! @/components/car-list/car-list.vue */ 446));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var carList = function carList() {__webpack_require__.e(/*! require.ensure | components/car-list/car-list */ "components/car-list/car-list").then((function () {return resolve(__webpack_require__(/*! @/components/car-list/car-list.vue */ 460));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -279,12 +279,12 @@ __webpack_require__.r(__webpack_exports__);
       }
       var li = {
         userId: this.userlist.id,
-        state: 1,
+        // state: 1,
         pageNum: this.pageNum,
         pageSize: this.pageSize };
 
       // console.log(li)
-      this.http.getApi('order/query', li, 'post').then(function (res) {
+      this.http.getApi('shopping/list', li, 'get').then(function (res) {
         console.log(res);
         _this2.more = res.pages > _this2.pageNum ? true : false;
         _this2.total = res.pages;
@@ -404,7 +404,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     carDe: function carDe(CarId) {var _this5 = this;
       var li = [CarId];
-      this.http.getApi('order/delete', li, 'post').then(function (res) {
+      this.http.getApi('shopping/delete', li, 'post').then(function (res) {
         console.log(res);
         uni.hideLoading();
       }).catch(function (err) {
