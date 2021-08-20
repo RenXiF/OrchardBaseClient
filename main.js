@@ -10,12 +10,14 @@ import appli from '@/common/js/applist.js';//版本信息
 import zhouWeiNavBar from "@/components/zhouWei-navBar";
 Vue.component("nav-bar", zhouWeiNavBar);
 import share from '@/common/share.js';//微信小程序全局分享
+// const openapi = require('mp-cloud-openapi')
  
 Vue.mixin(share);
 
 Vue.prototype.http = http;
 Vue.prototype.utils = utils;
 Vue.prototype.appli = appli;
+// Vue.prototype.openapi = openapi;
 /**
  * url跳转
  * @param {Object} url 跳转的页面<br>

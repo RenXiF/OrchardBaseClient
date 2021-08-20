@@ -1,6 +1,7 @@
 {
   "component": true,
   "usingComponents": {
+    "goodsList-u-waterfall-left": "/pages/index/goodsList-u-waterfall-left",
     "goodsList-u-waterfall-right": "/pages/index/goodsList-u-waterfall-right",
     "u-waterfall": "/uview-ui/components/u-waterfall/u-waterfall",
     "u-lazy-load": "/uview-ui/components/u-lazy-load/u-lazy-load",

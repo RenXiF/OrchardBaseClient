@@ -2,13 +2,14 @@
 <template>
 	<view class="">
 		<nav-bar ref="navBar" transparentFixedFontColor="#333" type="transparentFixed"></nav-bar>
-		<view class="t-login">
+		<view class="navhei"></view>
+		<view class="t-login ">
 			<!-- 页面装饰图片 -->
 			<image class="img-a" src="@/static/login/2.png"></image>
 			<image class="img-b" src="@/static/login/3.png"></image>
 			<!-- 标题 -->
 			<view class="t-b">{{ title }}</view>
-			<form class="cl">
+			<form class="cl ">
 				<view class="t-a">
 					<u-icon name="account" :color="icolor" size="45" class="l_icon"></u-icon>
 					<input type="text" name="name" placeholder="请输入账号" v-model="name" :disabled="disabled" />

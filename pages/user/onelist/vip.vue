@@ -93,6 +93,7 @@
 				popupli:[],
 				EntityList:[],//优惠卷数据
 				userlist: {},
+				openid:''
 			}
 		},
 		onLoad() {
@@ -101,7 +102,9 @@
 		onShow() {
 			if (this.utils.isLogin()) {
 				this.userlist = uni.getStorageSync('userlist');
+				this.openid = uni.getStorageSync('WXopenid');
 				console.log(this.userlist)
+				console.log(this.openid)
 				this.getdiscount()
 				this.getviplist()
 			}
@@ -177,11 +180,14 @@
 			//获取openid
 			verificationLogin(item) {
 				var _this = this;
+				if(_this.openid !=''){
+					_this.wxPayorder(item,_this.openid)
+					return
+				}
 				uni.login({
 					provider: 'weixin',
 					success: function(loginRes) {
 						console.log(loginRes);
-						// _this.opengid(loginRes.code);
 						_this.utils.getOpenId(loginRes.code,(res)=>{
 							console.log(res);
 							_this.wxPayorder(item,res.openid)

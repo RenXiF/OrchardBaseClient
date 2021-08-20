@@ -152,8 +152,7 @@
 	left: 0;
 	bottom: 0;
 	z-index: 6;
-	-webkit-box-shadow: 0px -5px 10px -5px #d0d0d0;
-	        box-shadow: 0px -5px 10px -5px #d0d0d0;
+	box-shadow: 0px -5px 10px -5px #d0d0d0;
 	padding: 0 300rpx 0 40rpx;
 	display: -webkit-box;
 	display: -webkit-flex;

@@ -7,18 +7,17 @@
 			<view slot="content-list">
 				<!-- 数据列表 -->
 				<view class="u-p-20 news_ck ">
-					<view class="flex_columns news_one  u-m-b-40" v-for="(item ,index) in newslist" :key="index">
-						<text class="flex_jufy_center u-p-20">{{item.time}}</text>
+					<view class="flex_columns news_one  u-m-b-40" v-for="(item ,index) in datalist" :key="index">
+						<text class="flex_jufy_center u-p-20">{{item.addTime}}</text>
 						<view class="flex_center flex_rows  u-p-20">
 							<image :src="img" mode="widthFix" style="width: 12%;"></image>
 							<text class="u-font-xl u-m-l-20 ft-wh">{{tit}}</text>
 						</view>
 						<view class="flex_columns u-p-20 box_shadow bg_radius" style="width: 80%; margin-left: 16%;">
-							
 							<!-- <text class="u-font-sm">{{item.subtitle}}</text> -->
 							<u-read-more :toggle="true" show-height="200" font-size="24" color="#868686">
-								<text class="u-font-lg">{{item.title}}</text>
-								<rich-text :nodes="content"></rich-text>
+								<text class="u-font-lg">{{item.noticeTask}}</text>
+								<rich-text :nodes="item.noticeContent"></rich-text>
 							</u-read-more>
 						</view>
 						
@@ -65,9 +64,10 @@
 						time: this.utils.getDate() + "-" + this.utils.getTime()
 					}
 				], //消息
+				datalist:[],
 				Teacherlist: {},
 				pageNum: 1,
-				pageSize: 10,
+				pageSize: 3,
 				totalPage: 1, // 总页数
 				hasNextPage: true,
 			};
@@ -78,6 +78,7 @@
 			this.tit = e.tit;
 			this.img = e.img;
 			console.log(e);
+			this.initialization();
 		},
 		onShow() {
 
@@ -92,22 +93,51 @@
 		methods: {
 			// 上划加载更多
 			loadMore() {
-				console.log('loadMore')
+				// console.log('loadMore')
 				// 请求新数据完成后调用 组件内loadOver()方法
 				// 注意更新当前页码 currPage
-				this.option();
+				this.getGoods(); //初始化
 				this.$refs.loadRefresh.loadOver()
 			},
 			// 下拉刷新数据列表
 			refresh() {
-				this.pageNum = 1;
-				this.hasNextPage = true;
 				// this.newslist = [];
-				this.option();
-				// this.utils.success('刷新成功！');
-				console.log('refresh')
+				this.initialization();
+				this.utils.success('刷新成功！');
+				// console.log('refresh')
+				this.$refs.loadRefresh.runRefresh()
 			},
-			option() {}
+			// 初始化数据
+			initialization() {
+				this.utils.showloading('正在刷新');
+				this.datalist = [];
+				this.pageNum = 1;
+				this.more = true;
+				this.getGoods(); //初始化
+			},
+			getGoods() {
+				if (this.more == false) {
+					// this.utils.error('暂无下页');
+					return;
+				}
+				let li = {
+					pageNum: this.pageNum,
+					pageSize: this.pageSize
+				}
+				console.log(li)
+				this.http.getApi('notice/list', li, 'get').then(res => {
+					console.log(res)
+					this.more = res.total>this.pageNum?true :false;
+					this.totalPage = res.total;
+					this.pageNum = this.more ? this.pageNum + 1 : this.pageNum;
+					this.datalist = this.pageNum > 1 ? this.datalist.concat(res.list) : res.list;
+					uni.hideLoading();
+				}).catch(err => {
+					console.log(err);
+					this.utils.error(err.msg);
+					uni.hideLoading();
+				});
+			},
 		}
 	}
 </script>

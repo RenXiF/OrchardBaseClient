@@ -34,8 +34,7 @@
   color: rgba(0, 0, 0, 0.7);
   border-bottom: 1px solid #f5f5f5;
   position: relative;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 .fc-form .fc-form-item .fc-form-label {
   min-width: 120rpx;
@@ -110,10 +109,8 @@
   height: 40rpx;
   background-color: #f5f5f5;
   border-radius: 50%;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  -webkit-box-shadow: 0px 2rpx 5rpx 0px rgba(0, 0, 0, 0.06);
-          box-shadow: 0px 2rpx 5rpx 0px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+  box-shadow: 0px 2rpx 5rpx 0px rgba(0, 0, 0, 0.06);
 }
 .fc-form .fc-img-item .add_img {
   padding: 20rpx;
@@ -131,8 +128,7 @@
   -webkit-box-pack: center;
   -webkit-justify-content: center;
           justify-content: center;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   position: relative;
 }
 .fc-form .fc-img-item .add_img image {

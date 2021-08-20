@@ -3,6 +3,7 @@
 		onLaunch: function() {
 			console.log('App Launch');
 			// this.utils.logout();
+			// this.utils.getWxMessage({id:'K1QzJ1iFUrQ2A4BC5JXTYPh5lkVP5fia4niid3V-eGY'})
 		},
 		onShow: function() {
 			console.log('App Show')

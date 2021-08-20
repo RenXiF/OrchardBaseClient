@@ -12,8 +12,10 @@
 					<view class="flex_center flex_rows">
 						<u-avatar :src="userlist.userImg?userlist.userImg : src" size="large"></u-avatar>
 						<view class="u-m-l-20 flex_columns">
-							<text class="ft-wh u-font-lg u-m-b-10">{{userlist.userName ? userlist.userName : '未登录'}}</text>
-							<text class="u-font-md  u-type-warning-disabled" v-if="userlist.userRole">{{userlist.userRole}}</text>
+							<text
+								class="ft-wh u-font-lg u-m-b-10">{{userlist.userName ? userlist.userName : '未登录'}}</text>
+							<text class="u-font-md  u-type-warning-disabled"
+								v-if="userlist.userRole">{{userlist.userRole}}</text>
 						</view>
 					</view>
 					<view class="flex_center">
@@ -46,24 +48,23 @@
 					</u-grid-item>
 				</u-grid>
 			</view>
-			<form @submit="handlePush" report-submit='false'>
-			  <button formType="submit">推送消息</button>
-			</form>
-			<!-- <view class="boder">
-				<text>打印：{{shareli}}</text>
-			</view> -->
 		</view>
+		<!-- <u-modal v-model="show" @confirm="confirm" ref="uModal" :async-close="true">
+			<view class="slot-content">
+				<u-field v-model="mobile" label="手机号" placeholder="请填写手机号"></u-field>
+			</view>
+		</u-modal> -->
 	</view>
 </template>
 
 <script>
-	import mixin from '@/common/form-id-mixins.js'
 	export default {
-		mixins: [mixin],
 		data() {
 			return {
 				lognum: 0,
+				show: false,
 				src: '/static/logo.png',
+				mobile:'',
 				menulist: [{
 						title: '待付款',
 						icon: 'photo',
@@ -127,7 +128,6 @@
 					}
 
 				],
-				wxlist: '',
 				userlist: {},
 				shareli: '',
 				share: {
@@ -137,17 +137,16 @@
 					desc: '',
 					content: ''
 				},
-				openId: '',
 
 			}
 		},
 		onLoad() {},
 		onShow() {
+			var _this = this
 			if (this.utils.isLogin()) {
 				this.userlist = uni.getStorageSync('userlist');
 				if (this.userlist.id) {
 					this.lognum = 1;
-					this.openMsg()
 				}
 				console.log(this.userlist)
 			}
@@ -164,245 +163,32 @@
 			}
 		},
 		methods: {
-			handlePush(e) {
-				console.log(e);
-			      this.getFormIdData(e.detail.formId)
-			    },
-			// 开启订阅消息
-			openMsg() {
-			    var that = this
-			    // 获取用户的当前设置，判断是否点击了“总是保持以上，不在询问”
-			    wx.getSetting({
-			        withSubscriptions:true,  //是否获取用户订阅消息的订阅状态，默认false不返回
-			       success(res) {
-					   console.log(res)
-			          if(res.authSetting['scope.subscribeMessage']) { //用户点击了“总是保持以上，不再询问”
-			             uni.openSetting({ // 打开设置页
-			               success(res) {
-			                 console.log(res.authSetting)
-			               }
-			             });
-			          }else { // 用户没有点击“总是保持以上，不再询问”则每次都会调起订阅消息
-			             // var templateid = that.setting.templateid.map(item => item.tempid)
-			             uni.requestSubscribeMessage({
-			               tmplIds: ['6lF4LvrKBd3In2GpKHj7a5bpa4olZ9dGKSrDbBISOQU'],
-			               success (res) {
-			                  console.log(res)
-							  console.log('1111111111')
-			               },
-			               fail:(err) => {
-			                  console.log(err)
-							  console.log('22222222')
-			               }
-			             }) 
-			          }
-			       }
-			    })
+			showModal() {
+				this.show = true;
+			},
+			confirm() {
+				setTimeout(() => {
+					// 3秒后自动关闭
+					this.show = false;
+					// 如果不想关闭，而单是清除loading状态，需要通过ref手动调用方法
+					// this.$refs.uModal.clearLoading();
+				}, 3000)
 			},
 			exitLogin() {
 				if (this.utils.logout()) {
 					this.utils.success('退出成功！');
 					this.lognum = 0;
 					this.userlist = {};
-					// this.openId = '';
-					this.wxlist = '';
 				}
 			},
 			appLoginWx() {
 				this.doUrl('pages/user/login')
-				// this.wxpay()
-				// this.userUp();
-				
-				// this.verificationLogin();
-				// var _this = this;
-				// if (_this.wxlist != '') {
-				// 	_this.verificationLogin();
-				// } else {
-				// 	uni.getUserProfile({
-				// 		desc: '获取基本资料',
-				// 		success: function(loginRes) {
-				// 			console.log(loginRes);
-				// 			_this.wxlist = loginRes.userInfo;
-				// 			_this.verificationLogin();
-				// 		},
-				// 		fail: function(err) {
-				// 			console.log(err);
-				// 			_this.utils.error('请先同意授权')
-				// 		}
-				// 	});
-				// }
-			},
-			wxpay(code){
-				let uer = {
-					amount: 0.01,
-					body: '测试',
-					orderNo: '4661316516',
-					openid:code
-				}
-				console.log(uer);
-				this.http.getApi('wxPay/unifiedOrder', uer, 'get').then(res => {
-					console.log(res);
-					this.payment(res.data)
-					console.log('12313213213');
-				}).catch(err => {
-					console.log(err);
-					uni.hideLoading();
-				});
-			},
-			payment(data) {
-				// console.log('执行');
-				console.log(data);
-				var _this = this;
-				console.log('执行支付');
-				uni.requestPayment({
-					provider: 'wxpay',
-					orderInfo: data, //微信、支付宝订单数据
-					// #ifdef MP-WEIXIN 
-					timeStamp: data.timeStamp,
-					nonceStr: data.nonceStr,
-					package: data.package,
-					signType: data.signType,
-					paySign: data.paySign,
-					// #endif
-					success: function(res) {
-						console.log(res);
-						_this.utils.success('支付成功！');
-						// _this.payindex = 1;
-						// _this.addBarrage(_this.order);
-						// _this.utils.showloading('正在上传图片');
-						// _this.utils.upimg(_this.upimg, (res) => {
-						// 	console.log(res)
-						// 	_this.order.imgAddress = res.data.url;
-						// 	_this.addBarrage(_this.order);
-						// });
-					},
-					fail: function(err) {
-						// console.log('qqqqqqqqqq');
-						console.log(data);
-						console.log(err);
-						_this.utils.error('您已取消支付！');
-						uni.hideLoading();
-					}
-				});
-			},
-			panduan() {
-				if (this.userlist.spareOne !== this.wxlist.avatarUrl && this.wxlist != '') {
-					this.userUp();
-				}
-			},
-			userUp() { //更新用户信息
-				let uer = {
-					userName: '东盗主',
-					password: 'qa123456',
-					// usrName: this.wxlist.nickName
-				}
-				console.log(uer);
-				this.http.getApi('/user/login', uer, 'post').then(res => {
-					console.log(res);
-					console.log('12313213213');
-				}).catch(err => {
-					console.log(err);
-					uni.hideLoading();
-				});
-			},
-			//验证登录状态
-			verificationLogin() {
-				// this.utils.showloading();
-				this.lognum = 1;
-				var _this = this;
-				if (this.openId != '' && this.openId != undefined) {
-					this.userLogin();
-				} else {
-					uni.login({
-						provider: 'weixin',
-						success: function(loginRes) {
-							console.log(loginRes);
-							// _this.opengid(loginRes.code);
-							_this.utils.getOpenId(loginRes.code,(res)=>{
-								console.log(res);
-								_this.wxpay(res.openid)
-							})
-						}
-					});
-				}
-			},
-			opengid(code) {
-				console.log('code:'+code);
-				this.http.getApi('user/getWxOpenid', {
-					code: code
-				}, 'get').then(res => {
-					console.log(res);
-					if (res.data) {
-						// this.openId = res.data;
-						// uni.setStorageSync('WXopenid', this.openId);
-						// this.userLogin();
-					} else {
-						this.utils.error('登录失败！');
-					}
-				}).catch(err => {
-					console.log(err);
-					uni.hideLoading();
-				});
-			},
-			//登录
-			userLogin() {
-				this.http.getApi('user/login', {
-					openId: this.openId
-				}, 'get').then(res => {
-					console.log(res);
-					this.userlist = res.data;
-					uni.setStorageSync('userlist', this.userlist);
-					this.panduan();
-					if (this.userlist.usrLevel > 0) {
-						this.Gvalueji();
-					}
-					this.utils.success('登录成功！');
-					this.lognum = 1;
-					uni.hideLoading();
-				}).catch(err => {
-					console.log(err);
-					uni.hideLoading();
-					if (err.status == 19) {
-						// this.userRegister();
-						var _this = this;
-						this.utils.error('该用户未注册', () => {
-							let li = {
-								openId: _this.openId,
-								usrName: _this.wxlist.nickName,
-								spareOne: _this.wxlist.avatarUrl
-							}
-							uni.setStorageSync('wxlist', li);
-							_this.doUrl('pages/user/register');
-
-						});
-					} else {
-						this.utils.error(err.msg);
-					}
-				});
-			},
-			userRegister() {
-				let li = {
-					openId: this.openId,
-					usrName: this.wxlist.nickName,
-					spareOne: this.wxlist.avatarUrl
-				}
-				console.log(li)
-				this.http.getApi('user/register', li, 'post').then(res => {
-					console.log(res);
-					this.userLogin();
-					// uni.hideLoading();
-				}).catch(err => {
-					console.log(err);
-					this.utils.error(err.msg);
-					uni.hideLoading();
-				});
 			},
 			YZdoUrl(item) { //跳转页面
 				if (item.title == '在线客服') {
 					this.callPhone(this.phone);
 				} else {
-					// this.doUrl(item.http);
-					this.openMsg()
+					this.doUrl(item.http);
 				}
 
 			}

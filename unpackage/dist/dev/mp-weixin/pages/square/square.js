@@ -96,25 +96,25 @@ var components
 try {
   components = {
     uSwiper: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-swiper/u-swiper */ "uview-ui/components/u-swiper/u-swiper").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-swiper/u-swiper.vue */ 313))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-swiper/u-swiper */ "uview-ui/components/u-swiper/u-swiper").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-swiper/u-swiper.vue */ 314))
     },
     uSticky: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-sticky/u-sticky */ "uview-ui/components/u-sticky/u-sticky").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-sticky/u-sticky.vue */ 383))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-sticky/u-sticky */ "uview-ui/components/u-sticky/u-sticky").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-sticky/u-sticky.vue */ 384))
     },
     uTabs: function() {
-      return Promise.all(/*! import() | uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabs/u-tabs.vue */ 390))
+      return Promise.all(/*! import() | uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabs/u-tabs.vue */ 391))
     },
     uWaterfall: function() {
-      return Promise.all(/*! import() | uview-ui/components/u-waterfall/u-waterfall */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-waterfall/u-waterfall")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-waterfall/u-waterfall.vue */ 397))
+      return Promise.all(/*! import() | uview-ui/components/u-waterfall/u-waterfall */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-waterfall/u-waterfall")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-waterfall/u-waterfall.vue */ 398))
     },
     uLazyLoad: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-lazy-load/u-lazy-load */ "uview-ui/components/u-lazy-load/u-lazy-load").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-lazy-load/u-lazy-load.vue */ 404))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-lazy-load/u-lazy-load */ "uview-ui/components/u-lazy-load/u-lazy-load").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-lazy-load/u-lazy-load.vue */ 405))
     },
     uEmpty: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-empty/u-empty */ "uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-empty/u-empty.vue */ 341))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-empty/u-empty */ "uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-empty/u-empty.vue */ 342))
     },
     uLoadmore: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-loadmore/u-loadmore */ "uview-ui/components/u-loadmore/u-loadmore").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-loadmore/u-loadmore.vue */ 348))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-loadmore/u-loadmore */ "uview-ui/components/u-loadmore/u-loadmore").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-loadmore/u-loadmore.vue */ 349))
     }
   }
 } catch (e) {
@@ -138,32 +138,6 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var m0 = _vm.$hasScopedSlotsParams("683f32a0-4")
-  var l0 = m0
-    ? _vm.$getScopedSlotsParams("683f32a0-4", "left", "leftList")
-    : null
-
-  if (!_vm._isMounted) {
-    _vm.e0 = function($event, item) {
-      var _temp = arguments[arguments.length - 1].currentTarget.dataset,
-        _temp2 = _temp.eventParams || _temp["event-params"],
-        item = _temp2.item
-
-      var _temp, _temp2
-
-      return _vm.doUrlli(item.id)
-    }
-  }
-
-  _vm.$mp.data = Object.assign(
-    {},
-    {
-      $root: {
-        m0: m0,
-        l0: l0
-      }
-    }
-  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -241,8 +215,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 var _default =
 {
   components: {},
@@ -263,8 +235,9 @@ var _default =
       more: false, //是否下页
       pageNum: 1, // 第几页
       pageSize: 5, // 每页数
-      total: 5 // 数据总条数
-    };
+      total: 5, // 数据总条数
+      enable: true };
+
 
   },
   onLoad: function onLoad() {

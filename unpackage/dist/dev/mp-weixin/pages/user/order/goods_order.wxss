@@ -183,8 +183,7 @@ page {
           align-items: flex-start;
   height: 100%;
   padding: 15rpx 0;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 .server_order .order_detail .detail_cont .cont_text .text_top .text_tit {
   font-size: 32rpx;

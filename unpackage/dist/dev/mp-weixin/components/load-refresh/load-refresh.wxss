@@ -49,8 +49,7 @@
   width: 100%;
 }
 .load-refresh .hollow-dots-spinner.data-v-2cb7ba04 {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 .load-refresh .hollow-dots-spinner.data-v-2cb7ba04 {
   height: 100rpx;

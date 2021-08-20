@@ -39,8 +39,7 @@
 .management_address_page .management_item {
   padding: 20rpx 0;
   height: 125rpx;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
           justify-content: space-between;

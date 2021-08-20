@@ -56,8 +56,7 @@
 	-webkit-box-flex: 1;
 	-webkit-flex: 1;
 	        flex: 1;
-	-webkit-box-sizing: border-box;
-	        box-sizing: border-box;
+	box-sizing: border-box;
 	height: 96rpx;
 	line-height: 96rpx;
 	text-align: center;

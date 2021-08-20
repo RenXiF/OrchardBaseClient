@@ -51,8 +51,7 @@
   height: 700rpx;
   background: #FFFFFF;
   border-radius: 40rpx;
-  -webkit-box-shadow: 0rpx 0rpx 80rpx rgba(0, 0, 0, 0.1);
-          box-shadow: 0rpx 0rpx 80rpx rgba(0, 0, 0, 0.1);
+  box-shadow: 0rpx 0rpx 80rpx rgba(0, 0, 0, 0.1);
   -webkit-transform-origin: bottom right;
           transform-origin: bottom right;
 }

@@ -200,7 +200,7 @@
 				userlist: {},
 				zorder: {}, //主订单
 				piece: false, //件起购
-				openId: '',
+				openid:'',
 				conjuan: {}, //已选择优惠券
 				coupon: [], //优惠券数据
 				popupli: {}, //弹窗数据
@@ -208,7 +208,7 @@
 			}
 		},
 		onShow() {
-			this.openId = uni.getStorageSync('WXopenid');
+			this.openid = uni.getStorageSync('WXopenid');
 			this.goodsList = uni.getStorageSync('BespeakInfo'); //加载缓存
 			this.addrInfo = uni.getStorageSync('setAddr'); //加载地址
 			this.orderlist.leaving = uni.getStorageSync('Remark'); //获取备注
@@ -450,6 +450,10 @@
 			//验证登录状态
 			verificationLogin(item) {
 				var _this = this;
+				if(_this.openid !=''){
+					_this.wxPayorder(item,_this.openid)
+					return
+				}
 				uni.login({
 					provider: 'weixin',
 					success: function(loginRes) {

@@ -2,6 +2,7 @@
 <template>
 	<view class="">
 		<nav-bar ref="navBar" transparentFixedFontColor="#333" type="transparentFixed"></nav-bar>
+		<view class="navhei"></view>
 		<view class="t-login">
 		<!-- 页面装饰图片 -->
 		<image class="img-a" src="@/static/login/2.png"></image>
@@ -12,7 +13,12 @@
 			<view class="t-a">
 				<!-- <image src="@/static/login/sj.png"></image> -->
 				<u-icon name="account" :color="icolor" size="45" class="l_icon"></u-icon>
-				<input type="text" name="name" placeholder="请输入账号" v-model="name" />
+				<input type="text" name="name" placeholder="请输入账号名称" v-model="name" />
+			</view>
+			<view class="t-a">
+				<!-- <image src="@/static/login/sj.png"></image> -->
+				<u-icon name="account" :color="icolor" size="45" class="l_icon"></u-icon>
+				<input type="number" name="phone" placeholder="请输入手机号" v-model="phone" />
 			</view>
 			<view class="t-a">
 				<!-- <image src="@/static/login/sj.png"></image> -->
@@ -64,6 +70,7 @@ export default {
 			shwoypass:true,
 			showText: true, //判断短信是否发送
 			name: '', //账号
+			phone:'',//手机号
 			mail:'',//邮箱
 			pass: '' ,//密码
 			ypass: '' //密码
@@ -82,6 +89,10 @@ export default {
 			// 	that.utils.error('请输入长度不能大于20个字符')
 			// 	return;
 			// }
+			if (!that.phone || that.utils.checkMobile(that.phone) == false) {
+				that.utils.error('请输入正确手机号')
+				return;
+			}
 			if (!that.utils.cheMail(that.mail)) {
 				that.utils.error('请输入正确邮箱')
 				return;
@@ -94,18 +105,32 @@ export default {
 				that.utils.error('请确认密码是否一致')
 				return;
 			}
-			//....此处省略，这里需要调用后台验证一下密码是否正确，根据您的需求来
-			// uni.showToast({ title: '登录成功！', icon: 'none' });
 			this.utils.showloading()
-			this.register()
+			uni.login({
+				provider: 'weixin',
+				success: function(loginRes) {
+					console.log(loginRes);
+					that.utils.getOpenId(loginRes.code, (res) => {
+						console.log(res);
+						that.register(res.openid)
+					})
+				},
+				fail: function(err) {
+					console.log(err);
+					uni.hideLoading();
+					that.utils.error('您已取消授权！');
+				}
+			});
 		},
 		//当前注册按钮操作
-		register(){
+		register(openid){
 			let li = {
 				userEmail: this.mail,
 				userImg: "https://oss.gzkts.xyz/%E6%B0%B4%E6%9E%9C.png",
 				userName: this.name,
+				phone:this.phone,
 				userPassword: this.pass,
+				openId:openid
 			}
 			this.http.getApi('user/register', li, 'post').then(res => {
 				console.log(res);

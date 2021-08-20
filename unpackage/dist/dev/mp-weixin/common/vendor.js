@@ -282,10 +282,14 @@ var promiseInterceptor = {
     if (!isPromise(res)) {
       return res;
     }
-    return res.then(function (res) {
-      return res[1];
-    }).catch(function (res) {
-      return res[0];
+    return new Promise(function (resolve, reject) {
+      res.then(function (res) {
+        if (res[0]) {
+          reject(res[0]);
+        } else {
+          resolve(res[1]);
+        }
+      });
     });
   } };
 
@@ -872,7 +876,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"VUE_APP_NAME":"果园基地客户端","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"果园基地客户端","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -7603,7 +7607,7 @@ function initProps (vm, propsOptions) {
       defineReactive$$1(props, key, value, function () {
         if (!isRoot && !isUpdatingChildComponent) {
           {
-            if(vm.mpHost === 'mp-baidu'){//百度 observer 在 setData callback 之后触发，直接忽略该 warn
+            if(vm.mpHost === 'mp-baidu' || vm.mpHost === 'mp-kuaishou'){//百度、快手 observer 在 setData callback 之后触发，直接忽略该 warn
                 return
             }
             //fixed by xxxxxx __next_tick_pending,uni://form-field 时不告警
@@ -8510,7 +8514,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"VUE_APP_NAME":"果园基地客户端","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"NODE_ENV":"development","VUE_APP_NAME":"果园基地客户端","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -8531,14 +8535,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"VUE_APP_NAME":"果园基地客户端","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"果园基地客户端","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"VUE_APP_NAME":"果园基地客户端","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"果园基地客户端","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -8624,7 +8628,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"VUE_APP_NAME":"果园基地客户端","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"果园基地客户端","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -9080,7 +9084,7 @@ if (hadRuntime) {
 
 /***/ }),
 
-/***/ 204:
+/***/ 205:
 /*!**********************************************!*\
   !*** E:/开发程序/前端程序/果园基地客户端/common/js/data.js ***!
   \**********************************************/
@@ -10161,7 +10165,7 @@ function colorToRgba(color) {var alpha = arguments.length > 1 && arguments[1] !=
 
 /***/ }),
 
-/***/ 247:
+/***/ 248:
 /*!*******************************************************************!*\
   !*** E:/开发程序/前端程序/果园基地客户端/components/logistics/init-logistics.js ***!
   \*******************************************************************/
@@ -10746,8 +10750,8 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.getApi = getApi;exports.upload = upload;exports.sendCode = sendCode;exports.getLocal = getLocal;exports.getAddList = getAddList;exports.getArea = getArea;exports.getAreaId = getAreaId;exports.AmapObj = exports.amap = exports.AppId = exports.ApiServer = void 0; // export const ApiServer = 'http://120.24.28.135:8080/';
 // export const ApiServer = 'http://47.99.209.170:8084/';
-// export const ApiServer = 'https://www.hszc.ink/';
-var ApiServer = 'http://192.168.1.106:8084/';
+var ApiServer = 'http://www.gzpb.xyz:5736/';
+// export const ApiServer = 'http://192.168.1.106:8084/';
 // export const ApiUpload = 'https://oss.gzkts.xyz/';
 exports.ApiServer = ApiServer;var utils = __webpack_require__(/*! @/common/util.js */ 41);
 var AppId = 'wxe9d550b839b8b22c';exports.AppId = AppId;
@@ -11110,13 +11114,57 @@ module.exports = {
   DiGuiDelete: DiGuiDelete, //递归删除服务器图片
   DiGuiDeleimg: DiGuiDeleimg, //递归删除服务器图片
   OSSdeleteIMG: OSSdeleteIMG, //单个删除服务器图片
-  getOpenId: getOpenId //获取微信openid
+  getOpenId: getOpenId, //获取微信openid
+  getWxMessage: getWxMessage //获取微信小程序订阅消息
 };
+
 /**
-    * 获取微信openid<br>
-    * code 提示信息<br>
+    * 获取微信小程序订阅授权<br>
+    * tmplId 提示信息<br>
     * callback 回调函数<br>
     */
+function getWxMessage(tmplId) {
+  // console.log(tmplId)
+  if (tmplId === undefined || tmplId === null) {
+    error('tmplId为空');
+    return;
+  }
+  var that = this;
+  // 获取用户的当前设置，判断是否点击了“总是保持以上，不在询问”
+  wx.getSetting({
+    withSubscriptions: true, //是否获取用户订阅消息的订阅状态，默认false不返回
+    success: function success(res) {
+      if (res.subscriptionsSetting[tmplId]) {//用户点击了“总是保持以上，不再询问”
+        uni.openSetting({ // 打开设置页
+          success: function success(ress) {
+            return;
+          } });
+
+      } else {// 用户没有点击“总是保持以上，不再询问”则每次都会调起订阅消息
+        uni.showModal({
+          title: '订阅弹窗',
+          content: '请勾选底部始终保持接收',
+          success: function success(r) {
+            uni.requestSubscribeMessage({
+              tmplIds: [tmplId],
+              success: function success(resq) {
+                return;
+              },
+              fail: function fail(err) {
+                return;
+              } });
+
+          } });
+
+      }
+    } });
+
+}
+/**
+   * 获取微信openid<br>
+   * code 提示信息<br>
+   * callback 回调函数<br>
+   */
 function getOpenId(code, callback) {
   if (code === undefined || code === null) {
     error('code为空');
@@ -11147,8 +11195,9 @@ function getOpenId(code, callback) {
    * @returns {void | string | never}
    */
 function DiGuiDelete(list, backImgeUrl, index, length, successBack, errorBack) {
-  http.getApi('oss/deleteFile',
-  { url: list[index].url.substring(28) },
+  http.getApi('oss/deleteFile', {
+    url: list[index].url.substring(28) },
+
   'postfrom').then(function (res) {
     console.log(res);
     index++;
@@ -11164,6 +11213,7 @@ function DiGuiDelete(list, backImgeUrl, index, length, successBack, errorBack) {
     errorBack();
   });
 }
+
 function DiGuiDeleimg(imgli, successBack) {
   DiGuiDelete(imgli, [], 0, imgli.length, function (data) {
     successBack(data);
@@ -11181,7 +11231,9 @@ function DiGuiDeleimg(imgli, successBack) {
 function OSSdeleteIMG(imglist, callback) {
   if (imglist instanceof Array) {
     for (var i = 0; i < imglist.length; i++) {
-      http.getApi('oss/deleteFile', { url: imglist[i].imgAddress.substring(34) }, 'postfrom').then(function (res) {
+      http.getApi('oss/deleteFile', {
+        url: imglist[i].imgAddress.substring(34) },
+      'postfrom').then(function (res) {
         console.log(res);
       }).catch(function (err) {
         console.log(err);
@@ -11194,7 +11246,9 @@ function OSSdeleteIMG(imglist, callback) {
 
   } else {
     var url = imglist.substring(34);
-    http.getApi('oss/deleteFile', { url: url }, 'postfrom').then(function (res) {
+    http.getApi('oss/deleteFile', {
+      url: url },
+    'postfrom').then(function (res) {
       // console.log(res);
       callback(res);
     }).catch(function (err) {
@@ -12859,7 +12913,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 549:
+/***/ 550:
 /*!***************************************************!*\
   !*** E:/开发程序/前端程序/果园基地客户端/static/imgs/st_pic.png ***!
   \***************************************************/
@@ -12870,7 +12924,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEYAAABGCAYAAABx
 
 /***/ }),
 
-/***/ 550:
+/***/ 551:
 /*!****************************************************!*\
   !*** E:/开发程序/前端程序/果园基地客户端/static/imgs/st_star.png ***!
   \****************************************************/
@@ -12881,7 +12935,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAgCAYAAACc
 
 /***/ }),
 
-/***/ 551:
+/***/ 552:
 /*!***********************************************************!*\
   !*** E:/开发程序/前端程序/果园基地客户端/static/imgs/st_star_active.png ***!
   \***********************************************************/
@@ -12889,32 +12943,6 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAgCAYAAACc
 /***/ (function(module, exports) {
 
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAgCAYAAACcuBHKAAADVUlEQVRYR7XXX4iUVRjH8c8z7qq7mRnVkkZJRS0RYUWRpI1ua2im/bFYsBspKiIioiK6KPAmEgq6C4IIomWDtCjFSKIdd1cjULoqWRWtiJUQCv9Vos6ceGctVp113llnz+15zu/5vs97nj8nTHClkhl4G/cJu5W9EN32TUQuJnIofWqKDi/hTbSe1ugz1VNxt38a1ZwYxKDbJZskc8Y4PC55Orr0TjpE9TeEPqys4WyPKe6Pe+xvBKThSKSSF7FOmHaOo1CRfCR5LroczwvSEEQquVXYiKvP4yC7E2tisfVNh0g7tTvmY6yqK578pOKB6PZrXVvkikTaa5oRz+AdTK0rnP2Wig+1eTnmO1LPflyItEm7GW4UbsISPIaZ9QTH7J/EN/hSGHbccCx1sNb5KkTKIrJTm6NmCrcIy1XcIVxLNQ1zRWxcwOSwgn2SYcmgZKupDljgrwiVSEMudUoPHhbm4WKhXVJo4KsbMT2Bo5K9Cjar6I004C3Jq0ya03qAX0XaajOW17OcxP3dkfo9quADzJpER+NJZ5f39Ujva9XpFWGtlCP9mkU6msZ9Tnh2NDtKpgvv4Ylm+cihM6RsdXQb+T/10jZzlH0iKeYQuFCTX9ATi+3IhM7I/zTgNskGXHehXs5z/oiCJ6Pos/9szilCacCDUrVHNFId8zJnF3GtRdZlRWp8iGxqusJrwhvUaNd53Z1tN9rme7V4PhY6Ona7ZjlOX5ttugHcMFGfNc6NSJZFlx/P5athXc0Wvj9dxpvFsUeyKLr8nhdilrANNzeLAPuFJbHIz/kgtutw0iA6mwjxm4JlUbQrH8SQa5T14/omQhxQsDKKfsgH0a9T2CLMbSLEQRWr4l7b80EMmadc7a5XNRHiTwU9UfRtXoi7lH2BK+tAZJP1YVyOljq2WaV8PIrVjztj1a4TJYuxQbispnDyh9Av2ahilym6JUuFBVTTu9b6W7ImuqptIQfEgKLkc86AyKbm7MHbK1Uv7fDYB04qVeeR7F2yGksx+6zJfNz3SO1IbHGRad4VHpIcUrFdwXottlngWEQ2G9deqaRFqw5lj0hWYP7pgWmHpCe6ZB20fiQyi/SdNqeqk/chC+09n+NxgbJnwyXulMzN5vlaNSI7+y+jHvkCgjlOdgAAAABJRU5ErkJggg=="
-
-/***/ }),
-
-/***/ 668:
-/*!*****************************************************!*\
-  !*** E:/开发程序/前端程序/果园基地客户端/common/form-id-mixins.js ***!
-  \*****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /** form-id-mixins.js **/var _default =
-{
-  methods: {
-    getFormIdData: function getFormIdData(formId) {var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-      // 加type参数是为了有效区分都为同一类型的formId
-      var params = {
-        formId: formId,
-        type: type };
-
-      // 传值给后台的API
-      // Api.getFormId(params)
-      //   .then(res => {
-      //     console.log('success')
-      //   })
-    } } };exports.default = _default;
 
 /***/ })
 

@@ -183,13 +183,12 @@ var _default =
 
   },
   onShareAppMessage: function onShareAppMessage(res) {
+    console.log(res);
     if (res.from === 'button') {// 来自页面内分享按钮
+      console.log(res);
       console.log(res.target);
+      uni.setStorageSync('shareli', res.target);
     }
-    return {
-      title: '快来智悦校园安防，让我们一起守护孩子们的健康和安全吧！',
-      path: '/pages/index/index' };
-
   },
   onLoad: function onLoad() {
 
@@ -197,6 +196,7 @@ var _default =
   onShow: function onShow() {
     this.userlist = uni.getStorageSync('userlist'); //加载用户缓存
     console.log(this.userlist);
+    this.utils.getWxMessage('m7jLw68iAq7j0W3bNb3zApC6fUrYhRPZv-RMFjNmmo4');
   },
   //下拉刷新
   onPullDownRefresh: function onPullDownRefresh() {var _this = this;

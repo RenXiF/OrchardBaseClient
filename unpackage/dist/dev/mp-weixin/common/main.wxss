@@ -43,8 +43,7 @@ image {
 }
 view,
 text {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 .u-font-xs {
   font-size: 22rpx;
@@ -3157,8 +3156,7 @@ page {
   left: 0;
   top: 0;
   pointer-events: none;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   -webkit-transform-origin: 0 0;
   transform-origin: 0 0;
   width: 199.8%;
@@ -3327,8 +3325,7 @@ u-dropdown {
   border: #E31B23 1px solid;
 }
 .box_shadow {
-  -webkit-box-shadow: #cacaca 1rpx 10rpx 20rpx;
-          box-shadow: #cacaca 1rpx 10rpx 20rpx;
+  box-shadow: #cacaca 1rpx 10rpx 20rpx;
 }
 .l_icon {
   position: absolute;

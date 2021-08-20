@@ -44,6 +44,7 @@
 				pageNum: 1, // 第几页
 				pageSize: 10, // 每页数
 				total: 5, // 数据总条数
+				openid:''
 			}
 		},
 		computed: {
@@ -57,6 +58,7 @@
 		onLoad() {
 			if (this.utils.isLogin()) {
 				this.userlist = uni.getStorageSync('userlist');
+				this.openid = uni.getStorageSync('WXopenid');
 				console.log(this.userlist);
 				this.initialization(); //初始化
 			}else{
@@ -131,6 +133,10 @@
 			//获取openid
 			verificationLogin(item) {
 				var _this = this;
+				if(_this.openid !=''){
+					_this.wxPayorder(item,_this.openid)
+					return
+				}
 				uni.login({
 					provider: 'weixin',
 					success: function(loginRes) {

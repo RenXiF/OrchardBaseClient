@@ -255,13 +255,9 @@
 					uni.hideLoading();
 				}).catch(err => {
 					console.log(err);
-					if (err.status == 54) {
-						this.utils.error('暂无记录');
-						this.loadStatus = 'nomore';
-					} else {
-						this.utils.error(err.msg);
-					}
+					this.loadStatus = 'nomore';
 					uni.hideLoading();
+					this.utils.error('暂无记录');
 				});
 
 				// setTimeout(() => {}, 1000);

@@ -127,6 +127,7 @@
 					loading: '努力加载中',
 					nomore: '实在没有了'
 				},
+				openid:'',
 			};
 		},
 		onReady() {
@@ -141,6 +142,7 @@
 					this.currentTab = Number(e.index);
 				}
 				this.userlist = uni.getStorageSync('userlist');
+				this.openid = uni.getStorageSync('WXopenid');
 				console.log(this.userlist);
 				// this.initialization();
 			} else {
@@ -232,16 +234,17 @@
 			//getOpenId
 			getOpenId(open) {
 				var _this = this;
+				if(_this.openid !=''){
+					open(_this.openid)
+					return
+				}
 				uni.login({
 					provider: 'weixin',
 					success: function(loginRes) {
 						console.log(loginRes);
-						// _this.opengid(loginRes.code);
 						_this.utils.getOpenId(loginRes.code,(res)=>{
 							console.log(res);
-							// _this.qupay(item,res.openid)
 							open(res.openid)
-							// return res.openid
 						})
 					}
 				});

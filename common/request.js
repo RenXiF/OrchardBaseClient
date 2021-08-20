@@ -1,7 +1,7 @@
 // export const ApiServer = 'http://120.24.28.135:8080/';
 // export const ApiServer = 'http://47.99.209.170:8084/';
-// export const ApiServer = 'https://www.hszc.ink/';
-export const ApiServer = 'http://192.168.1.106:8084/';
+export const ApiServer = 'http://www.gzpb.xyz:5736/';
+// export const ApiServer = 'http://192.168.1.106:8084/';
 // export const ApiUpload = 'https://oss.gzkts.xyz/';
 const utils = require('@/common/util.js');
 export const AppId = 'wxe9d550b839b8b22c';

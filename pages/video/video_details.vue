@@ -6,8 +6,8 @@
 		<view class="flex_columns one_video">
 			<video :src="onlist.videoUrl" controls :show-center-play-btn="false" auto-pause-if-navigate></video>
 			<view class="flex_columns one_tit u-p-20">
-				<text class="u-font-lg ft-wh">{{onlist.videoName}}</text>
-				<text class="u-font-md">{{onlist.uploader}}</text>
+				<text class="u-font-lg ft-wh">{{onlist.title}}</text>
+				<!-- <text class="u-font-md">{{onlist.keyWord}}</text> -->
 			</view>
 			<u-gap height="30" bg-color="#f8f8f8"></u-gap>
 			<view class="flex_columns comhome">

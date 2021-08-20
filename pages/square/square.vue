@@ -1,9 +1,9 @@
 <template>
-	<view class="index_home flex_columns" style="height: 1200px;">
+	<view class="index_home flex_columns" style="">
 		<!-- <nav-bar>我的</nav-bar> -->
 		<u-swiper :list="list" name="img" effect3d @click="yulan"></u-swiper>
-		<u-sticky class="u-m-t-30">
-			<view class="sticky" style="">
+		<u-sticky class="" :enable="enable">
+			<view class="sticky">
 				<u-tabs :list="sortlist" name="dictionaryValue" active-color="#F55F54" :is-scroll="true" :current="current"
 					@change="changeck"></u-tabs>
 			</view>
@@ -38,9 +38,7 @@
 				<u-empty mode="list" v-if="loadStatus==='nomore'&& datalist.length==0"></u-empty>
 				<u-loadmore :status="loadStatus" @loadmore="getlist"></u-loadmore>
 			</view>
-			
 		</view>
-		<!-- <u-loadmore :status="loadStatus" :load-text="loadText" v-if="datalist.length!=0" /> -->
 	</view>
 </template>
 
@@ -65,6 +63,7 @@
 				pageNum: 1, // 第几页
 				pageSize: 5, // 每页数
 				total: 5, // 数据总条数
+				enable:true
 
 			}
 		},
@@ -253,6 +252,10 @@
 	.index_home{
 		// padding: 0 20rpx;
 	}
+	.sticky {
+			background-color: #FFFFFF;
+			padding: 10rpx;
+		}
 	.one_class{
 		width: 100%;
 		padding: 20rpx;

@@ -8,11 +8,11 @@ module.exports = {
 	getRandStr, //生成随机字符串
 	md5: md5, //MD5加密
 	checkMobile: checkMobile, //检测手机号的合法性
-	cheMail,//检测邮箱合法性
+	cheMail, //检测邮箱合法性
 	getDate: getDate, //获取当前日期
 	urlToarray: urlCut, //url转对象
 	isLogin: isLogin, //登录状态判断
-	refLogin,//刷新用户信息
+	refLogin, //刷新用户信息
 	filteremoji: filteremoji, //微信昵称特殊字符过滤
 	clearData: clearData, //清理缓存
 	logout: logout, //退出登录，
@@ -42,32 +42,76 @@ module.exports = {
 	upimg,
 	DiGui, //递归上传图片
 	DiGuiUpimg, //递归上传图片
-	DiGuiDelete,//递归删除服务器图片
-	DiGuiDeleimg,//递归删除服务器图片
-	OSSdeleteIMG,//单个删除服务器图片
-	getOpenId//获取微信openid
+	DiGuiDelete, //递归删除服务器图片
+	DiGuiDeleimg, //递归删除服务器图片
+	OSSdeleteIMG, //单个删除服务器图片
+	getOpenId, //获取微信openid
+	getWxMessage //获取微信小程序订阅消息
+}
+
+/**
+ * 获取微信小程序订阅授权<br>
+ * tmplId 提示信息<br>
+ * callback 回调函数<br>
+ */
+function getWxMessage(tmplId) {
+	// console.log(tmplId)
+	if (tmplId === undefined || tmplId === null) {
+		error('tmplId为空')
+		return
+	}
+	var that = this
+	// 获取用户的当前设置，判断是否点击了“总是保持以上，不在询问”
+	wx.getSetting({
+		withSubscriptions: true, //是否获取用户订阅消息的订阅状态，默认false不返回
+		success(res) {
+			if (res.subscriptionsSetting[tmplId]) { //用户点击了“总是保持以上，不再询问”
+				uni.openSetting({ // 打开设置页
+					success(ress) {
+						return
+					}
+				});
+			} else { // 用户没有点击“总是保持以上，不再询问”则每次都会调起订阅消息
+				uni.showModal({
+					title: '订阅弹窗',
+					content: '请勾选底部始终保持接收',
+					success: function(r) {
+						uni.requestSubscribeMessage({
+							tmplIds: [tmplId],
+							success(resq) {
+								return
+							},
+							fail: (err) => {
+								return
+							}
+						})
+					}
+				})
+			}
+		}
+	})
 }
 /**
  * 获取微信openid<br>
  * code 提示信息<br>
  * callback 回调函数<br>
  */
-function getOpenId(code,callback){
-	if(code ===undefined || code ===null ){
+function getOpenId(code, callback) {
+	if (code === undefined || code === null) {
 		error('code为空')
 		return
 	}
 	uni.request({
-	    url: 'https://api.weixin.qq.com/sns/jscode2session', //仅为示例，并非真实接口地址。
-	    data: {
-			appid:'wxccb195b2920ad5dd',
-			secret:'494eb6d790b3aad0e6645aa9015fbf29',
-			js_code:code,
-			grant_type:'authorization_code'
-	    },
-	    success: (res) => {
+		url: 'https://api.weixin.qq.com/sns/jscode2session', //仅为示例，并非真实接口地址。
+		data: {
+			appid: 'wxccb195b2920ad5dd',
+			secret: '494eb6d790b3aad0e6645aa9015fbf29',
+			js_code: code,
+			grant_type: 'authorization_code'
+		},
+		success: (res) => {
 			callback(res.data)
-	    },
+		},
 		fail: (err) => {
 			console.log(err);
 			error('请求错误')
@@ -82,9 +126,10 @@ function getOpenId(code,callback){
  * @returns {void | string | never}
  */
 function DiGuiDelete(list, backImgeUrl, index, length, successBack, errorBack) {
-	http.getApi('oss/deleteFile',
-	{url:list[index].url.substring(28)},
-	'postfrom').then(res => {
+	http.getApi('oss/deleteFile', {
+			url: list[index].url.substring(28)
+		},
+		'postfrom').then(res => {
 		console.log(res);
 		index++;
 		if (index >= length) {
@@ -99,6 +144,7 @@ function DiGuiDelete(list, backImgeUrl, index, length, successBack, errorBack) {
 		errorBack();
 	});
 }
+
 function DiGuiDeleimg(imgli, successBack) {
 	DiGuiDelete(imgli, [], 0, imgli.length, data => {
 		successBack(data);
@@ -116,7 +162,9 @@ function DiGuiDeleimg(imgli, successBack) {
 function OSSdeleteIMG(imglist, callback) {
 	if (imglist instanceof Array) {
 		for (let i = 0; i < imglist.length; i++) {
-			http.getApi('oss/deleteFile',{url:imglist[i].imgAddress.substring(34)}, 'postfrom').then(res => {
+			http.getApi('oss/deleteFile', {
+				url: imglist[i].imgAddress.substring(34)
+			}, 'postfrom').then(res => {
 				console.log(res);
 			}).catch(err => {
 				console.log(err);
@@ -129,7 +177,9 @@ function OSSdeleteIMG(imglist, callback) {
 		})
 	} else {
 		let url = imglist.substring(34);
-		http.getApi('oss/deleteFile',{url:url}, 'postfrom').then(res => {
+		http.getApi('oss/deleteFile', {
+			url: url
+		}, 'postfrom').then(res => {
 			// console.log(res);
 			callback(res)
 		}).catch(err => {
@@ -577,7 +627,7 @@ function refLogin() {
 			error('更新失败');
 			return false;
 		});
-	} else{
+	} else {
 		return false;
 	}
 }
