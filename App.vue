@@ -38,6 +38,8 @@
 		},
 		onHide: function() {
 			console.log('App Hide')
+		},
+		methods:{
 		}
 	}
 </script>

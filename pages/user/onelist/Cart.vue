@@ -1,8 +1,8 @@
 <template>
 	<view class="container">
 		<car-list ref="mycar" :carList="carList" @allSelBtn="allSelBtn" @selShop="selShop" @selGoods="selGoods"
-			@jsbtn="jsbtn" @delbtn="delbtn" @changeNum="changeNum" v-if="carList[0].glist.length !=0"></car-list>
-		<u-empty mode="car" v-if="carList[0].glist.length ==0" style="margin-top: 300rpx;"></u-empty>
+			@jsbtn="jsbtn" @delbtn="delbtn" @changeNum="changeNum" v-if="carList[0].glist"></car-list>
+		<u-empty mode="car" v-else style="margin-top: 300rpx;"></u-empty>
 
 	</view>
 </template>
@@ -92,13 +92,26 @@
 		},
 		onShow() {
 			console.log('执行初始化');
-			if (this.utils.isLogin()) {
-				this.userlist = uni.getStorageSync('userlist');
-				console.log(this.userlist);
-				this.initialization(); //初始化
+			var _this = this
+			_this.utils.showloading()
+			if (_this.utils.isLogin()) {
+				_this.utils.refLogin()
+				setTimeout(function() {
+					uni.hideLoading();
+					_this.userlist = uni.getStorageSync('userlist');
+					console.log(_this.userlist)
+					if (_this.userlist.id && _this.userlist.state == 1) {
+						_this.initialization(); //初始化
+					}else{
+						_this.userlist = {};
+						_this.utils.error('请先登录账号！',()=>{
+							_this.utils.navback()
+						})
+					}
+				}, 500)
 			}else {
-				this.utils.error('请先登录账号！',()=>{
-					this.utils.navback()
+				_this.utils.error('请先登录账号！',()=>{
+					_this.utils.navback()
 				})
 			}
 		},
@@ -138,7 +151,7 @@
 					uni.hideLoading();
 				}).catch(err => {
 					console.log(err);
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
 					uni.hideLoading();
 				});
 			},
@@ -186,36 +199,8 @@
 			jsbtn: function(ids) { //结算按钮
 				var that = this;
 				console.log(ids);
-
 				uni.setStorageSync('BespeakInfo', ids);
 				that.doUrl('pages/user/order/goods_order');
-			},
-			OrderFound() { //主订单
-				this.http.getApi('Order/found', li, 'get').then(res => {
-					console.log(res);
-					uni.hideLoading();
-				}).catch(err => {
-					console.log(err);
-					this.utils.error(err.msg);
-					uni.hideLoading();
-				});
-			},
-			wxPayorder() { //支付订单
-				let li = {
-					orderNo: '45946516545615',
-					amount: 0.01,
-					body: '测试',
-					opendid: this.userlist.openId
-				}
-				console.log(li);
-				this.http.getApi('wxPay/unifiedOrder', li, 'get').then(res => {
-					console.log(res);
-					uni.hideLoading();
-				}).catch(err => {
-					console.log(err);
-					this.utils.error(err.msg);
-					uni.hideLoading();
-				});
 			},
 			delbtn: function(ids, list) { //删除按钮
 				var that = this;
@@ -251,7 +236,7 @@
 					uni.hideLoading();
 				}).catch(err => {
 					console.log(err);
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
 					uni.hideLoading();
 				});
 			},

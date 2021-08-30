@@ -5,13 +5,12 @@
 			<u-grid :col="4" :border="false">
 				<u-grid-item v-for="(item ,index) in sortlist" :key="index"
 					@click="doUrl('pages/index/goodsList',item)">
-					<u-icon :name="item.logo?item.logo:'/static/index/menu1.png'" size="80" :custom-style="{'border-radius':'30px'}"
-						imgMode="scaleToFil"></u-icon>
+					<u-icon :name="item.logo?item.logo:'/static/index/menu1.png'" size="80"
+						:custom-style="{'border-radius':'30px'}" imgMode="scaleToFil"></u-icon>
 					<view class="grid-text">{{item.dictionaryValue}}</view>
 				</u-grid-item>
 			</u-grid>
 		</view>
-
 		<view class="u-p-30">
 			<text class="u-font-xl ft-wh">推荐商品</text>
 		</view>
@@ -27,7 +26,7 @@
 							<text class="u-font-sm">{{item.commodityDescribe}}</text>
 							<text class="u-font-xl ft-wh u-type-error">{{item.commodityPrice}}</text>
 						</view>
-						
+
 						<!-- <u-icon name="plus-circle-fill" color="#010101" size="60" @click="popshow(item)"></u-icon> -->
 						<!-- <view class="cartadd" @click="popshow(item)">
 							<text class="u-font-md">购买</text>
@@ -73,7 +72,7 @@
 			return {
 				show: false,
 				keyword: '',
-				list: [],//轮播图
+				list: [], //轮播图
 				datalist: [],
 				userlist: {},
 				popupli: {},
@@ -99,12 +98,15 @@
 			}
 		},
 		onLoad() {
-			this.initialization();//初始化
+			this.initialization(); //初始化
 		},
 		onShow() {
 			if (this.utils.isLogin()) {
+				this.utils.refLogin()
 				this.userlist = uni.getStorageSync('userlist');
 				console.log(this.userlist)
+			} else {
+				this.userlist = {};
 			}
 		},
 		onShareAppMessage(res) {
@@ -147,7 +149,7 @@
 				// this.getBygId(); //获取轮播
 				this.getSort(); //获取分类
 				this.getGoods(); //初始化
-				this.getchart()//获取轮播
+				this.getchart() //获取轮播
 			},
 			doUrlli(item) {
 				uni.setStorageSync('buylist', item);
@@ -159,7 +161,7 @@
 					for (let i = 0; i < this.list.length; i++) {
 						li.splice(i, 0, this.list[i].img);
 					}
-					this.openImg(li,e);
+					this.openImg(li, e);
 				}
 			},
 			getSort() { //获取分类
@@ -175,7 +177,7 @@
 					uni.hideLoading();
 				}).catch(err => {
 					console.log(err);
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
 					uni.hideLoading();
 				});
 			},
@@ -192,7 +194,7 @@
 					uni.hideLoading();
 				}).catch(err => {
 					console.log(err);
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
 					uni.hideLoading();
 				});
 			},
@@ -211,12 +213,12 @@
 				let li = {
 					pageNum: this.pageNum,
 					pageSize: this.pageSize,
-					state:3
+					state: 3
 				}
 				console.log(li)
 				this.http.getApi('commodity/list', li, 'post').then(res => {
 					console.log(res)
-					this.more = res.pages>this.pageNum?true :false;
+					this.more = res.pages > this.pageNum ? true : false;
 					this.total = res.pages;
 					this.pageNum = this.more ? this.pageNum + 1 : this.pageNum;
 					this.datalist = this.pageNum > 1 ? this.datalist.concat(res.list) : res.list;
@@ -224,7 +226,7 @@
 					uni.hideLoading();
 				}).catch(err => {
 					console.log(err);
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
 					uni.hideLoading();
 				});
 			},
@@ -262,7 +264,7 @@
 					// uni.hideLoading();
 				}).catch(err => {
 					console.log(err);
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
 					uni.hideLoading();
 				});
 			},
@@ -289,7 +291,7 @@
 				}).catch(err => {
 					console.log(err);
 					uni.hideLoading();
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
 				});
 			},
 			goodsUp(goodsId, sumTwo) { //修改商品
@@ -301,7 +303,7 @@
 					// uni.hideLoading();
 				}).catch(err => {
 					console.log(err);
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
 					uni.hideLoading();
 				});
 			},

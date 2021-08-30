@@ -1,8 +1,8 @@
 <template>
 	<view class="flex_columns video_index">
-		<nav-bar ref="navBar" :scrollTop="scrollTop" transparentFixedFontColor="#333" type="transparentFixed">
-			<view class="preview" slot="default">详情</view> <!-- 不状态下的按钮 -->
-		</nav-bar>
+		<!-- <nav-bar ref="navBar" :scrollTop="scrollTop" transparentFixedFontColor="#333" type="transparentFixed">
+			<view class="preview" slot="default">详情</view>
+		</nav-bar> -->
 		<view class="flex_columns one_video">
 			<video :src="onlist.videoUrl" controls :show-center-play-btn="false" auto-pause-if-navigate></video>
 			<view class="flex_columns one_tit u-p-20">
@@ -10,17 +10,17 @@
 				<!-- <text class="u-font-md">{{onlist.keyWord}}</text> -->
 			</view>
 			<u-gap height="30" bg-color="#f8f8f8"></u-gap>
-			<view class="flex_columns comhome">
-				<view class="comhome_bock u-border-bottom " v-for="(item, index) in datalist" :key="index">
+			<view class="flex_columns comhome" v-if="datalist">
+				<view class="comhome_bock u-border-bottom" v-for="(item, index) in datalist" :key="index">
 					<u-swipe-action :show="item.show" :index="index" @click="click" @open="open" :options="options">
-						<view class=" flex_rows flex_center u-p-20 bg_radius" @click="doUrlli(item)">
+						<view class="comhome_bock_one flex_rows flex_center u-p-20 bg_radius" @click="doUrlli(item)">
 							<image :src="item.commodityImges" mode="aspectFill" class=""></image>
-							<view class="flex_columns  u-m-l-20">
+							<view class="flex_columns u-m-l-20 ">
 								<text class="u-font-lg ft-wh">{{item.commodityName}}</text>
 								<!-- <cn-money :money="item.commodityPrice" thousandth :size="48" unit="起" color="#FA3534"></cn-money> -->
 								<text class="u-font-xl ft-wh u-type-error">{{item.commodityPrice}}</text>
-								<text class="u-font-sm">{{item.commodityDescribe}}</text>
-							<!-- 	<view class="flex_rows ">
+								<text class="u-font-sm ellipsis">{{item.commodityDescribe}}</text>
+								<!-- 	<view class="flex_rows ">
 									<u-tag text="满30减5" mode="light" type="error" size="mini" class="u-m-l-10"
 										v-for="(item2,index2) in 3" :key="index2" />
 								</view> -->
@@ -42,7 +42,7 @@
 					<text class="u-font-xs u-p-t-10">{{item.commodityDescribe}}</text>
 				</view>
 			</view>
-			<u-loadmore :status="loadStatus" :load-text="loadText" v-if="datalist.length!=0" />
+			<!-- <u-loadmore :status="loadStatus" :load-text="loadText" v-if="datalist.length!=0" /> -->
 		</view>
 	</view>
 </template>
@@ -57,7 +57,7 @@
 			return {
 				onlist: {},
 				scrollTop: 0,
-				datalist: [],//视频绑定商品
+				datalist: [], //视频绑定商品
 				options: [{
 						text: '收藏',
 						style: {
@@ -71,7 +71,7 @@
 					// 	}
 					// }
 				],
-				goodslist:[],//推荐商品
+				goodslist: [], //推荐商品
 				loadStatus: 'nomore',
 				loadText: {
 					loadmore: '轻轻上拉',
@@ -87,6 +87,7 @@
 			this.getGoods()
 		},
 		onPageScroll(e) {
+			// console.log(e);
 			this.scrollTop = e.scrollTop;
 		},
 		methods: {
@@ -131,7 +132,7 @@
 
 				}).catch(err => {
 					console.log(err);
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
 					uni.hideLoading();
 				});
 			},
@@ -147,7 +148,7 @@
 					uni.hideLoading();
 				}).catch(err => {
 					console.log(err);
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
 					uni.hideLoading();
 				});
 			},
@@ -199,16 +200,25 @@
 			width: 100%;
 			min-height: 200rpx;
 			margin-bottom: 30rpx;
+
+			// max-height: 500rpx;
 			// border-radius: 15rpx;
 			// background-color: #FFFFFF;
+			&_one {
+				width: 100%;
 
-			image {
-				width: 150rpx;
-				flex: 0 0 150rpx;
-				height: 150rpx;
-				margin-right: 20rpx;
-				border-radius: 12rpx;
+				image {
+					width: 150rpx;
+					// flex: 0 0 150rpx;
+					height: 150rpx;
+					margin-right: 20rpx;
+					border-radius: 12rpx;
+				}
+				>view{
+					width: 500rpx;
+				}
 			}
+
 
 			text {
 				margin-bottom: 10rpx;

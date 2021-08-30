@@ -18,9 +18,9 @@
 						</view>
 						<view class="flex_between u-p-t-20 u-p-l-20 u-p-r-20 u-p-b-10"
 							v-for="(item2 ,index2) in item.orderEntityList" :key="index2">
-							<view class="goodlog flex_rows ">
+							<view class="goodlog flex_rows">
 								<image :src="item2.img" class="" mode=""></image>
-								<view class=" flex_wrap u-p-l-20 ellipsis" style="max-width: 50%;">
+								<view class=" u-p-l-20 " style="max-width: 60%;">
 									<!-- <text class="u-font-lg ft-wh ">{{item2.title}}</text> -->
 									<u-read-more :toggle="true" show-height="150" close-text="展开" text-indent="0" font-size="25" color="#333">
 										<rich-text :nodes="item2.title"></rich-text>
@@ -37,9 +37,9 @@
 							<text>订单号:</text>
 							<text>{{item.orders}}</text>
 						</view>
-						<view class="tit_ck flex_between flex_center" v-if="item.spareThree">
+						<view class="tit_ck flex_between flex_center" v-if="item.logistics">
 							<text>物流号:</text>
-							<text>{{item.spareThree}}</text>
+							<text>{{item.logistics}}</text>
 						</view>
 						<view class="tit_ck flex_between flex_center">
 							<text>支付金额:</text>
@@ -256,9 +256,12 @@
 					amount: 0.01,
 					// amount: item.totalAmount,
 					body: '商品下单',
+					// #ifdef MP-WEIXIN
 					openid: ''
+					// #endif
 				}
 				console.log(li);
+				// #ifdef MP-WEIXIN
 				this.getOpenId(res=>{
 					li.openid = res
 					if (li.openid != '') {
@@ -270,13 +273,37 @@
 						}).catch(err => {
 							console.log(err);
 							uni.hideLoading();
-							this.utils.error(err.msg);
+							this.utils.error(err.message);
 						});
 					} else{
 						this.utils.error('服务端错误！请联系管理员')
 					}
-				})
+				});
+				// #endif
 				
+				// #ifdef APP-PLUS
+					this.wxAppPayorder(li)
+				// #endif
+				
+			},
+			wxAppPayorder(item) { //app支付订单
+				let li = {
+					orderNo: item.orderNo,
+					amount: 0.01,
+					// amount: item.totalAmount,
+					body: '商品下单',
+				}
+				console.log(li);
+				this.http.getApi('appPay/doUnifiedOrder', li, 'get').then(res => {
+					console.log(res);
+					console.log('执行');
+					this.paymentorder(res.data);
+					// uni.hideLoading();
+				}).catch(err => {
+					console.log(err);
+					uni.hideLoading();
+					this.utils.error(err.message);
+				});
 			},
 			paymentorder(data) {
 				// console.log('执行');
@@ -359,7 +386,7 @@
 					.catch(err => {
 						uni.hideLoading();
 						console.log(err);
-						this.utils.error(err.msg);
+						this.utils.error(err.message);
 					});
 			},
 			evaluate(item){

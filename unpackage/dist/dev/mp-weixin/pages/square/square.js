@@ -96,25 +96,25 @@ var components
 try {
   components = {
     uSwiper: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-swiper/u-swiper */ "uview-ui/components/u-swiper/u-swiper").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-swiper/u-swiper.vue */ 314))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-swiper/u-swiper */ "uview-ui/components/u-swiper/u-swiper").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-swiper/u-swiper.vue */ 313))
     },
     uSticky: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-sticky/u-sticky */ "uview-ui/components/u-sticky/u-sticky").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-sticky/u-sticky.vue */ 384))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-sticky/u-sticky */ "uview-ui/components/u-sticky/u-sticky").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-sticky/u-sticky.vue */ 383))
     },
     uTabs: function() {
-      return Promise.all(/*! import() | uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabs/u-tabs.vue */ 391))
+      return Promise.all(/*! import() | uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabs/u-tabs.vue */ 390))
     },
     uWaterfall: function() {
-      return Promise.all(/*! import() | uview-ui/components/u-waterfall/u-waterfall */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-waterfall/u-waterfall")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-waterfall/u-waterfall.vue */ 398))
+      return Promise.all(/*! import() | uview-ui/components/u-waterfall/u-waterfall */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-waterfall/u-waterfall")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-waterfall/u-waterfall.vue */ 397))
     },
     uLazyLoad: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-lazy-load/u-lazy-load */ "uview-ui/components/u-lazy-load/u-lazy-load").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-lazy-load/u-lazy-load.vue */ 405))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-lazy-load/u-lazy-load */ "uview-ui/components/u-lazy-load/u-lazy-load").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-lazy-load/u-lazy-load.vue */ 404))
     },
     uEmpty: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-empty/u-empty */ "uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-empty/u-empty.vue */ 342))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-empty/u-empty */ "uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-empty/u-empty.vue */ 341))
     },
     uLoadmore: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-loadmore/u-loadmore */ "uview-ui/components/u-loadmore/u-loadmore").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-loadmore/u-loadmore.vue */ 349))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-loadmore/u-loadmore */ "uview-ui/components/u-loadmore/u-loadmore").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-loadmore/u-loadmore.vue */ 348))
     }
   }
 } catch (e) {
@@ -267,6 +267,7 @@ var _default =
   },
   //触底加载更多
   onReachBottom: function onReachBottom() {
+    var _this = this;
     if (this.more == false) {
       this.loadStatus = 'nomore';
       return;
@@ -275,7 +276,7 @@ var _default =
       this.loadStatus = 'loading';
       // this.getGoods(); //初始化
       setTimeout(function () {
-        this.loadStatus = 'nomore';
+        _this.loadStatus = 'nomore';
       }, 2000);
     }
   },
@@ -298,7 +299,7 @@ var _default =
       this.getSort();
       this.getchart();
     },
-    getchart: function getchart() {var _this = this; //获取轮播图
+    getchart: function getchart() {var _this2 = this; //获取轮播图
       var li = {
         state: 3,
         pageNum: 0,
@@ -306,16 +307,16 @@ var _default =
 
       this.http.getApi('chart/list', li, 'post').then(function (res) {
         console.log(res);
-        _this.list = res.list;
+        _this2.list = res.list;
         // console.log(this.list);
         uni.hideLoading();
       }).catch(function (err) {
         console.log(err);
-        _this.utils.error(err.msg);
+        _this2.utils.error(err.message);
         uni.hideLoading();
       });
     },
-    getSort: function getSort() {var _this2 = this; //获取分类
+    getSort: function getSort() {var _this3 = this; //获取分类
       var li = {
         dictionaries: 'classification',
         pageNum: 0,
@@ -323,17 +324,17 @@ var _default =
 
       this.http.getApi('dictionaries/list', li, 'post').then(function (res) {
         console.log(res);
-        _this2.sortlist = res.list;
-        console.log(_this2.sortlist);
-        _this2.getsquare();
+        _this3.sortlist = res.list;
+        console.log(_this3.sortlist);
+        _this3.getsquare();
         // uni.hideLoading();
       }).catch(function (err) {
         console.log(err);
-        _this2.utils.error(err.msg);
+        _this3.utils.error(err.message);
         uni.hideLoading();
       });
     },
-    getsquare: function getsquare() {var _this3 = this;
+    getsquare: function getsquare() {var _this4 = this;
       if (this.more == false) {
         // this.utils.error('暂无下页');
         this.loadStatus = 'nomore';
@@ -347,19 +348,19 @@ var _default =
       console.log(li);
       this.http.getApi('square/list', li, 'post').then(function (res) {
         console.log(res);
-        _this3.more = res.pages > _this3.pageNum ? true : false;
-        _this3.total = res.pages;
-        _this3.pageNum = _this3.more ? _this3.pageNum + 1 : _this3.pageNum;
+        _this4.more = res.pages > _this4.pageNum ? true : false;
+        _this4.total = res.pages;
+        _this4.pageNum = _this4.more ? _this4.pageNum + 1 : _this4.pageNum;
         // this.datalist = this.pageNum > 1 ? this.datalist.concat(res.list) : res.list;
-        _this3.addRandomData(res.list);
-        _this3.loadStatus = _this3.more ? 'loadmore' : 'nomore';
+        _this4.addRandomData(res.list);
+        _this4.loadStatus = _this4.more ? 'loadmore' : 'nomore';
         uni.hideLoading();
       }).catch(function (err) {
         console.log(err);
-        if (_this3.pageNum == 1) {
-          _this3.clear();
+        if (_this4.pageNum == 1) {
+          _this4.clear();
         }
-        _this3.utils.error(err.msg);
+        _this4.utils.error(err.message);
         uni.hideLoading();
       });
     },

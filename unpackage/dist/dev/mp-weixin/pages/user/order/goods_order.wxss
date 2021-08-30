@@ -34,6 +34,7 @@ page {
   background-color: #F8F8F8;
 }
 .server_order {
+  width: 100%;
   padding-bottom: 200rpx;
   background-color: #F8F8F8;
 }

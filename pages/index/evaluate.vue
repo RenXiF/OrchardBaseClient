@@ -122,7 +122,7 @@
 					// console.log(this.sortlist);
 				}).catch(err => {
 					console.log(err);
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
 					uni.hideLoading();
 				});
 			},
@@ -150,7 +150,7 @@
 					// console.log(this.commentlist);
 				}).catch(err => {
 					console.log(err);
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
 					uni.hideLoading();
 				});
 			},

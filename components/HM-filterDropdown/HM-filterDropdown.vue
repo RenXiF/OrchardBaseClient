@@ -85,6 +85,7 @@
 </template>
 <script>
 	export default {
+		name:'HMfilterDropdown',
 		data() {
 			return {
 				subData: [], //菜单数据

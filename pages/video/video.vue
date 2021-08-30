@@ -1,5 +1,6 @@
 <template>
 	<view class="flex_columns index_video u-p-20">
+		<view class="navhei"></view>
 		<view class="flex_columns u-m-b-20">
 			<text class="u-font-xl ft-wh u-m-t-20">{{titledat}}</text>
 			<text class="u-font-md ft-wh u-m-t-20">愿美味的美食给你带来美好的一天</text>
@@ -95,7 +96,7 @@
 
 				}).catch(err => {
 					console.log(err);
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
 					uni.hideLoading();
 				});
 			},

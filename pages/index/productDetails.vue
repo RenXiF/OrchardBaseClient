@@ -1,11 +1,11 @@
 <template>
 	<!-- 商品详情页面 -->
-	<view class="flex_columns">
+	<view class="flex_columns" style="width: 100%;">
 		<nav-bar ref="navBar" :scrollTop="scrollTop" transparentFixedFontColor="#FFF" type="transparentFixed">
 			<view class="preview" slot="default">详情</view> <!-- 不状态下的按钮 -->
 		</nav-bar>
-		<u-swiper :list="buylist.rotationImgs" height="700" v-if="buylist.rotationImgs.length!=0"></u-swiper>
-		<u-empty text="暂无商品图片,请耐心等待商家上架" mode="search" v-if="buylist.rotationImgs.length==0"></u-empty>
+		<u-swiper :list="buylist.rotationImgs" height="700" v-if="buylist.rotationImgs"></u-swiper>
+		<u-empty text="暂无商品图片,请耐心等待商家上架" mode="search" v-else></u-empty>
 		<view class="flex_columns u-p-20 one_ck">
 			<text class="u-font-xl ft-wh u-type-error">{{Price===0?buylist.commodityPrice:Price+'元'}}</text>
 			<!-- <cn-money :money="Price" thousandth :size="48" color="#FA3534"></cn-money> -->
@@ -25,15 +25,18 @@
 		</view>
 
 		<u-gap height="20" bg-color="#f8f8f8"></u-gap>
-		<view class=" one_ck u-p-20" @click="show = true">
+		<view class="one_ck u-p-20" @click="show = true">
 			<u-section title="规格:" :sub-title="serverText" font-size="32"></u-section>
+			<!-- <text class="u-font-xs">规格：</text>
+			<view class="">
+				<text>{{serverText}}</text>
+			</view> -->
 		</view>
 		<u-gap height="20" bg-color="#f8f8f8"></u-gap>
 		<view class="flex_columns one_ck u-p-20 comment">
-			<u-section title="评价(123)" sub-title="查看更多" font-size="32" @click="doUrl('pages/index/evaluate')">
-			</u-section>
+			<u-section title="评价(123)" sub-title="查看更多" font-size="32" @click="doUrl('pages/index/evaluate')"></u-section>
 			<view class="flex_columns comment_ck u-border-bottom u-p-b-10 u-p-t-10" v-for="(item ,index) in commentlist"
-				:key="index" v-if="commentlist.length!=0">
+				:key="index" v-if="commentlist">
 				<view class="flex_rows flex_center comment_ck_one">
 					<u-avatar :src="item.userImg" size="default"></u-avatar>
 					<text class="ft-wh u-m-l-20">{{item.userName}}</text>
@@ -45,7 +48,7 @@
 							<rich-text :nodes="item.commodityContent"></rich-text>
 						</u-read-more>
 					</view>
-					<view class="flex_rows" v-if="item.commentimgEntityList.length!=0">
+					<view class="flex_rows" v-if="item.commentimgEntityList">
 						<image :src="item2" mode="widthFix" v-for="(item2 ,index2) in item.commentimgEntityList"
 							:key="index2"></image>
 					</view>
@@ -56,11 +59,11 @@
 		<view class="flex_jufy_center ft-wh one_ck u-p-20">
 			商品详情
 		</view>
-		<view class="flex_columns detailstt" v-if="buylist.detailsEntityList.length!=0">
+		<view class="flex_columns detailstt" v-if="buylist.detailsEntityList">
 			<image :src="item" mode="widthFix" v-for="(item ,index) in buylist.detailsEntityList" :key="index"
-				v-if="buylist.detailsEntityList.length!=0" @click="openImg(buylist.detailsEntityList,index)"></image>
+				v-if="buylist.detailsEntityList" @click="openImg(buylist.detailsEntityList,index)"></image>
 		</view>
-		<u-empty text="暂无商品详情,请耐心等待商家上架" mode="search" v-if="buylist.detailsEntityList.length==0"></u-empty>
+		<u-empty text="暂无商品详情,请耐心等待商家上架" mode="search" v-else></u-empty>
 		<view class="" style="width: 100%; height: 100rpx;"></view>
 		<!-- 弹出框 -->
 		<u-popup v-model="show" mode="bottom" length="700" safe-area-inset-bottom @open="openPOP()" @close="closePOP()"
@@ -187,10 +190,11 @@
 			};
 		},
 		onLoad() {
-			this.buylist = uni.getStorageSync('buylist');
-			console.log(this.buylist);
-			this.getGoods(this.buylist.id);
-			this.getComment(this.buylist.id);
+			// this.buylist = uni.getStorageSync('buylist');
+			let li = uni.getStorageSync('buylist');
+			// console.log(this.buylist);
+			this.getGoods(li.id);
+			this.getComment(li.id);
 			if (this.utils.isLogin()) {
 				this.userlist = uni.getStorageSync('userlist');
 				console.log(this.userlist);
@@ -263,7 +267,7 @@
 					console.log(this.commentlist);
 				}).catch(err => {
 					console.log(err);
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
 					uni.hideLoading();
 				});
 			},
@@ -275,7 +279,7 @@
 					// uni.hideLoading();
 				}).catch(err => {
 					console.log(err);
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
 					uni.hideLoading();
 				});
 			},
@@ -347,7 +351,7 @@
 					uni.hideLoading();
 				}).catch(err => {
 					console.log(err);
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
 					uni.hideLoading();
 				});
 			},
@@ -360,7 +364,7 @@
 					// uni.hideLoading();
 				}).catch(err => {
 					console.log(err);
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
 					uni.hideLoading();
 				});
 			},

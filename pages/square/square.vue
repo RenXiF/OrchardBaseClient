@@ -94,6 +94,7 @@
 		},
 		//触底加载更多
 		onReachBottom() {
+			var _this = this
 			if (this.more == false) {
 				this.loadStatus = 'nomore';
 				return;
@@ -102,7 +103,7 @@
 				this.loadStatus = 'loading';
 				// this.getGoods(); //初始化
 				setTimeout(function() {
-					this.loadStatus = 'nomore';
+					_this.loadStatus = 'nomore';
 				}, 2000)
 			}
 		},
@@ -138,7 +139,7 @@
 					uni.hideLoading();
 				}).catch(err => {
 					console.log(err);
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
 					uni.hideLoading();
 				});
 			},
@@ -156,7 +157,7 @@
 					// uni.hideLoading();
 				}).catch(err => {
 					console.log(err);
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
 					uni.hideLoading();
 				});
 			},
@@ -186,7 +187,7 @@
 					if(this.pageNum == 1){
 						this.clear();
 					}
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
 					uni.hideLoading();
 				});
 			},

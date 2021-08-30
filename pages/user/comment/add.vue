@@ -92,7 +92,7 @@
 					this.sortlist = res.list;
 				}).catch(err => {
 					console.log(err);
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
 					uni.hideLoading();
 				});
 			},
@@ -182,7 +182,7 @@
 					.catch(err => {
 						uni.hideLoading();
 						console.log(err);
-						this.utils.error(err.msg);
+						this.utils.error(err.message);
 					});
 			},
 		}

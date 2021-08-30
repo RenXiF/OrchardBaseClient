@@ -177,7 +177,7 @@
             {
                 "navigationBarTitleText": "商品列表",
 				"navigationBarBackgroundColor":"#FFFFFF",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true
             }
             
         }
@@ -185,10 +185,10 @@
             "path" : "pages/video/video_details",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "视频详情",
-                "navigationStyle": "custom",
-                "navigationBarTextStyle": "black",
-                "enablePullDownRefresh": false
+                "navigationBarTitleText": "视频详情"
+                // "navigationStyle": "custom",
+                // "navigationBarTextStyle": "black",
+                // "enablePullDownRefresh": false
             }
             
         }

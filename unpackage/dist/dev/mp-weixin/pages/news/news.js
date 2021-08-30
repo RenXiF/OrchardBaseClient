@@ -196,7 +196,10 @@ var _default =
   onShow: function onShow() {
     this.userlist = uni.getStorageSync('userlist'); //加载用户缓存
     console.log(this.userlist);
+
     this.utils.getWxMessage('m7jLw68iAq7j0W3bNb3zApC6fUrYhRPZv-RMFjNmmo4');
+
+
   },
   //下拉刷新
   onPullDownRefresh: function onPullDownRefresh() {var _this = this;

@@ -106,6 +106,7 @@ export default {
 				return;
 			}
 			this.utils.showloading()
+			// #ifdef MP-WEIXIN
 			uni.login({
 				provider: 'weixin',
 				success: function(loginRes) {
@@ -121,6 +122,10 @@ export default {
 					that.utils.error('您已取消授权！');
 				}
 			});
+			// #endif
+			// #ifdef APP-PLUS
+			that.register('app登陆')
+			// #endif
 		},
 		//当前注册按钮操作
 		register(openid){
@@ -131,6 +136,9 @@ export default {
 				phone:this.phone,
 				userPassword: this.pass,
 				openId:openid
+			}
+			if(li.openId === 'app登陆'){
+				delete li.openId
 			}
 			this.http.getApi('user/register', li, 'post').then(res => {
 				console.log(res);

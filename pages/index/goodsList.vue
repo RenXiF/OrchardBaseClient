@@ -103,7 +103,7 @@
 
 		},
 		onLoad(e) {
-			console.log(e)
+			// console.log(e)
 			if (e) {
 				this.li = e;
 				this.Slist.commodityClass = e.dictionaryvalue;
@@ -170,10 +170,10 @@
 				// console.log(e)
 				this.indexArr = e.index;
 				this.valueArr = e.value;
-				this.Slist.collection = this.valueArr[0][0] != null ? this.valueArr[0][0] : 0;
-				this.Slist.sort = this.valueArr[1][0] != null ? this.valueArr[1][0] : 0;
+				this.Slist.collection = this.valueArr[0][0]? this.valueArr[0][0] : 0;
+				this.Slist.sort = this.valueArr[1][0] ? this.valueArr[1][0] : 0;
 				// console.log(this.indexArr)
-				console.log(this.valueArr);
+				// console.log(this.valueArr);
 				this.initialization();
 			},
 			//修改选中项-示例

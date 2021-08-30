@@ -3,7 +3,7 @@
 	<view class="flex_columns ">
 		<view class="comhome">
 			<view class="comhome_bock box_shadow bg_radius" v-for="(item, index) in datalist"
-				:key="index">
+				:key="index" v-if="datalist.length != 0">
 				<u-swipe-action :show="item.show" :index="index" @click="click" @open="open" :options="options" >
 					<view class=" flex_rows flex_center u-p-20 bg_radius" @click="duck(item)">
 						<image :src="item.commodityImges" mode="aspectFill" class=""></image>
@@ -116,6 +116,7 @@
 				// }
 			},
 			duck(item){
+				console.log(item);
 				let li = {id:item.commodityId}
 				uni.setStorageSync('buylist', li);
 				this.doUrl('pages/index/productDetails');
@@ -129,7 +130,7 @@
 					this.initialization(); //初始化
 				}).catch(err => {
 					console.log(err);
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
 					uni.hideLoading();
 				});
 			},
@@ -172,7 +173,7 @@
 					uni.hideLoading();
 				}).catch(err => {
 					console.log(err);
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
 					uni.hideLoading();
 				});
 			},

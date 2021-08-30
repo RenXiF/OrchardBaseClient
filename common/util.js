@@ -104,8 +104,8 @@ function getOpenId(code, callback) {
 	uni.request({
 		url: 'https://api.weixin.qq.com/sns/jscode2session', //仅为示例，并非真实接口地址。
 		data: {
-			appid: 'wxccb195b2920ad5dd',
-			secret: '494eb6d790b3aad0e6645aa9015fbf29',
+			appid: 'wxaa566d49709bb3e6',
+			secret: '777989bb5c33ec9ae7129b5195a319f7',
 			js_code: code,
 			grant_type: 'authorization_code'
 		},
@@ -618,12 +618,16 @@ function refLogin() {
 		http.getApi('user/info', {
 			id: user.id
 		}, 'get').then(res => {
-			console.log(res);
+			// console.log(res);
+			if(res.user.state == 2){
+				logout()
+			}
 			uni.setStorageSync('userlist', res.user);
 			//success('登录成功！');
 			return true;
 		}).catch(err => {
 			console.log(err);
+			logout()
 			error('更新失败');
 			return false;
 		});

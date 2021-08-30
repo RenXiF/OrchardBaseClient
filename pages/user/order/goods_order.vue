@@ -16,7 +16,6 @@
 				<view class="address_left" v-else>
 					<view class="left_address">请选择服务地址</view>
 				</view>
-				<!-- <view class="Icon right_icon">&#xe638;</view> -->
 				<u-icon name="arrow-right"></u-icon>
 			</view>
 
@@ -25,7 +24,6 @@
 					<view class="left_address ellipsis">{{addSelf.address}}</view>
 					<view class="left_phone"><text>{{addSelf.usrName}}</text>{{addSelf.usrPhone}}</view>
 				</view>
-				<!-- <view class="Icon right_icon">&#xe638;</view> -->
 				<u-icon name="arrow-right"></u-icon>
 			</view>
 		</view>
@@ -38,45 +36,27 @@
 				<view class="cont_img" v-if="item.img!='string'">
 					<image :src="item.img" mode=""></image>
 				</view>
-				<!-- <view class="cont_img" v-else>
-					<image :src="goodsList.coverUrls[0]" mode=""></image>
-				</view> -->
 				<view class="cont_text columns">
 					<view class="text_top">
-						<!-- <view class="text_tit" v-if="piece">{{item.name}}/件</view> -->
 						<view class="text_tit">{{item.name}}</view>
 						<view class="text_des">数量：{{item.number}}</view>
 					</view>
 					<view class="flex_between">
 						<view class="text_des">优惠券：</view>
 						<view class="flex_rows flex_center" @click="getOyhj(item.goodsId,index)">
-							<view class="" v-if="item.conjuan.id">{{item.conjuan.concessionalRate}}</view>
+							<view class="" v-if="item.conjuan">{{item.conjuan.concessionalRate}}</view>
 							<view class="" v-else>选择优惠券</view>
 							<u-icon name="arrow-right"></u-icon>
 						</view>
 					</view>
 					<view class="text_bot">
-						<text class="bot_num"
-							v-if="item.conjuan">{{formatPrice(item.price*item.number - item.conjuan.reduce)}}</text>
+						<text class="bot_num" v-if="item.conjuan">{{formatPrice(item.price*item.number - item.conjuan.reduce)}}</text>
 						<text class="bot_num" v-else>{{formatPrice(item.price*item.number)}}</text>
 					</view>
-
 				</view>
-
 			</view>
-
 		</view>
 		<view class="order_news">
-			<!-- <view class="news_coupon flex_rows space_bet border_bottom" v-if="receiveText">
-				<view class="coupon_left flex_rows">
-					<view class="left_text">优惠券</view>
-					<view class="left_icon">已选1张</view>
-				</view>
-				<view class="coupon_right flex_rows">
-					<view class="right_coupon">{{receiveText}}元优惠券</view>
-					<text class="Icon right_icon">&#xe638;</text>
-				</view>
-			</view> -->
 			<view class="news_note flex_rows space-between space_bet" @click="doUrl('pages/user/note_submit')">
 				<view class="note_left">留言</view>
 				<view class="note_right flex_rows" v-if="orderlist.leaving!=''">
@@ -216,7 +196,8 @@
 			console.log(this.goodsList);
 			console.log(this.addrInfo);
 			console.log(this.userlist);
-			if (this.addrInfo.id) {
+			if (this.addrInfo.id ||this.addrInfo.id != undefined) {
+				// console.log('执行地址赋值');
 				this.orderlist.addressId = this.addrInfo.id
 				this.orderlist.consigneeName = this.addrInfo.consigneeName
 				this.orderlist.phone = this.addrInfo.phone
@@ -367,6 +348,7 @@
 			//查看地址
 			getLocation() {
 				let that = this;
+				// #ifdef MP-WEIXIN
 				uni.getSetting({
 					success: function(t) {
 						console.log(t)
@@ -400,15 +382,39 @@
 						}
 					}
 				});
+				// #endif
+				// #ifdef APP-PLUS
+				uni.openLocation({
+					address: '贵州省遵义市红花岗区长新大道与东联二线交叉口',
+					latitude: 27.678051698,
+					longitude: 106.972996349,
+					name: '渝欧教育城B区4-1-8号门面',
+					success: function() {
+						console.log('success');
+					}
+				});
+				// #endif
 			},
 			addressG() { //检测是否自提
-				if (this.Self) {} else {}
+				if (this.Self) {
+					this.orderlist.detailedAddress = this.addSelf.address
+					this.orderlist.phone = this.addSelf.usrPhone
+					this.orderlist.consigneeName = this.addSelf.usrName
+					this.orderlist.addressId = '自提'
+				} else {
+					if(this.addrInfo.id || this.addrInfo.id != undefined){
+						this.orderlist.addressId = this.addrInfo.id
+						this.orderlist.consigneeName = this.addrInfo.consigneeName
+						this.orderlist.phone = this.addrInfo.phone
+						this.orderlist.detailedAddress = this.addrInfo.consigneeRegion+this.addrInfo.city+this.addrInfo.county+this.addrInfo.detailedAddress
+					}
+				}
 			},
 			
 			//执行提交订单
 			submit() {
 				console.log(this.orderlist);
-				// this.addressG();
+				this.addressG();
 				if (this.orderlist.addressId == '') {
 					this.utils.error('请选择地址！');
 					return;
@@ -444,12 +450,14 @@
 				}).catch(err => {
 					console.log(err);
 					uni.hideLoading();
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
 				});
 			},
 			//验证登录状态
 			verificationLogin(item) {
 				var _this = this;
+				
+				// #ifdef MP-WEIXIN
 				if(_this.openid !=''){
 					_this.wxPayorder(item,_this.openid)
 					return
@@ -458,16 +466,19 @@
 					provider: 'weixin',
 					success: function(loginRes) {
 						console.log(loginRes);
-						// _this.opengid(loginRes.code);
 						_this.utils.getOpenId(loginRes.code,(res)=>{
 							console.log(res);
 							_this.wxPayorder(item,res.openid)
 						})
-						// _this.wxPayorder(item,loginRes.code)
 					}
 				});
+				
+				// #endif
+				// #ifdef APP-PLUS
+					_this.wxAppPayorder(item)
+				// #endif
 			},
-			wxPayorder(item,openid) { //支付订单
+			wxPayorder(item,openid) { //微信支付订单
 				let li = {
 					orderNo: item.orders,
 					amount: 0.01,
@@ -485,7 +496,26 @@
 				}).catch(err => {
 					console.log(err);
 					uni.hideLoading();
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
+				});
+			},
+			wxAppPayorder(item) { //app支付订单
+				let li = {
+					orderNo: item.orders,
+					amount: 0.01,
+					// amount: item.totalAmount,
+					body: '商品下单',
+				}
+				console.log(li);
+				this.http.getApi('appPay/doUnifiedOrder', li, 'get').then(res => {
+					console.log(res);
+					console.log('执行');
+					this.paymentorder(res.data);
+					// uni.hideLoading();
+				}).catch(err => {
+					console.log(err);
+					uni.hideLoading();
+					this.utils.error(err.message);
 				});
 			},
 			paymentorder(data) {
@@ -506,8 +536,6 @@
 					// #endif
 					success: function(res) {
 						console.log(res);
-						// _this.fordecar(_this.goodsList);
-						// _this.upfor(_this.goodsList);
 						_this.utils.success('支付成功！', () => {
 							uni.hideLoading();
 							_this.utils.navback();
@@ -518,30 +546,12 @@
 						console.log(data);
 						console.log(err);
 						console.log(_this.goodsList);
-						// _this.fordecar(_this.goodsList);
-						// _this.upfor(_this.goodsList);
 						_this.utils.error('您已取消支付！', () => {
 							uni.hideLoading();
 							_this.utils.navback();
 						});
 					}
 				});
-			},
-			fordecar(list) {
-				for (let i = 0; i < list.length; i++) {
-					this.carDe(list[i].id);
-				}
-			},
-			upfor(list) { //修改销量
-				if (list.length != 0) {
-					for (let i = 0; i < list.length; i++) {
-						if (this.piece) {
-							this.goodsUp(list[i].goodsId, list[i].number * 6);
-						} else {
-							this.goodsUp(list[i].goodsId, list[i].number);
-						}
-					}
-				}
 			},
 			goodsUp(goodsId, sumTwo) { //修改商品
 				this.http.getApi('goods/up', {
@@ -553,7 +563,7 @@
 				}).catch(err => {
 					console.log(err);
 					uni.hideLoading();
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
 				});
 			},
 			carDe(CarId) {
@@ -565,7 +575,7 @@
 				}).catch(err => {
 					console.log(err);
 					uni.hideLoading();
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
 				});
 			},
 			
@@ -579,6 +589,7 @@
 	}
 
 	.server_order {
+		width: 100%;
 		padding-bottom: 200upx;
 		background-color: #F8F8F8;
 

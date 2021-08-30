@@ -18,8 +18,9 @@
         },
         /* 模块配置 */
         "modules" : {
+            "Push" : {},
             "Payment" : {},
-            "Push" : {}
+            "OAuth" : {}
         },
         /* 应用发布信息 */
         "distribute" : {
@@ -48,7 +49,13 @@
             "ios" : {},
             /* SDK配置 */
             "sdkConfigs" : {
-                "geolocation" : {},
+                "geolocation" : {
+                    "amap" : {
+                        "__platform__" : [ "ios", "android" ],
+                        "appkey_ios" : "",
+                        "appkey_android" : ""
+                    }
+                },
                 "payment" : {
                     "weixin" : {
                         "__platform__" : [ "ios", "android" ],
@@ -58,6 +65,19 @@
                 },
                 "push" : {
                     "unipush" : {}
+                },
+                "oauth" : {
+                    "weixin" : {
+                        "appid" : "wx6a369d01b47c441f",
+                        "appsecret" : "823a03740f111c312bedf9651eb4b031",
+                        "UniversalLinks" : ""
+                    }
+                },
+                "maps" : {
+                    "amap" : {
+                        "appkey_ios" : "",
+                        "appkey_android" : ""
+                    }
                 }
             }
         }
@@ -66,7 +86,7 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "wxccb195b2920ad5dd",
+        "appid" : "wxaa566d49709bb3e6",
         "setting" : {
             "urlCheck" : false,
             "es6" : true,

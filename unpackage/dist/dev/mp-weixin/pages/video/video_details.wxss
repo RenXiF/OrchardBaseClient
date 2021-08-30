@@ -64,14 +64,17 @@
   min-height: 200rpx;
   margin-bottom: 30rpx;
 }
-.comhome_bock image {
+.comhome_bock_one {
+  width: 100%;
+}
+.comhome_bock_one image {
   width: 150rpx;
-  -webkit-box-flex: 0;
-  -webkit-flex: 0 0 150rpx;
-          flex: 0 0 150rpx;
   height: 150rpx;
   margin-right: 20rpx;
   border-radius: 12rpx;
+}
+.comhome_bock_one > view {
+  width: 500rpx;
 }
 .comhome_bock text {
   margin-bottom: 10rpx;

@@ -36,7 +36,7 @@
 			</view>
 
 		</view>
-		<u-modal v-model="show" @confirm="confirm" ref="uModal" :async-close="true" show-cancel-button title="填写手机号"
+		<u-modal v-model="show" @confirm="confirm" @cancel="cancel" ref="uModal" :async-close="true" show-cancel-button title="填写手机号"
 			height="20%">
 			<view class="slot-content flex_center flex_around u-p-20">
 				<text>手机号：</text>
@@ -71,30 +71,7 @@
 		},
 		onLoad() {},
 		methods: {
-			confirm() {
-				if(this.mobile == '' || this.utils.checkMobile(this.mobile) == false){
-					this.utils.error('请填写正常手机号！');
-					this.$refs.uModal.clearLoading();
-					return
-				}
-				this.wxli.phone = this.mobile
-				var _this = this
-				this.http.getApi('user/xgphone', this.wxli, 'post').then(res => {
-					console.log(res);
-					this.utils.success("登录成功！", function() {
-						_this.show = false;
-						uni.setStorageSync('WXopenid', res.user.openId);
-						uni.setStorageSync('userlist', res.user);
-						uni.switchTab({
-							url: '/pages/user/user'
-						});
-					});
-				}).catch(err => {
-					console.log(err);
-					uni.hideLoading();
-					this.utils.error(err.message)
-				});
-			},
+			
 			//当前登录按钮操作
 			login() {
 				var that = this;
@@ -163,15 +140,18 @@
 			//等三方微信登录
 			wxLogin() {
 				var _this = this
+				var li = {
+					openId: "",
+					userImg: "",
+					userName: "",
+					phone:'1'
+				}
+				// console.log(li);
+				// #ifdef MP-WEIXIN
 				uni.getUserProfile({
 					desc: '获取基本资料',
 					success: function(loginRes) {
 						// console.log(loginRes);
-						let li = {
-							openId: "",
-							userImg: "",
-							userName: "",
-						}
 						li.userImg = loginRes.userInfo.avatarUrl
 						li.userName = loginRes.userInfo.nickName
 						_this.utils.showloading();
@@ -179,14 +159,11 @@
 							provider: 'weixin',
 							success: function(loginRes) {
 								console.log(loginRes);
-								// #ifdef MP-WEIXIN
 								_this.utils.getOpenId(loginRes.code, (res) => {
 									console.log(res);
 									li.openId = res.openid
-									// console.log(li);
 									_this.loginWeiXin(li);
 								})
-								// #endif
 							},
 							fail: function(err) {
 								console.log(err);
@@ -200,6 +177,36 @@
 						_this.utils.error('请先同意授权')
 					}
 				});
+				// #endif
+				
+				// #ifdef APP-PLUS
+				// _this.utils.showloading();
+				uni.login({
+					provider: 'weixin',
+					success: function(loginRes) {
+						console.log(loginRes);
+						uni.getUserInfo({
+							provider: 'weixin',
+							success: function(infoRes) {
+								uni.setStorageSync('WXopenid', infoRes.userInfo.openId);
+								li.openId = infoRes.userInfo.openId
+								li.userImg = infoRes.userInfo.avatarUrl
+								li.userName = infoRes.userInfo.nickName
+								console.log(infoRes.userInfo);
+								_this.loginWeiXin(li);
+							},
+							fail: function(er) {
+								console.log(er);
+								uni.hideLoading();
+							}
+						});
+					},
+					fail: function(err) {
+						console.log(err);
+						uni.hideLoading();
+					}
+				});
+				// #endif
 			},
 			//微信验证登录
 			loginWeiXin(list) {
@@ -208,7 +215,7 @@
 					console.log("成功");
 					console.log(res);
 					uni.hideLoading();
-					if(res.user.phone==null || res.user.phone==''){
+					if(res.user.phone==null || res.user.phone=='1'|| res.user.phone==''){
 						this.ugetphone(res.user)
 					}else{
 						this.show = false
@@ -231,6 +238,45 @@
 			ugetphone(li){
 				this.wxli = li
 				this.show = true;
+			},
+			//点击确定
+			confirm() {
+				if(this.mobile == '' || this.utils.checkMobile(this.mobile) == false){
+					this.utils.error('请填写正常手机号！');
+					this.$refs.uModal.clearLoading();
+					return
+				}
+				this.wxli.phone = this.mobile
+				var _this = this
+				_this.utils.showloading();
+				this.http.getApi('user/xgphone', this.wxli, 'post').then(res => {
+					console.log(res);
+					this.utils.success("登录成功！", function() {
+						_this.show = false;
+						uni.setStorageSync('WXopenid', res.user.openId);
+						uni.setStorageSync('userlist', res.user);
+						uni.switchTab({
+							url: '/pages/user/user'
+						});
+					});
+				}).catch(err => {
+					console.log(err);
+					uni.hideLoading();
+					this.utils.error(err.message)
+					this.$refs.uModal.clearLoading();
+				});
+			},
+			//点击取消
+			cancel(){
+				let li = [this.wxli.id]
+				this.http.getApi('user/delete',li, 'post').then(res => {
+					console.log(res);
+					this.show = false;
+				}).catch(err => {
+					console.log(err);
+					uni.hideLoading();
+					this.utils.error(err.message)
+				});
 			},
 			//第三方支付宝登录
 			zfbLogin() {

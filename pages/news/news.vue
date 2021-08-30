@@ -64,7 +64,10 @@
 		onShow() {
 			this.userlist = uni.getStorageSync('userlist'); //加载用户缓存
 			console.log(this.userlist);
+			// #ifdef MP-WEIXIN
 			this.utils.getWxMessage('m7jLw68iAq7j0W3bNb3zApC6fUrYhRPZv-RMFjNmmo4')
+			// #endif
+			
 		},
 		//下拉刷新
 		onPullDownRefresh() {

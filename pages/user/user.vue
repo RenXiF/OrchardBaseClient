@@ -24,7 +24,6 @@
 					</view>
 				</view>
 			</view>
-
 			<view class="bg_radius box_shadow u-m-t-30 u-p-20 flex_columns">
 				<view class="flex_between flex_center" @click="doUrl('pages/user/order/order')">
 					<text class="u-font-md u-main-color">我的订单</text>
@@ -142,13 +141,17 @@
 		},
 		onLoad() {},
 		onShow() {
-			var _this = this
+			// this.utils.showloading()
 			if (this.utils.isLogin()) {
+				this.utils.refLogin()
 				this.userlist = uni.getStorageSync('userlist');
-				if (this.userlist.id) {
-					this.lognum = 1;
-				}
 				console.log(this.userlist)
+				if (this.userlist.id && this.userlist.state == 1) {
+					this.lognum = 1;
+				}else{
+					this.userlist = {};
+					this.lognum = 0;
+				}
 			}
 			if (!this.userlist.id) {
 				this.lognum = 0;

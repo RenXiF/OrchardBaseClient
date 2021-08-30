@@ -1,7 +1,7 @@
 <template>
 	<view class="flex_columns u-p-20">
-		<view class="vip_one  flex_center" :style="{'background-image':'url('+viplist[0]+');'}"
-			style="background-color: ;">
+		<view class="vip_one  flex_center" style="background-image: url(/static/vip/v1.png);">
+			<!-- :style="{'background-image':'url(/static/vip/v1.png);'}" -->
 			<view class="flex_rows flex_center u-m-l-20">
 				<u-avatar :src="userlist.userImg?userlist.userImg : src" size="large"></u-avatar>
 				<view class="u-m-l-20 flex_columns flex_center">
@@ -118,7 +118,7 @@
 					uni.hideLoading();
 				}).catch(err => {
 					console.log(err);
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
 					uni.hideLoading();
 				});
 			},
@@ -212,7 +212,7 @@
 				}).catch(err => {
 					console.log(err);
 					uni.hideLoading();
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
 				});
 			},
 			//拉起支付
@@ -311,7 +311,7 @@
 					uni.hideLoading();
 				}).catch(err => {
 					console.log(err);
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
 					uni.hideLoading();
 				});
 			},

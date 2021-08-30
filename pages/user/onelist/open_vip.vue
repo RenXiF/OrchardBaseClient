@@ -118,7 +118,7 @@
 					uni.hideLoading();
 				}).catch(err => {
 					console.log(err);
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
 					uni.hideLoading();
 				});
 			},
@@ -166,7 +166,7 @@
 				}).catch(err => {
 					console.log(err);
 					uni.hideLoading();
-					this.utils.error(err.msg);
+					this.utils.error(err.message);
 				});
 			},
 			//拉起支付

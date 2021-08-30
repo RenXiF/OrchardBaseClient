@@ -21,7 +21,7 @@
 			</view> -->
 			<view class="first_item flex_rows border_bottom">
 				<view class="item_head">手机号</view>
-				<view class="item_cont"><input type="text" v-model="formData.phone" placeholder="请填写收货人手机号码" />
+				<view class="item_cont"><input type="number" v-model="formData.phone" placeholder="请填写收货人手机号码" />
 				</view>
 			</view>
 			<view class="server_address_item flex_rows border_bottom" @click="chooseArea">
@@ -110,6 +110,7 @@
 			// 选择地址
 			chooseArea() {
 				let that = this;
+				// #ifdef MP-WEIXIN
 				uni.getSetting({
 					success: function (t) {
 						console.log(t)
@@ -146,12 +147,8 @@
 									console.log(res);
 									let lat = res.latitude;
 									let lng = res.longitude;
-									// that.formData.lat = lat;
-									// that.formData.lng = lng;
 									that.serverAddress = res.address;
-									// that.getAddrInfo(res);
 									that.http.getArea(lat, lng).then((item) => {
-										// console.log(item);
 										that.getAddrInfo(item)
 									}).catch();
 								}
@@ -159,6 +156,24 @@
 						}
 					}
 				})
+				// #endif
+				// #ifdef APP-PLUS
+				console.log('33333333');
+				uni.chooseLocation({
+					latitude: '27.695744',
+					longitude: '106.926865',
+					keyword: '',
+					success: function (res) {
+						console.log(res);
+						let lat = res.latitude;
+						let lng = res.longitude;
+						that.serverAddress = res.address;
+						that.http.getArea(lat, lng).then((item) => {
+							that.getAddrInfo(item)
+						}).catch();
+					}
+				});
+				// #endif
 			},
 			// 获取地址ID
 			getAddrInfo(res) {
